@@ -1,0 +1,100 @@
+[
+  {
+    "id": "wongming-empire",
+    "title": "黃名帝國",
+    "summary": "黃名帝國（Wongming Empire）的基本介紹與國家沿革。",
+    "categories": [
+      "國家",
+      "歷史",
+      "政治"
+    ],
+    "infobox": {
+      "英文名": "Wongming Empire",
+      "建立": "1995",
+      "首都": "—"
+    },
+    "events": [
+      {
+        "date": "1995",
+        "text": "黃名帝國建立。"
+      }
+    ],
+    "content": "<p><b>黃名帝國</b>（Wongming Empire）是以中文為主要語言的微型國家／國家模擬政治實體。</p><h2>歷史</h2><p>黃名帝國建立於 1995 年。此條目將持續整理其歷史沿革、制度發展與重要事件。</p><h2>相關條目</h2><p><a href=\"article.html?id=qingning-emperor\">慶寧皇帝</a> · <a href=\"article.html?id=mahendra\">馬亨達王</a></p>",
+    "sources": [
+      "黃名帝國官方公開資料（待補完整來源）"
+    ]
+  },
+  {
+    "id": "qingning-emperor",
+    "title": "慶寧皇帝",
+    "summary": "黃名帝國皇室與慶寧年號相關條目。",
+    "categories": [
+      "皇室",
+      "人物",
+      "歷史"
+    ],
+    "infobox": {
+      "身份": "黃名帝國皇帝",
+      "廟號": "仁宗",
+      "年號": "慶寧"
+    },
+    "events": [
+      {
+        "date": "2013-06-01",
+        "text": "慶寧皇帝公開即位日期。"
+      }
+    ],
+    "content": "<p><b>慶寧皇帝</b>為黃名帝國現代皇室制度中的君主條目。本頁後續可整理即位、年號、皇室制度與相關文獻。</p><h2>相關條目</h2><p><a href=\"article.html?id=wongming-empire\">黃名帝國</a> · <a href=\"article.html?id=mahendra\">馬亨達王</a></p>"
+  },
+  {
+    "id": "mahendra",
+    "title": "馬亨達王",
+    "summary": "黃名帝國現代皇室人物條目。",
+    "categories": [
+      "皇室",
+      "人物"
+    ],
+    "infobox": {
+      "稱號": "馬亨達王",
+      "英文": "Mahendra"
+    },
+    "content": "<p><b>馬亨達王（Mahendra）</b>是黃名帝國現代皇室人物條目。</p><p>本頁將逐步補充公開可核實的生平、職務與歷史資料。</p>"
+  },
+  {
+    "id": "government",
+    "title": "黃名帝國政府",
+    "summary": "黃名帝國政府與行政制度的百科入口。",
+    "categories": [
+      "政治",
+      "政府",
+      "制度"
+    ],
+    "content": "<p>本條目介紹黃名帝國政府體制、內閣、政府機關及相關制度。</p><h2>待建條目</h2><ul><li>內閣</li><li>政府機關</li><li>顯親王</li><li>歷屆內閣</li></ul>"
+  },
+  {
+    "id": "history",
+    "title": "黃名帝國歷史",
+    "summary": "黃名帝國自 1995 年建立以來的歷史沿革。",
+    "categories": [
+      "歷史",
+      "年表"
+    ],
+    "events": [
+      {
+        "date": "1995",
+        "text": "黃名帝國建立。"
+      }
+    ],
+    "content": "<p>本條目按年代整理黃名帝國的重要歷史事件，未來可逐年擴充並連結至個別事件條目。</p>"
+  },
+  {
+    "id": "diplomacy",
+    "title": "黃名帝國外交",
+    "summary": "黃名帝國外交與對外關係的百科入口。",
+    "categories": [
+      "外交",
+      "政治"
+    ],
+    "content": "<p>本條目整理黃名帝國對外關係、外交代表與公開外交資料。</p>"
+  }
+]
