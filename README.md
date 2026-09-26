@@ -1,0 +1,1 @@
+# 黃名帝國維基百科\n\nGitHub Pages 靜態百科專案。資料主要位於 `data/articles.json`，前端由 HTML/CSS/JavaScript 呈現。
