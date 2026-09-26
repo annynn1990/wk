@@ -5,7 +5,7 @@
 <title>視覺化編輯｜黃名帝國維基百科</title>
 <link rel="stylesheet" href="assets/wiki.css">
 </head>
-<body>
+<body><script>if(!sessionStorage.getItem("wk-editor-token"))location.replace("./");</script>
 <header class="top"><a class="brand" href="./">黃名帝國維基百科</a><nav>
 <a href="articles.html">所有條目</a><a href="categories.html">分類</a><a href="timeline.html">大事記</a><a href="about.html">關於</a><a href="edit.html">編輯</a>
 </nav></header>
@@ -129,7 +129,7 @@
  document.querySelectorAll('.canvas-toolbar [data-cmd]').forEach(b=>b.onclick=()=>{if(b.dataset.cmd==='createLink'){const u=prompt('輸入網址');if(u)document.execCommand('createLink',false,u)}else document.execCommand(b.dataset.cmd,false,null);sync()});
  document.querySelector('#undo').onclick=()=>{document.execCommand('undo');sync()};document.querySelector('#redo').onclick=()=>{document.execCommand('redo');sync()};
  document.querySelector('#reset').onclick=loadArticle;
- document.querySelector('#save').onclick=()=>{const next={...current,title:title.value.trim(),summary:summary.value.trim(),categories:categories.value.split(/[\n,，]+/).map(x=>x.trim()).filter(Boolean),content:bodyHTML()};sessionStorage.setItem('wk-pending-json',JSON.stringify(articles.map(a=>a.id===current.id?next:a),null,2));window.open('https://github.com/annynn1990/wk/edit/main/data/articles.json','_blank','noopener');status.textContent='內容已整理完成；目前仍透過 GitHub 編輯頁提交。'};
+ document.querySelector('#save').onclick=async()=>{const next={...current,title:title.value.trim(),summary:summary.value.trim(),categories:categories.value.split(/[\n,，]+/).map(x=>x.trim()).filter(Boolean),content:bodyHTML()};try{status.textContent='正在儲存…';const r=await fetch('/api/save',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+sessionStorage.getItem('wk-editor-token')},body:JSON.stringify({articleId:current.id,article:next})});const d=await r.json();if(!r.ok)throw new Error(d.error||'儲存失敗');status.textContent='已儲存並建立 Git Commit：'+d.commit.slice(0,7);current=next}catch(e){status.textContent='儲存失敗：'+e.message}};
  loadArticle();
 })();
 </script>
