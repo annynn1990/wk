@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>編輯百科｜黃名帝國維基百科</title><meta name="description" content="編輯黃名帝國維基百科條目">
+<link rel="stylesheet" href="assets/wiki.css">
+</head>
+<body>
+<header class="top"><a class="brand" href="./">黃名帝國維基百科</a><nav>
+<a href="articles.html">所有條目</a><a href="categories.html">分類</a><a href="timeline.html">大事記</a><a href="about.html">關於</a>
+</nav></header>
+<main class="page">
+<section class="card editor">
+<h1>編輯百科條目</h1>
+<p class="muted">這個編輯器先在瀏覽器整理內容，最後交由 GitHub 的正式編輯介面建立 Commit。網站本身不保存任何 GitHub Token。</p>
+<label>選擇條目</label>
+<select id="articleSelect"></select>
+<label>標題</label><input id="title">
+<label>摘要</label><textarea id="summary" rows="3"></textarea>
+<label>正文 HTML</label><textarea id="content" rows="18"></textarea>
+<label>分類（每行一個）</label><textarea id="categories" rows="4"></textarea>
+<div class="editor-actions"><button class="primary" id="save">前往 GitHub 儲存並建立 Commit</button><a class="button" href="articles.html">取消</a></div>
+<p id="status" class="muted"></p>
+</section>
+<section class="notice"><strong>目前的儲存方式</strong><p>按下儲存後會開啟 GitHub 對 <code>data/articles.json</code> 的正式編輯頁。登入 GitHub 後即可提交變更並產生 Commit；不需要把 Token 放進網站。</p></section>
+</main>
+<script src="assets/wiki.js"></script>
+<script>
+(async function(){
+ const a=await load(), s=document.querySelector('#articleSelect');
+ s.innerHTML=a.map(x=>'<option value="'+esc(x.id)+'">'+esc(x.title)+'</option>').join('');
+ function fill(){
+   const x=a.find(v=>v.id===s.value)||a[0];
+   document.querySelector('#title').value=x.title||'';
+   document.querySelector('#summary').value=x.summary||'';
+   document.querySelector('#content').value=x.content||'';
+   document.querySelector('#categories').value=(x.categories||[]).join('\n');
+ }
+ s.addEventListener('change',fill); fill();
+ document.querySelector('#save').onclick=function(){
+   const x=a.find(v=>v.id===s.value)||a[0];
+   const next={...x,title:document.querySelector('#title').value.trim(),summary:document.querySelector('#summary').value.trim(),content:document.querySelector('#content').value,categories:document.querySelector('#categories').value.split(/\n+/).map(v=>v.trim()).filter(Boolean)};
+   const json=JSON.stringify(a.map(v=>v.id===x.id?next:v),null,2);
+   sessionStorage.setItem('wk-pending-json',json);
+   const url='https://github.com/annynn1990/wk/edit/main/data/articles.json';
+   window.open(url,'_blank','noopener');
+   document.querySelector('#status').textContent='已開啟 GitHub 編輯頁；請將產生的 JSON 內容貼入後提交 Commit。';
+ };
+})();
+</script>
+</body></html>
