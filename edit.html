@@ -1,50 +1,218 @@
 <!doctype html>
 <html lang="zh-Hant">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>編輯百科｜黃名帝國維基百科</title><meta name="description" content="編輯黃名帝國維基百科條目">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>編輯百科｜黃名帝國維基百科</title>
+<meta name="description" content="黃名帝國維基百科所見即所得編輯器">
 <link rel="stylesheet" href="assets/wiki.css">
 </head>
 <body>
 <header class="top"><a class="brand" href="./">黃名帝國維基百科</a><nav>
-<a href="articles.html">所有條目</a><a href="categories.html">分類</a><a href="timeline.html">大事記</a><a href="about.html">關於</a>
+<a href="articles.html">所有條目</a><a href="categories.html">分類</a><a href="timeline.html">大事記</a><a href="about.html">關於</a><a href="edit.html">編輯</a>
 </nav></header>
-<main class="page">
-<section class="card editor">
-<h1>編輯百科條目</h1>
-<p class="muted">這個編輯器先在瀏覽器整理內容，最後交由 GitHub 的正式編輯介面建立 Commit。網站本身不保存任何 GitHub Token。</p>
-<label>選擇條目</label>
-<select id="articleSelect"></select>
-<label>標題</label><input id="title">
-<label>摘要</label><textarea id="summary" rows="3"></textarea>
-<label>正文 HTML</label><textarea id="content" rows="18"></textarea>
-<label>分類（每行一個）</label><textarea id="categories" rows="4"></textarea>
-<div class="editor-actions"><button class="primary" id="save">前往 GitHub 儲存並建立 Commit</button><a class="button" href="articles.html">取消</a></div>
-<p id="status" class="muted"></p>
-</section>
-<section class="notice"><strong>目前的儲存方式</strong><p>按下儲存後會開啟 GitHub 對 <code>data/articles.json</code> 的正式編輯頁。登入 GitHub 後即可提交變更並產生 Commit；不需要把 Token 放進網站。</p></section>
+
+<main class="page wiki-editor-page">
+  <section class="editor-head card">
+    <div>
+      <p class="eyebrow">WONGMING EMPIRE ENCYCLOPEDIA</p>
+      <h1>編輯百科條目</h1>
+      <p class="muted">像編輯真正百科一樣直接修改內容。拖曳左側區塊可重新排列，右側即時預覽最終文章。</p>
+    </div>
+    <div class="editor-head-actions">
+      <select id="articleSelect" aria-label="選擇條目"></select>
+      <button class="button" id="reset">還原</button>
+      <button class="primary" id="save">儲存並建立 Commit</button>
+    </div>
+  </section>
+
+  <section class="editor-meta card">
+    <label>條目標題<input id="title" autocomplete="off"></label>
+    <label>摘要<textarea id="summary" rows="2"></textarea></label>
+    <label>分類 <span class="muted">（用逗號或換行分隔）</span><input id="categories"></label>
+  </section>
+
+  <section class="editor-workspace">
+    <div class="editor-pane card">
+      <div class="editor-toolbar" id="toolbar">
+        <button data-cmd="bold" title="粗體"><b>B</b></button>
+        <button data-cmd="italic" title="斜體"><i>I</i></button>
+        <button data-cmd="underline" title="底線"><u>U</u></button>
+        <span></span>
+        <button data-block="p">段落</button>
+        <button data-block="h2">標題 2</button>
+        <button data-block="h3">標題 3</button>
+        <span></span>
+        <button data-cmd="insertUnorderedList">• 清單</button>
+        <button data-cmd="insertOrderedList">1. 清單</button>
+        <button data-cmd="formatBlock" data-value="blockquote">引用</button>
+        <span></span>
+        <button id="linkBtn">連結</button>
+        <button id="clearBtn">清除格式</button>
+      </div>
+      <div class="editor-help muted">拖曳 ⋮⋮ 可移動段落；按 Enter 建立下一段；選取文字後可套用格式。</div>
+      <div id="blocks" class="block-editor" aria-label="百科正文編輯區"></div>
+      <div class="add-blocks">
+        <button data-add="p">＋ 段落</button><button data-add="h2">＋ 小標題</button><button data-add="blockquote">＋ 引用</button><button data-add="ul">＋ 清單</button>
+      </div>
+    </div>
+
+    <aside class="preview-pane card">
+      <div class="preview-label">即時預覽</div>
+      <article id="preview" class="article preview-article"></article>
+    </aside>
+  </section>
+
+  <section class="notice">
+    <strong>編輯規則</strong>
+    <p>編輯器只處理目前條目的標題、摘要、分類與正文。儲存時會產生新的版本；正式的 GitHub Token 不會放在這個網頁裡。</p>
+    <p id="status" class="muted"></p>
+  </section>
 </main>
+
 <script src="assets/wiki.js"></script>
 <script>
 (async function(){
- const a=await load(), s=document.querySelector('#articleSelect');
- s.innerHTML=a.map(x=>'<option value="'+esc(x.id)+'">'+esc(x.title)+'</option>').join('');
- function fill(){
-   const x=a.find(v=>v.id===s.value)||a[0];
-   document.querySelector('#title').value=x.title||'';
-   document.querySelector('#summary').value=x.summary||'';
-   document.querySelector('#content').value=x.content||'';
-   document.querySelector('#categories').value=(x.categories||[]).join('\n');
- }
- s.addEventListener('change',fill); fill();
- document.querySelector('#save').onclick=function(){
-   const x=a.find(v=>v.id===s.value)||a[0];
-   const next={...x,title:document.querySelector('#title').value.trim(),summary:document.querySelector('#summary').value.trim(),content:document.querySelector('#content').value,categories:document.querySelector('#categories').value.split(/\n+/).map(v=>v.trim()).filter(Boolean)};
-   const json=JSON.stringify(a.map(v=>v.id===x.id?next:v),null,2);
-   sessionStorage.setItem('wk-pending-json',json);
-   const url='https://github.com/annynn1990/wk/edit/main/data/articles.json';
-   window.open(url,'_blank','noopener');
-   document.querySelector('#status').textContent='已開啟 GitHub 編輯頁；請將產生的 JSON 內容貼入後提交 Commit。';
- };
+  const articles = await load();
+  const select = document.querySelector('#articleSelect');
+  const blocks = document.querySelector('#blocks');
+  const preview = document.querySelector('#preview');
+  const title = document.querySelector('#title');
+  const summary = document.querySelector('#summary');
+  const categories = document.querySelector('#categories');
+  const status = document.querySelector('#status');
+  let current = null;
+  let dragged = null;
+
+  select.innerHTML = articles.map(x => '<option value="'+esc(x.id)+'">'+esc(x.title)+'</option>').join('');
+
+  function nodeToBlock(node){
+    const wrap=document.createElement('div');
+    wrap.className='editor-block';
+    wrap.draggable=true;
+    const handle=document.createElement('button');
+    handle.type='button'; handle.className='drag-handle'; handle.title='拖曳移動'; handle.textContent='⋮⋮';
+    const body=document.createElement('div');
+    body.className='block-body';
+    body.contentEditable='true';
+    body.spellcheck=true;
+    if(node.nodeType===3){ body.innerHTML='<p>'+esc(node.textContent)+'</p>'; }
+    else body.innerHTML=node.outerHTML;
+    wrap.append(handle,body);
+    bindBlock(wrap);
+    return wrap;
+  }
+
+  function bindBlock(wrap){
+    const body=wrap.querySelector('.block-body');
+    body.addEventListener('input', sync);
+    body.addEventListener('keydown', e=>{
+      if(e.key==='Enter' && !e.shiftKey){
+        setTimeout(()=>{
+          const sel=window.getSelection();
+          if(!sel.rangeCount) return;
+          const parent=sel.anchorNode && sel.anchorNode.parentElement;
+          const block=parent && parent.closest('.editor-block');
+          if(block && block!==wrap && !body.contains(parent)) return;
+          normalizeBlocks();
+        },0);
+      }
+    });
+    wrap.addEventListener('dragstart',e=>{
+      dragged=wrap; wrap.classList.add('dragging'); e.dataTransfer.effectAllowed='move';
+    });
+    wrap.addEventListener('dragend',()=>{wrap.classList.remove('dragging');dragged=null;sync();});
+    wrap.addEventListener('dragover',e=>{
+      e.preventDefault();
+      if(!dragged || dragged===wrap) return;
+      const rect=wrap.getBoundingClientRect();
+      wrap.classList.toggle('drop-before',e.clientY<rect.top+rect.height/2);
+      wrap.classList.toggle('drop-after',e.clientY>=rect.top+rect.height/2);
+    });
+    wrap.addEventListener('dragleave',()=>wrap.classList.remove('drop-before','drop-after'));
+    wrap.addEventListener('drop',e=>{
+      e.preventDefault();
+      if(!dragged || dragged===wrap) return;
+      const before=e.clientY<wrap.getBoundingClientRect().top+wrap.getBoundingClientRect().height/2;
+      if(before) blocks.insertBefore(dragged,wrap); else blocks.insertBefore(dragged,wrap.nextSibling);
+      wrap.classList.remove('drop-before','drop-after'); sync();
+    });
+  }
+
+  function normalizeBlocks(){
+    const all=[...blocks.querySelectorAll('.editor-block')];
+    if(!all.length) addBlock('p','開始編輯…');
+    sync();
+  }
+
+  function loadArticle(){
+    current=articles.find(x=>x.id===select.value)||articles[0];
+    title.value=current.title||'';
+    summary.value=current.summary||'';
+    categories.value=(current.categories||[]).join(', ');
+    blocks.innerHTML='';
+    const temp=document.createElement('div');
+    temp.innerHTML=current.content||'<p>開始編輯本文……</p>';
+    const children=[...temp.childNodes].filter(n=>n.nodeType!==3 || n.textContent.trim());
+    children.forEach(n=>blocks.appendChild(nodeToBlock(n)));
+    normalizeBlocks(); sync();
+  }
+
+  function html(){
+    return [...blocks.querySelectorAll('.block-body')].map(b=>b.innerHTML.trim()).filter(Boolean).join('\n');
+  }
+
+  function sync(){
+    preview.innerHTML='<h1>'+esc(title.value.trim()||'未命名條目')+'</h1>'+html();
+    preview.setAttribute('data-summary',summary.value.trim());
+  }
+
+  function addBlock(type,text){
+    const temp=document.createElement('div');
+    if(type==='ul') temp.innerHTML='<ul><li>'+(text||'新項目')+'</li></ul>';
+    else if(type==='blockquote') temp.innerHTML='<blockquote>'+(text||'引用內容')+'</blockquote>';
+    else temp.innerHTML='<'+type+'>'+(text||'')+'</'+type+'>';
+    const wrap=nodeToBlock(temp.firstElementChild);
+    blocks.appendChild(wrap);
+    wrap.querySelector('.block-body').focus();
+    sync();
+  }
+
+  document.querySelectorAll('[data-add]').forEach(b=>b.addEventListener('click',()=>addBlock(b.dataset.add)));
+  document.querySelectorAll('#toolbar [data-cmd]').forEach(b=>b.addEventListener('mousedown',e=>{
+    e.preventDefault();
+    const cmd=b.dataset.cmd, value=b.dataset.value||null;
+    document.execCommand(cmd,false,value); sync();
+  }));
+  document.querySelectorAll('#toolbar [data-block]').forEach(b=>b.addEventListener('mousedown',e=>{
+    e.preventDefault();
+    document.execCommand('formatBlock',false,b.dataset.block); sync();
+  }));
+  document.querySelector('#linkBtn').addEventListener('mousedown',e=>{
+    e.preventDefault();
+    const url=prompt('輸入連結網址');
+    if(url) document.execCommand('createLink',false,url);
+    sync();
+  });
+  document.querySelector('#clearBtn').addEventListener('mousedown',e=>{
+    e.preventDefault(); document.execCommand('removeFormat'); sync();
+  });
+  title.addEventListener('input',sync); summary.addEventListener('input',sync);
+
+  document.querySelector('#reset').onclick=loadArticle;
+  select.addEventListener('change',loadArticle);
+
+  document.querySelector('#save').onclick=()=>{
+    if(!current) return;
+    const cats=categories.value.split(/[\n,，]+/).map(x=>x.trim()).filter(Boolean);
+    const next={...current,title:title.value.trim(),summary:summary.value.trim(),categories:cats,content:html()};
+    const json=JSON.stringify(articles.map(x=>x.id===current.id?next:x),null,2);
+    sessionStorage.setItem('wk-pending-json',json);
+    window.open('https://github.com/annynn1990/wk/edit/main/data/articles.json','_blank','noopener');
+    status.textContent='已準備好新版條目資料；目前仍會開啟 GitHub 編輯頁提交。下一步可接上安全 API，讓這個按鈕直接建立 Commit。';
+  };
+
+  loadArticle();
 })();
 </script>
-</body></html>
+</body>
+</html>
