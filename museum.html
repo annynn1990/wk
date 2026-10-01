@@ -3,422 +3,356 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>黃名帝國 · 3D 歷史街區</title>
+<title>黃名帝國 · Wongming Street</title>
 <style>
-*{box-sizing:border-box}
-html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#9cc7ec;font-family:Arial,"Microsoft JhengHei",sans-serif}
-body{user-select:none}
-canvas{display:block;width:100%;height:100%;touch-action:none}
-button{font:inherit}
-#topbar{position:fixed;z-index:20;top:20px;left:50%;transform:translateX(-50%);display:flex;background:#fff;border-radius:18px;padding:3px;box-shadow:0 9px 26px #1e3b5d30}
-.mode{min-width:92px;height:34px;border:0;border-radius:15px;background:transparent;color:#3c5267;font-size:11px;cursor:pointer}
-.mode.active{background:#245db3;color:#fff}
-#brand{position:fixed;z-index:20;left:22px;top:20px;color:#17324d;text-shadow:0 2px 10px #fff8;pointer-events:none}
-#brand strong{display:block;font:700 20px/1.1 "Noto Serif TC","Microsoft JhengHei",serif;letter-spacing:.1em}
-#brand span{font-size:8px;letter-spacing:.18em}
-#map{position:fixed;z-index:20;left:18px;bottom:20px;width:154px;height:112px;border-radius:15px;background:#ffffffdc;border:1px solid #fff;box-shadow:0 12px 30px #17324d2c;overflow:hidden}
-#mapCanvas{width:100%;height:100%;display:block}
-#mapLabel{position:absolute;left:9px;top:7px;color:#52708a;font-size:8px;letter-spacing:.14em}
-#mapDot{position:absolute;width:9px;height:9px;border-radius:50%;background:#245db3;box-shadow:0 0 0 4px #245db327;transform:translate(-50%,-50%)}
-#sideBubble{position:fixed;z-index:22;right:20px;bottom:115px;width:190px;padding:13px 15px;border-radius:16px;background:#fff;box-shadow:0 14px 34px #17324d33;color:#3c5267;font-size:11px;line-height:1.65}
-#sideBubble:after{content:"";position:absolute;left:28px;bottom:-10px;border:10px solid transparent;border-top-color:#fff;border-bottom:0}
-#sideBubble b{color:#245db3}
-#actions{position:fixed;z-index:21;left:50%;bottom:18px;transform:translateX(-50%);display:flex;gap:8px;padding:7px 9px;border-radius:22px;background:#ffffffb8;box-shadow:0 12px 30px #17324d28;backdrop-filter:blur(10px)}
-.action{width:39px;height:39px;border-radius:50%;border:1px solid #fff;background:#eef4fa;color:#5b7489;cursor:pointer}
-.action.active{background:#245db3;color:#fff}
-#prompt{position:fixed;z-index:30;left:50%;bottom:76px;transform:translate(-50%,10px);padding:8px 14px;border-radius:16px;background:#fff;color:#31506b;font-size:11px;box-shadow:0 10px 25px #17324d2b;opacity:0;transition:.18s;pointer-events:none}
-#prompt.show{opacity:1;transform:translate(-50%,0)}
-#panel{position:fixed;z-index:40;inset:0;display:none;align-items:center;justify-content:center;background:#17324d55;backdrop-filter:blur(9px)}
-#panel.on{display:flex}
-.panelCard{width:min(760px,88vw);max-height:78vh;overflow:auto;padding:26px;border-radius:22px;background:#fff;box-shadow:0 30px 90px #17324d4a;color:#294862}
-.panelTop{display:flex;justify-content:space-between;align-items:start;gap:14px}
-.panelKicker{font-size:8px;letter-spacing:.18em;color:#5b89b5}
-.panelCard h2{margin:5px 0 6px;font:700 29px "Noto Serif TC","Microsoft JhengHei",serif}
-.panelCard p{margin:0;color:#678095;line-height:1.8;font-size:12px}
-.close{width:34px;height:34px;border-radius:50%;border:0;background:#eef4fa;color:#557086;cursor:pointer}
-.exhibits{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}
-.exhibit{padding:14px;border-radius:16px;background:#f3f7fa;border:1px solid #e7eef4;cursor:pointer}
-.exhibit:hover{background:#eaf2f8}
-.exhibit b{display:block;font-size:12px;color:#315b80;margin-bottom:5px}
-.exhibit span{font-size:10px;color:#7690a4;line-height:1.5}
-#mobile{position:fixed;z-index:25;left:0;right:0;bottom:0;height:170px;display:none;pointer-events:none}
-#joy{position:absolute;left:18px;bottom:22px;width:112px;height:112px;border-radius:50%;background:#ffffff36;border:1px solid #ffffff65;pointer-events:auto;touch-action:none}
-#stick{position:absolute;left:50%;top:50%;margin:-25px;width:50px;height:50px;border-radius:50%;background:#ffffffaa;border:1px solid #fff;box-shadow:0 6px 18px #17324d2b}
-#mobileJump{position:absolute;right:22px;bottom:30px;width:66px;height:66px;border:0;border-radius:50%;background:#ffffffdb;color:#245db3;box-shadow:0 10px 25px #17324d30;pointer-events:auto;touch-action:none;font-size:24px}
-@media(max-width:760px){
- #brand{left:12px;top:12px}
- #brand strong{font-size:17px}
- #brand span{display:none}
- #topbar{top:10px}
- #map{left:10px;bottom:12px;width:132px;height:94px}
- #actions{bottom:11px}
- #sideBubble{right:10px;bottom:104px;width:160px;font-size:10px}
- #prompt{bottom:160px}
- #mobile{display:block}
- .exhibits{grid-template-columns:1fr}
-}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#9cc8ee}body{font-family:Arial,"Microsoft JhengHei",sans-serif;color:#29445e;user-select:none}canvas{display:block;width:100%;height:100%;touch-action:none}button{font:inherit}
+#switcher{position:fixed;z-index:30;top:18px;left:50%;transform:translateX(-50%);display:flex;padding:3px;background:#fff;border-radius:18px;box-shadow:0 8px 25px #25415a30}
+#switcher button{height:34px;min-width:94px;padding:0 15px;border:0;border-radius:15px;background:transparent;color:#62768a;font-size:11px;cursor:pointer}.active{background:#245db3!important;color:#fff!important}
+#brand{position:fixed;z-index:30;left:24px;top:20px;pointer-events:none;color:#24435e;text-shadow:0 2px 12px #fff9}.brandZh{font:700 21px/1.05 "Noto Serif TC","Microsoft JhengHei",serif;letter-spacing:.12em}.brandEn{font-size:8px;letter-spacing:.2em;margin-top:5px;color:#52718a}
+#bubble{position:fixed;right:22px;bottom:110px;z-index:25;width:205px;padding:12px 14px;background:#fff;border-radius:16px;box-shadow:0 12px 30px #25415a34;color:#567085;font-size:10px;line-height:1.7}.bubbleTitle{color:#245db3;font-weight:700;font-size:11px;margin-bottom:3px}
+#map{position:fixed;left:18px;bottom:18px;z-index:25;width:155px;height:112px;background:#ffffffe8;border:1px solid #fff;border-radius:15px;box-shadow:0 12px 28px #25415a2b;overflow:hidden}.mapLabel{position:absolute;left:8px;top:7px;font-size:8px;color:#648097;letter-spacing:.14em}.mapCanvas{position:absolute;inset:0;width:100%;height:100%}.mapDot{position:absolute;left:50%;top:50%;width:9px;height:9px;border-radius:50%;background:#245db3;box-shadow:0 0 0 4px #245db32a;transform:translate(-50%,-50%)}
+#controls{position:fixed;left:50%;bottom:17px;z-index:26;transform:translateX(-50%);display:flex;gap:7px;padding:7px 9px;background:#ffffffb9;border-radius:22px;backdrop-filter:blur(8px);box-shadow:0 10px 28px #25415a2b}.circleBtn{width:40px;height:40px;border-radius:50%;border:1px solid #fff;background:#f1f6fa;color:#5d7387;cursor:pointer}.circleBtn:hover,.circleBtn.active{background:#245db3;color:#fff}
+#prompt{position:fixed;left:50%;bottom:80px;z-index:40;transform:translate(-50%,10px);opacity:0;padding:8px 14px;background:#fff;border-radius:17px;box-shadow:0 10px 25px #25415a2d;color:#35536d;font-size:11px;transition:.16s;pointer-events:none}.promptOn{opacity:1!important;transform:translate(-50%,0)!important}
+#modal{position:fixed;inset:0;z-index:80;display:none;align-items:center;justify-content:center;background:#29445e4e;backdrop-filter:blur(9px);padding:20px}.modalOn{display:flex!important}.card{width:min(780px,92vw);max-height:78vh;overflow:auto;background:#fff;border-radius:22px;box-shadow:0 30px 90px #25415a52;padding:25px}.cardHead{display:flex;justify-content:space-between;gap:20px;align-items:start}.eyebrow{color:#6991b3;font-size:8px;letter-spacing:.18em}.card h2{margin:6px 0 8px;font:700 30px "Noto Serif TC","Microsoft JhengHei",serif;color:#29445e}.card p{margin:0;color:#70879a;font-size:12px;line-height:1.75}.close{border:0;width:34px;height:34px;border-radius:50%;background:#edf3f7;color:#5d7488;cursor:pointer}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}.tile{padding:14px;border-radius:15px;background:#f2f6f9;border:1px solid #e1eaf0;cursor:pointer}.tile b{display:block;font-size:12px;color:#315b80;margin-bottom:5px}.tile span{display:block;color:#7d93a3;font-size:10px;line-height:1.6}
+#mobile{position:fixed;left:0;right:0;bottom:0;height:175px;z-index:35;display:none;pointer-events:none}.joy{position:absolute;left:18px;bottom:20px;width:110px;height:110px;border-radius:50%;background:#ffffff3a;border:1px solid #ffffff75;pointer-events:auto;touch-action:none}.stick{position:absolute;left:50%;top:50%;width:50px;height:50px;margin:-25px;border-radius:50%;background:#ffffffc6;border:1px solid #fff;box-shadow:0 6px 18px #25415a2b}.jump{position:absolute;right:20px;bottom:28px;width:68px;height:68px;border:0;border-radius:50%;background:#ffffffdf;color:#245db3;box-shadow:0 10px 25px #25415a2b;pointer-events:auto;touch-action:none;font-size:24px}
+@media(max-width:760px){#brand{left:12px;top:12px}.brandZh{font-size:17px}.brandEn{display:none}#switcher{top:10px}#bubble{right:9px;bottom:103px;width:166px}#map{left:9px;bottom:10px;width:132px;height:95px}#controls{bottom:10px}#prompt{bottom:160px}.grid{grid-template-columns:1fr 1fr}#mobile{display:block}}
 </style>
 </head>
 <body>
-<div id="topbar">
- <button class="mode active" id="streetMode">Street</button>
- <button class="mode" id="exhibitMode">View Exhibits</button>
-</div>
-<div id="brand"><strong>黃名帝國</strong><span>WONGMING EMPIRE · HISTORY DISTRICT</span></div>
-<div id="map"><div id="mapLabel">STREET MAP</div><canvas id="mapCanvas" width="154" height="112"></canvas><div id="mapDot"></div></div>
-<div id="sideBubble"><b>歡迎來到黃名帝國</b><br>沿著街區自由探索。靠近地標時按 <b>E</b> 查看展覽。</div>
-<div id="actions">
- <button class="action active" id="actWalk" title="自由探索">◫</button>
- <button class="action" id="actMuseum" title="博物館">⌂</button>
- <button class="action" id="actNight" title="夜景">☾</button>
- <button class="action" id="actInfo" title="展覽">i</button>
- <button class="action" id="actReset" title="回到中央街道">◎</button>
-</div>
+<div id="switcher"><button id="streetBtn" class="active">Street</button><button id="viewBtn">View Exhibits</button></div>
+<div id="brand"><div class="brandZh">黃名帝國</div><div class="brandEn">WONGMING EMPIRE · 3D STREET</div></div>
+<div id="bubble"><div class="bubbleTitle">歡迎來到黃名帝國</div>沿著街區自由探索。走近地標後按 <b>E</b> 查看內容。</div>
+<div id="map"><div class="mapLabel">STREET MAP</div><canvas id="mapCanvas" class="mapCanvas" width="155" height="112"></canvas><div id="mapDot" class="mapDot"></div></div>
+<div id="controls"><button class="circleBtn active" id="walkBtn" title="Street">◫</button><button class="circleBtn" id="museumBtn" title="Museum">⌂</button><button class="circleBtn" id="dayBtn" title="Night">☾</button><button class="circleBtn" id="infoBtn" title="Exhibits">i</button><button class="circleBtn" id="resetBtn" title="Reset">↺</button></div>
 <div id="prompt"></div>
-<div id="panel">
- <div class="panelCard">
-  <div class="panelTop">
-   <div><div class="panelKicker">WONGMING HISTORY DISTRICT</div><h2 id="panelTitle">黃名歷史展區</h2><p id="panelText">沿著街道探索博物館與各個歷史地標。</p></div>
-   <button class="close" id="panelClose">×</button>
-  </div>
-  <div class="exhibits" id="exhibits"></div>
- </div>
-</div>
-<div id="mobile"><div id="joy"><div id="stick"></div></div><button id="mobileJump">↑</button></div>
+<div id="modal"><div class="card"><div class="cardHead"><div><div class="eyebrow">WONGMING EMPIRE · STREET DISTRICT</div><h2 id="modalTitle">黃名歷史展區</h2><p id="modalText">從 3D 街區進入不同歷史地標。</p></div><button class="close" id="closeModal">×</button></div><div class="grid" id="grid"></div></div></div>
+<div id="mobile"><div class="joy" id="joy"><div class="stick" id="stick"></div></div><button class="jump" id="jump">↑</button></div>
 
 <script type="module">
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js";
 
 const scene=new THREE.Scene();
-scene.background=new THREE.Color(0x9bc4e8);
-scene.fog=new THREE.Fog(0x9bc4e8,55,175);
+const daySky=new THREE.Color(0x9bc7eb),nightSky=new THREE.Color(0x162845);
+scene.background=daySky.clone();
+scene.fog=new THREE.Fog(daySky,48,175);
 
-const camera=new THREE.PerspectiveCamera(58,innerWidth/innerHeight,.1,260);
-camera.position.set(0,5,10);
-
+const camera=new THREE.PerspectiveCamera(56,innerWidth/innerHeight,.1,260);
 const renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:"high-performance"});
-renderer.setPixelRatio(Math.min(devicePixelRatio,1.65));
+renderer.setPixelRatio(Math.min(devicePixelRatio,1.55));
 renderer.setSize(innerWidth,innerHeight);
 renderer.shadowMap.enabled=true;
 renderer.shadowMap.type=THREE.PCFSoftShadowMap;
 renderer.outputColorSpace=THREE.SRGBColorSpace;
 renderer.toneMapping=THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure=1.12;
+renderer.toneMappingExposure=1.08;
 document.body.appendChild(renderer.domElement);
 
-const hemi=new THREE.HemisphereLight(0xeaf6ff,0x51606e,2.1);
-scene.add(hemi);
-const sun=new THREE.DirectionalLight(0xfff1d6,3.0);
-sun.position.set(-35,55,24);
-sun.castShadow=true;
-sun.shadow.mapSize.set(2048,2048);
-sun.shadow.camera.left=-85;sun.shadow.camera.right=85;
-sun.shadow.camera.top=85;sun.shadow.camera.bottom=-85;
-scene.add(sun);
-const fill=new THREE.DirectionalLight(0xa9d7ff,.55);
-fill.position.set(36,20,-42);
-scene.add(fill);
+const hemi=new THREE.HemisphereLight(0xeaf7ff,0x536273,2.15);scene.add(hemi);
+const sun=new THREE.DirectionalLight(0xffefd4,3.15);sun.position.set(-45,58,28);sun.castShadow=true;
+sun.shadow.mapSize.set(2048,2048);sun.shadow.camera.left=-95;sun.shadow.camera.right=95;sun.shadow.camera.top=95;sun.shadow.camera.bottom=-95;scene.add(sun);
+const fill=new THREE.DirectionalLight(0xb5d8ff,.5);fill.position.set(40,24,-46);scene.add(fill);
 
-const clock=new THREE.Clock();
-let night=false;
-let gameStarted=true;
-const keys={};
-const joystick={x:0,y:0};
-let yaw=0,pitch=.28;
-let dragging=false,lx=0,ly=0,touchLook=null;
-let nearest=null;
-
-const mats={
- road:new THREE.MeshStandardMaterial({color:0x655f73,roughness:.88}),
- sidewalk:new THREE.MeshStandardMaterial({color:0xe1d6e0,roughness:.92}),
- curb:new THREE.MeshStandardMaterial({color:0xb4aebb,roughness:.9}),
- grass:new THREE.MeshStandardMaterial({color:0x67a567,roughness:1}),
- white:new THREE.MeshStandardMaterial({color:0xf6f8fa,roughness:.65}),
- window:new THREE.MeshStandardMaterial({color:0x9ed7ea,roughness:.2,metalness:.1}),
- pink:new THREE.MeshStandardMaterial({color:0xf1abb7,roughness:.8}),
- blue:new THREE.MeshStandardMaterial({color:0x83b6e0,roughness:.8}),
- cream:new THREE.MeshStandardMaterial({color:0xf5dba7,roughness:.8}),
- lilac:new THREE.MeshStandardMaterial({color:0xbfaedb,roughness:.8}),
- mint:new THREE.MeshStandardMaterial({color:0x93cdbf,roughness:.8}),
- dark:new THREE.MeshStandardMaterial({color:0x344454,roughness:.72}),
- gold:new THREE.MeshStandardMaterial({color:0xe2b65d,metalness:.35,roughness:.35}),
- leaf:new THREE.MeshStandardMaterial({color:0x4e9a64,roughness:1}),
- trunk:new THREE.MeshStandardMaterial({color:0x765541,roughness:1}),
- lamp:new THREE.MeshStandardMaterial({color:0x2e3941,metalness:.45,roughness:.35}),
- avatarShirt:new THREE.MeshStandardMaterial({color:0xf4f4f4,roughness:.72}),
- avatarPants:new THREE.MeshStandardMaterial({color:0x365886,roughness:.82}),
- skin:new THREE.MeshStandardMaterial({color:0xf0c1a4,roughness:.8}),
- shoe:new THREE.MeshStandardMaterial({color:0xf5f3ee,roughness:.85})
+const M={
+ road:new THREE.MeshStandardMaterial({color:0x5e5a72,roughness:.9,flatShading:true}),
+ roadEdge:new THREE.MeshStandardMaterial({color:0x787387,roughness:.9,flatShading:true}),
+ paving:new THREE.MeshStandardMaterial({color:0xe6dce7,roughness:.95,flatShading:true}),
+ grass:new THREE.MeshStandardMaterial({color:0x68a368,roughness:1,flatShading:true}),
+ pink:new THREE.MeshStandardMaterial({color:0xefaab7,roughness:.82,flatShading:true}),
+ blue:new THREE.MeshStandardMaterial({color:0x7daed7,roughness:.82,flatShading:true}),
+ cream:new THREE.MeshStandardMaterial({color:0xf2dba5,roughness:.84,flatShading:true}),
+ mint:new THREE.MeshStandardMaterial({color:0x93cabc,roughness:.84,flatShading:true}),
+ lilac:new THREE.MeshStandardMaterial({color:0xb9a7d2,roughness:.84,flatShading:true}),
+ white:new THREE.MeshStandardMaterial({color:0xf7f7f5,roughness:.74,flatShading:true}),
+ roof:new THREE.MeshStandardMaterial({color:0x4d4656,roughness:.92,flatShading:true}),
+ window:new THREE.MeshStandardMaterial({color:0x9bcde0,roughness:.22,metalness:.05,flatShading:true}),
+ dark:new THREE.MeshStandardMaterial({color:0x36495a,roughness:.75,flatShading:true}),
+ gold:new THREE.MeshStandardMaterial({color:0xe4b962,roughness:.4,metalness:.3,flatShading:true}),
+ green:new THREE.MeshStandardMaterial({color:0x4f9861,roughness:1,flatShading:true}),
+ trunk:new THREE.MeshStandardMaterial({color:0x785845,roughness:1,flatShading:true}),
+ skin:new THREE.MeshStandardMaterial({color:0xf0c3a7,roughness:.8,flatShading:true}),
+ shirt:new THREE.MeshStandardMaterial({color:0xf4f4f1,roughness:.76,flatShading:true}),
+ pants:new THREE.MeshStandardMaterial({color:0x355a89,roughness:.82,flatShading:true}),
+ shoe:new THREE.MeshStandardMaterial({color:0xf5f2eb,roughness:.86,flatShading:true})
 };
 
-function box(w,h,d,x,y,z,mat,rot=0){
- const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);
- m.position.set(x,y,z);m.rotation.y=rot;m.castShadow=true;m.receiveShadow=true;scene.add(m);return m;
+function addBox(w,h,d,x,y,z,mat,ry=0){
+ const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);m.position.set(x,y,z);m.rotation.y=ry;m.castShadow=true;m.receiveShadow=true;scene.add(m);return m;
 }
-function cyl(rad,h,x,y,z,mat,seg=18){
- const m=new THREE.Mesh(new THREE.CylinderGeometry(rad,rad,h,seg),mat);
- m.position.set(x,y,z);m.castShadow=true;m.receiveShadow=true;scene.add(m);return m;
+function addCylinder(r,h,x,y,z,mat,seg=14){
+ const m=new THREE.Mesh(new THREE.CylinderGeometry(r,r,h,seg),mat);m.position.set(x,y,z);m.castShadow=true;scene.add(m);return m;
 }
-function plane(w,d,x,y,z,mat){
- const m=new THREE.Mesh(new THREE.PlaneGeometry(w,d),mat);
- m.rotation.x=-Math.PI/2;m.position.set(x,y,z);m.receiveShadow=true;scene.add(m);return m;
+function ground(w,d,x,z,mat){const m=new THREE.Mesh(new THREE.PlaneGeometry(w,d),mat);m.rotation.x=-Math.PI/2;m.position.set(x,0,z);m.receiveShadow=true;scene.add(m);return m}
+function canvasSign(title,sub,bg="#ffffff",fg="#22384d",accent="#4b83be"){
+ const c=document.createElement("canvas");c.width=900;c.height=250;const g=c.getContext("2d");
+ g.fillStyle=bg;g.fillRect(0,0,900,250);g.fillStyle=accent;g.fillRect(0,0,900,18);
+ g.fillStyle=fg;g.font='700 44px "Microsoft JhengHei","Noto Serif TC",sans-serif';g.textAlign="center";g.fillText(title,450,104);
+ g.fillStyle="#62788a";g.font="19px Arial";g.fillText(sub,450,150);return new THREE.CanvasTexture(c);
 }
-function textTexture(title,sub,bg="#ffffff"){
- const c=document.createElement("canvas");c.width=900;c.height=250;
- const g=c.getContext("2d");g.fillStyle=bg;g.fillRect(0,0,900,250);
- g.fillStyle="#1f3347";g.font='700 46px "Microsoft JhengHei","Noto Serif TC",sans-serif';g.textAlign="center";g.fillText(title,450,100);
- g.fillStyle="#567189";g.font="20px Arial";g.fillText(sub,450,150);
- return new THREE.CanvasTexture(c);
-}
-function sign(title,sub,x,y,z,rot=0,bg="#ffffff"){
- const m=new THREE.Mesh(new THREE.PlaneGeometry(3.6,.98),new THREE.MeshBasicMaterial({map:textTexture(title,sub,bg),transparent:true}));
+function sign(title,sub,x,y,z,rot=0,bg="#ffffff",accent="#4b83be"){
+ const m=new THREE.Mesh(new THREE.PlaneGeometry(3.8,1.05),new THREE.MeshBasicMaterial({map:canvasSign(title,sub,bg,"#243a4e",accent),transparent:true}));
  m.position.set(x,y,z);m.rotation.y=rot;scene.add(m);return m;
 }
 
-// Ground and street — broad, readable lanes like the reference.
-plane(170,170,0,0,-18,mats.grass);
-box(25,.08,150,0,.05,-18,mats.road);
-box(150,.08,22,0,.06,8,mats.road);
-box(150,.10,3,-0,.09,-13,mats.sidewalk);
-box(150,.10,3,-0,.09,29,mats.sidewalk);
-box(3,.11,150,-14,.10,-18,mats.sidewalk);
-box(3,.11,150,14,.10,-18,mats.sidewalk);
+// ---------- Reference-like street composition ----------
+ground(180,180,0,-18,M.grass);
+ground(18,145,0,-18,M.road);
+ground(140,20,0,2,M.road);
+addBox(3,.12,145,-10.5,.06,-18,M.paving);addBox(3,.12,145,10.5,.06,-18,M.paving);
+addBox(140,.12,3,0,.06,-31,M.paving);addBox(140,.12,3,0,.06,15,M.paving);
 
-for(let z=-78;z<46;z+=7){
- box(.13,.02,3,-3.5,.11,z,mats.white);
- box(.13,.02,3,3.5,.11,z,mats.white);
-}
-for(let x=-70;x<71;x+=7)box(3,.02,.13,x,.11,-3,mats.white);
+for(let z=-88;z<47;z+=8){addBox(.16,.02,3,-4.2,.11,z,M.white);addBox(.16,.02,3,4.2,.11,z,M.white)}
+for(let x=-65;x<66;x+=8)addBox(3,.02,.15,x,.11,2,M.white);
 
-function windows(x,y,z,count,side,color){
+function windowRow(x,y,z,count,front=true){
  for(let i=0;i<count;i++){
-  const ox=(i-(count-1)/2)*1.55;
-  box(.82,1.05,.06,x+ox,y,z+(side?-.03:.03),mats.window);
+  const xx=x+(i-(count-1)/2)*1.55;
+  addBox(.86,1.08,.06,xx,y,z,M.window);
+  addBox(.06,1.08,.02,xx,y,z-.045,M.dark);
  }
 }
-function building(x,z,w,d,h,mat,title){
- box(w,h,d,x,h/2,z,mat);
- const side=Math.sign(x||1);
- for(let yy=2.1;yy<h-.8;yy+=2.05){
-  for(let xx=x-w/2+1.1;xx<x+w/2-0.5;xx+=1.7)box(.82,1.0,.05,xx,yy,z+d/2+.03,mats.window);
+function storefront(x,z,w,d,h,body,title,sub,roofStyle="flat"){
+ addBox(w,h,d,x,h/2,z,body);
+ // front facade windows
+ const frontZ=z-d/2-.035;
+ for(let yy=1.8;yy<h-.9;yy+=1.8){
+   for(let xx=x-w/2+1.15;xx<x+w/2-.2;xx+=1.7)addBox(.88,1.02,.06,xx,yy,frontZ,M.window);
  }
- sign(title,"WONGMING STREET",x,z? h*.72:2,z-d/2-.04,Math.PI,mat===mats.blue?"#dff1ff":"#fff");
+ // side windows
+ const sideX=x-w/2-.035;
+ for(let yy=1.8;yy<h-.9;yy+=1.8)for(let zz=z-d/2+1.1;zz<z+d/2-.4;zz+=1.7)addBox(.06,1.0,.86,sideX,yy,zz,M.window);
+ // roof silhouette
+ if(roofStyle==="gable"){
+   const roofMat=new THREE.Mesh(new THREE.CylinderGeometry(1,1, w*.92,4,1),M.roof); // diamond-like low poly roof
+   roofMat.scale.set(1,d*.72,.55);roofMat.rotation.x=Math.PI/2;roofMat.rotation.z=Math.PI/4;roofMat.position.set(x,h+.65,z);roofMat.castShadow=true;scene.add(roofMat);
+ }else{
+   addBox(w+.35,.28,d+.35,x,h+.16,z,M.roof);
+ }
+ sign(title,sub,x,h+.95,frontZ-.04,Math.PI,"#ffffff",body===M.blue?"#4a9de0":body===M.pink?"#ec8ea1":body===M.cream?"#e1af48":"#6a8fba");
 }
 
-// City blocks on both sides.
-building(-24,-8,15,13,12,mats.blue,"帝國郵政");
-building(-42,8,17,14,10,mats.pink,"皇家音樂廳");
-building(-62,-9,15,13,14,mats.lilac,"司憲院");
-building(24,-8,15,13,11,mats.cream,"歷史檔案館");
-building(42,8,16,14,13,mats.mint,"文化交流館");
-building(62,-9,15,13,15,mats.blue,"帝國圖書館");
+storefront(-23,2,15,12,11,M.blue,"BRAND","WONGMING STREET","flat");
+storefront(-41,-1,14,13,10,M.pink,"皇家音樂廳","ROYAL CONCERT HALL","gable");
+storefront(-59,-4,14,12,13,M.lilac,"司憲院","IMPERIAL COURT","flat");
+storefront(23,3,15,12,11,M.cream,"歷史檔案館","ARCHIVE HOUSE","gable");
+storefront(41,-1,15,13,12,M.mint,"文化交流館","CULTURE HOUSE","flat");
+storefront(59,-4,15,12,14,M.blue,"帝國圖書館","IMPERIAL LIBRARY","gable");
 
-// Background high-rise silhouettes.
-for(let i=0;i<14;i++){
- const side=i%2?-1:1,z=-45-i*7,x=side*(32+(i%5)*8),h=16+(i%4)*6,w=8+(i%3)*3;
- box(w,h,w,x,h/2,z,[mats.blue,mats.pink,mats.cream,mats.lilac][i%4]);
+// Distinctive foreground left circular sign.
+addBox(5.8,4.3,.45,-23,4.5,-4.1,M.white);
+const brandDisk=new THREE.Mesh(new THREE.CylinderGeometry(1.35,1.35,.18,32),M.gold);brandDisk.rotation.x=Math.PI/2;brandDisk.position.set(-23,5.6,-4.18);brandDisk.castShadow=true;scene.add(brandDisk);
+sign("BRAND","WONGMING",-23,5.6,-4.3,Math.PI/2,"#6a8ed3","#ffffff","#d7ecff");
+
+// Right tiled-roof shop to echo the reference silhouette.
+addBox(17,7,13,24,3.5,-7,M.white);
+for(let i=0;i<9;i++)addBox(.82,.92,.05,17.1+i*1.7,3.0,-13.56,M.window);
+addBox(18.4,.3,14.4,24,7.08,-7,M.roof,.0);
+sign("文化商店","WONGMING MARKET",24,4.9,-13.62,Math.PI,"#fff","#2a4258","#d7a84b");
+
+// Tall billboard in the center background.
+addBox(7.2,21,3.2,6,10.5,-21,M.white);
+for(let y=3;y<19;y+=3.4)addBox(5.2,2.05,.08,6,y,-22.62,M.pink);
+sign("黃名帝國","WONGMING EMPIRE",6,18.7,-22.68,Math.PI,"#eaf2f9","#24435e","#5488c1");
+
+// Central overhead street sign.
+addBox(11,.18,.45,0,6.1,-7,M.dark);
+addBox(.18,4.6,.18,-5.35,3.8,-7,M.dark);
+addBox(.18,4.6,.18,5.35,3.8,-7,M.dark);
+sign("黃名歷史街區","HISTORY DISTRICT",-2.0,6.18,-7.28,Math.PI,"#202a3a","#ffffff","#202a3a");
+sign("WONGMING STREET","EXPLORE",2.25,6.18,-7.28,Math.PI,"#202a3a","#ffffff","#202a3a");
+
+// Museum destination: large pastel landmark behind the street.
+addBox(28,10,17,0,5.05,-61,M.white);
+addBox(24,4.5,4,-0,11.8,-57.8,M.blue);
+for(let x=-10;x<=10;x+=4)addBox(2.25,4,.28,x,3,-52.45,M.window);
+sign("黃名歷史博物館","WONGMING MUSEUM",0,9.4,-52.45,Math.PI,"#ffffff","#24435e","#4c87c3");
+for(let x=-13;x<=13;x+=4.3)addCylinder(.13,3.1,x,1.55,-50.5,M.gold,10);
+
+// Lamps, trees, benches.
+function lamp(x,z){
+ addCylinder(.14,3.8,x,1.9,z,M.dark,12);addBox(.65,.12,.35,x,3.85,z,M.gold);
 }
-
-// Museum at street end.
-box(26,12,16,0,6.0,-67,mats.white);
-box(20,7,3,0,9.5,-58,mats.gold);
-for(let x=-10;x<=10;x+=4)box(2.5,4,0.35,x,3.0,-58,mats.window);
-sign("黃名歷史博物館","WONGMING MUSEUM",0,9.2,-57.7,0,"#fdfdfd");
-box(13,.6,7,0,.38,-54,mats.sidewalk);
-
-// Sidewalk storefront details.
-function awning(x,z,mat,rot=0){box(3.7,.18,1.0,x,3.0,z,mat,rot)}
-awning(-24,-15,mats.pink);awning(-42,1,mats.cream);awning(24,-15,mats.blue);awning(42,1,mats.pink);
-for(let z=-4;z<30;z+=8){
- cyl(.18,3.7,-11,1.85,z,mats.lamp,12);cyl(.16,3.7,11,1.85,z,mats.lamp,12);
- box(.65,.1,.3,-11,3.65,z,mats.gold);box(.65,.1,.3,11,3.65,z,mats.gold);
+for(const z of [11,2,-7,-16,-25,-34]){lamp(-8.3,z);lamp(8.3,z)}
+function tree(x,z,s=1){
+ addCylinder(.28,2.2,x,1.1,z,M.trunk,10);
+ const crown=new THREE.Mesh(new THREE.DodecahedronGeometry(1.65*s,0),M.green);crown.position.set(x,2.9*s,z);crown.castShadow=true;scene.add(crown);
+ const crown2=crown.clone();crown2.position.x=x+.8*s;crown2.position.y=3.2*s;crown2.scale.setScalar(.78);scene.add(crown2);
 }
-for(let x of [-52,-34,-16,16,34,52]){cyl(.28,2.4,x,1.2,-2,mats.trunk,10);cyl(1.25,1.9,x,3.1,-2,mats.leaf,12);}
-
-// Benches.
-for(const q of [[-9,4],[9,4],[-9,-30],[9,-30]]){
- box(2.2,.15,.48,q[0],.78,q[1],mats.trunk);
- box(.12,.55,.12,q[0]-.72,.48,q[1],mats.gold);box(.12,.55,.12,q[0]+.72,.48,q[1],mats.gold);
+for(const q of [[-12,9,1],[12,9,1],[-13,-2,.9],[13,-2,.9],[-14,-27,1], [14,-27,1]])tree(q[0],q[1],q[2]);
+function bench(x,z,rot=0){
+ const g=new THREE.Group();g.position.set(x,.78,z);g.rotation.y=rot;scene.add(g);
+ addBox(2.0,.16,.46,0,.36,0,M.trunk); // position is wrong if direct scene
+ const seat=g.children[g.children.length-1]; // placeholder not used
 }
+for(const x of [-8,8]){addBox(2,.16,.45,x,.76,10,M.trunk);addBox(.12,.6,.12,x-.7,.45,10,M.gold);addBox(.12,.6,.12,x+.7,.45,10,M.gold)}
 
-// Avatar.
+// Cartoon car in right foreground.
+const car=new THREE.Group();scene.add(car);car.position.set(8,.55,17);
+const cb=new THREE.Mesh(new THREE.BoxGeometry(4.1,.8,1.7),new THREE.MeshStandardMaterial({color:0x4e89c8,roughness:.32,metalness:.15,flatShading:true}));cb.castShadow=true;car.add(cb);
+const roof=new THREE.Mesh(new THREE.BoxGeometry(2.2,.62,1.35),M.window);roof.position.y=.65;roof.castShadow=true;car.add(roof);
+for(const sx of [-1.5,1.5])for(const sy of [-.78,.78]){const w=new THREE.Mesh(new THREE.CylinderGeometry(.4,.4,.24,16),M.dark);w.rotation.z=Math.PI/2;w.position.set(sx,-.47,sy);w.castShadow=true;car.add(w)}
+
+// ---------- Player ----------
 const avatar=new THREE.Group();scene.add(avatar);
-function ap(g,m,x,y,z){const o=new THREE.Mesh(g,m);o.position.set(x,y,z);o.castShadow=true;avatar.add(o);return o}
-ap(new THREE.CapsuleGeometry(.42,.85,6,12),mats.avatarShirt,0,1.25,0);
-ap(new THREE.SphereGeometry(.36,20,16),mats.skin,0,2.02,0);
-ap(new THREE.BoxGeometry(.78,.08,.36),mats.dark,0,2.24,0);
-const armL=ap(new THREE.CapsuleGeometry(.11,.62,5,8),mats.avatarShirt,-.5,1.25,0);
-const armR=ap(new THREE.CapsuleGeometry(.11,.62,5,8),mats.avatarShirt,.5,1.25,0);
-const legL=ap(new THREE.CapsuleGeometry(.13,.62,5,8),mats.avatarPants,-.2,.54,0);
-const legR=ap(new THREE.CapsuleGeometry(.13,.62,5,8),mats.avatarPants,.2,.54,0);
-ap(new THREE.BoxGeometry(.28,.13,.48),mats.shoe,-.2,.18,-.05);
-ap(new THREE.BoxGeometry(.28,.13,.48),mats.shoe,.2,.18,-.05);
-avatar.position.set(0,.02,26);
+function av(g,m,x,y,z){const o=new THREE.Mesh(g,m);o.position.set(x,y,z);o.castShadow=true;avatar.add(o);return o}
+av(new THREE.CapsuleGeometry(.4,.78,6,10),M.shirt,0,1.22,0);
+av(new THREE.SphereGeometry(.35,18,14),M.skin,0,1.98,0);
+av(new THREE.CapsuleGeometry(.12,.65,5,8),M.pants,-.19,.57,0);
+av(new THREE.CapsuleGeometry(.12,.65,5,8),M.pants,.19,.57,0);
+const armL=av(new THREE.CapsuleGeometry(.11,.6,5,8),M.shirt,-.48,1.2,0),armR=av(new THREE.CapsuleGeometry(.11,.6,5,8),M.shirt,.48,1.2,0);
+av(new THREE.BoxGeometry(.27,.12,.45),M.shoe,-.19,.17,-.08);av(new THREE.BoxGeometry(.27,.12,.45),M.shoe,.19,.17,-.08);
+av(new THREE.BoxGeometry(.72,.08,.34),M.dark,0,2.19,0);
 
-// Decorative car.
-const car=new THREE.Group();scene.add(car);car.position.set(7,.5,15);car.rotation.y=Math.PI*.5;
-const carBody=new THREE.Mesh(new THREE.BoxGeometry(4.2,.75,1.8),new THREE.MeshStandardMaterial({color:0x3b7ec3,metalness:.18,roughness:.3}));carBody.castShadow=true;car.add(carBody);
-for(const wx of [-1.5,1.5]){const wh=new THREE.Mesh(new THREE.CylinderGeometry(.42,.42,.25,18),mats.dark);wh.rotation.z=Math.PI/2;wh.position.set(wx,-.48,-.68);car.add(wh);const wh2=wh.clone();wh2.position.z=.68;car.add(wh2)}
-box(2.1,.55,1.3,7,.98,15,mats.window);
+// Camera/world starting composition like reference: character foreground, road into center.
+avatar.position.set(0,0.02,21);
+let camYaw=0,camPitch=.30,camDistance=8.7;
+camera.position.set(0,4.1,29.2);
+camera.lookAt(0,1.3,8);
 
-// Landmarks / interactions.
-const landmarks=[
- {name:"帝國郵政",x:-24,z:-15,desc:"黃名帝國的公共郵政與資訊服務地標。"},
- {name:"皇家音樂廳",x:-42,z:1,desc:"國家音樂與典禮演出的文化場館。"},
- {name:"司憲院",x:-62,z:-9,desc:"黃名帝國司法與憲制相關歷史展示。"},
- {name:"歷史檔案館",x:24,z:-15,desc:"保存帝國歷史文件與重要文獻。"},
- {name:"文化交流館",x:42,z:1,desc:"文化與國際交流主題展覽。"},
- {name:"帝國圖書館",x:62,z:-9,desc:"帝國知識、出版與文化收藏。"},
- {name:"黃名歷史博物館",x:0,z:-54,desc:"中央博物館主入口。"}
-];
-for(const lm of landmarks){
- const marker=new THREE.Mesh(new THREE.TorusGeometry(.62,.08,10,32),new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:.82}));
- marker.rotation.x=-Math.PI/2;marker.position.set(lm.x,.16,lm.z);scene.add(marker);lm.marker=marker;
-}
-
-// Simple rectangular collision zones. No floating floors.
-const solidZones=[
- [-32,-17,-16,-1],[-50,-34,-1,15],[-70,-54,-17,-1],
- [16,32,-16,-1],[34,50,-1,15],[54,70,-17,-1],
- [-14,14,-74,-57]
+// ---------- Colliders ----------
+const colliders=[
+ [-31,-15,-4,14],[-49,-33,-8,6],[-67,-51,-10,2],
+ [15,31,-3,14],[33,49,-8,6],[51,67,-10,2],
+ [-15,15,-70,-53]
 ];
 function blocked(x,z){
- if(x<-78||x>78||z<-82||z>42)return true;
- for(const a of solidZones)if(x>a[0]&&x<a[1]&&z>a[2]&&z<a[3])return true;
+ if(x<-78||x>78||z<-84||z>45)return true;
+ for(const c of colliders)if(x>c[0]&&x<c[1]&&z>c[2]&&z<c[3])return true;
  return false;
 }
 
-function drawMap(){
- const c=document.getElementById("mapCanvas"),g=c.getContext("2d");g.clearRect(0,0,c.width,c.height);
- g.fillStyle="#eef4f8";g.fillRect(0,0,c.width,c.height);
- g.fillStyle="#cfdce5";g.fillRect(48,0,58,c.height);g.fillRect(0,41,c.width,33);
- g.fillStyle="#d6b6bc";g.fillRect(4,8,35,26);g.fillRect(116,8,34,26);g.fillStyle="#bad1c2";g.fillRect(5,79,40,28);g.fillRect(112,78,39,29);
- g.fillStyle="#9bb3c3";for(const lm of landmarks){const px=77+lm.x*.72,py=57-lm.z*.72;g.beginPath();g.arc(px,py,2.6,0,Math.PI*2);g.fill()}
+// ---------- Landmarks ----------
+const landmarks=[
+ {name:"BRAND 街區",x:-23,z:-4,desc:"黃名帝國街區入口，對應商業街核心地標。"},
+ {name:"皇家音樂廳",x:-41,z:-1,desc:"黃名帝國典禮與音樂演出文化場館。"},
+ {name:"司憲院",x:-59,z:-4,desc:"司法與憲制歷史展示地標。"},
+ {name:"歷史檔案館",x:23,z:-1,desc:"帝國歷史文書與檔案收藏。"},
+ {name:"文化交流館",x:41,z:-1,desc:"文化與交流主題館。"},
+ {name:"帝國圖書館",x:59,z:-4,desc:"出版、知識與文化收藏。"},
+ {name:"黃名歷史博物館",x:0,z:-50,desc:"街區最深處的主要歷史博物館。"}
+];
+for(const lm of landmarks){
+ const m=new THREE.Mesh(new THREE.TorusGeometry(.58,.075,10,28),new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:.9}));
+ m.rotation.x=-Math.PI/2;m.position.set(lm.x,.13,lm.z);scene.add(m);lm.marker=m;
 }
-drawMap();
 
-function updateMapDot(){
- const dot=document.getElementById("mapDot");
- dot.style.left=(77+avatar.position.x*.72)+"px";
- dot.style.top=(57-avatar.position.z*.72)+"px";
+function paintMap(){
+ const c=document.getElementById("mapCanvas"),g=c.getContext("2d");g.clearRect(0,0,155,112);
+ g.fillStyle="#eef4f8";g.fillRect(0,0,155,112);
+ g.fillStyle="#c3d1dc";g.fillRect(54,0,47,112);g.fillRect(0,40,155,32);
+ g.fillStyle="#b6d3bd";g.fillRect(5,5,42,30);g.fillRect(107,77,43,30);
+ g.fillStyle="#e1b2bd";g.fillRect(5,77,42,30);g.fillStyle="#d9c2df";g.fillRect(108,5,42,30);
+ g.fillStyle="#8ca5b7";
+ for(const lm of landmarks){const px=77+lm.x*.42,py=56-lm.z*.42;g.beginPath();g.arc(px,py,2.4,0,Math.PI*2);g.fill()}
 }
-updateMapDot();
+paintMap();
+function updateMap(){
+ const dot=document.getElementById("mapDot");dot.style.left=(77+avatar.position.x*.42)+"px";dot.style.top=(56-avatar.position.z*.42)+"px";
+}
 
+let isNight=false;
 function setNight(v){
- night=v;
- scene.background=new THREE.Color(night?0x172747:0x9bc4e8);
- scene.fog.color=scene.background.clone();
- sun.intensity=night?.7:3;
- hemi.intensity=night?.75:2.1;
- fill.intensity=night?.22:.55;
- for(const lm of landmarks)lm.marker.material.opacity=night?.98:.82;
- document.getElementById("actNight").classList.toggle("active",night);
+ isNight=v;scene.background=(v?nightSky:daySky).clone();scene.fog.color=scene.background.clone();sun.intensity=v?.72:3.15;hemi.intensity=v?.7:2.15;fill.intensity=v?.18:.5;
+ document.getElementById("dayBtn").classList.toggle("active",v);
 }
 setNight(false);
 
-function openExhibits(title="黃名歷史展區",text="探索街區中的博物館與歷史地標。"){
- document.getElementById("panelTitle").textContent=title;
- document.getElementById("panelText").textContent=text;
- const ex=document.getElementById("exhibits");ex.innerHTML="";
+function openExhibits(title="黃名歷史展區",text="從這條街道進入黃名帝國的歷史地標。"){
+ document.getElementById("modalTitle").textContent=title;document.getElementById("modalText").textContent=text;
+ const grid=document.getElementById("grid");grid.innerHTML="";
  for(const lm of landmarks){
-   const d=document.createElement("div");d.className="exhibit";
-   d.innerHTML="<b>"+lm.name+"</b><span>"+lm.desc+"</span>";
-   d.onclick=()=>{avatar.position.set(lm.x,0,lm.z+6);document.getElementById("panel").classList.remove("on");};
-   ex.appendChild(d);
+   const tile=document.createElement("div");tile.className="tile";tile.innerHTML="<b>"+lm.name+"</b><span>"+lm.desc+"</span>";
+   tile.onclick=()=>{avatar.position.set(lm.x,0.02,lm.z+6);document.getElementById("modal").classList.remove("modalOn")};
+   grid.appendChild(tile);
  }
- document.getElementById("panel").classList.add("on");
+ document.getElementById("modal").classList.add("modalOn");
 }
-document.getElementById("streetMode").onclick=()=>document.getElementById("panel").classList.remove("on");
-document.getElementById("exhibitMode").onclick=()=>openExhibits();
-document.getElementById("actInfo").onclick=()=>openExhibits();
-document.getElementById("actMuseum").onclick=()=>openExhibits("黃名歷史博物館","從中央街道前往博物館主入口。");
-document.getElementById("actNight").onclick=()=>setNight(!night);
-document.getElementById("actReset").onclick=()=>{avatar.position.set(0,.02,26);yaw=0;pitch=.28};
-document.getElementById("panelClose").onclick=()=>document.getElementById("panel").classList.remove("on");
+document.getElementById("viewBtn").onclick=()=>openExhibits();
+document.getElementById("infoBtn").onclick=()=>openExhibits();
+document.getElementById("museumBtn").onclick=()=>openExhibits("黃名歷史博物館","從街區一路走到盡頭即可抵達主館。");
+document.getElementById("dayBtn").onclick=()=>setNight(!isNight);
+document.getElementById("resetBtn").onclick=()=>{avatar.position.set(0,.02,21);camYaw=0;camPitch=.30};
+document.getElementById("streetBtn").onclick=()=>document.getElementById("modal").classList.remove("modalOn");
+document.getElementById("walkBtn").onclick=()=>document.getElementById("modal").classList.remove("modalOn");
+document.getElementById("closeModal").onclick=()=>document.getElementById("modal").classList.remove("modalOn");
 
 window.addEventListener("keydown",e=>{
  keys[e.code]=true;
- if(["Space","KeyW","KeyA","KeyS","KeyD","ShiftLeft","ShiftRight","KeyE"].includes(e.code))e.preventDefault();
+ if(["KeyW","KeyA","KeyS","KeyD","ShiftLeft","ShiftRight","Space","KeyE","ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].includes(e.code))e.preventDefault();
  if(e.code==="KeyE"&&nearest)openExhibits(nearest.name,nearest.desc);
 });
 window.addEventListener("keyup",e=>keys[e.code]=false);
 
+// Standard third-person camera-relative controls.
 renderer.domElement.addEventListener("mousedown",e=>{dragging=true;lx=e.clientX;ly=e.clientY});
 window.addEventListener("mouseup",()=>dragging=false);
-window.addEventListener("mousemove",e=>{if(!dragging)return;yaw-= (e.clientX-lx)*.006;pitch=Math.max(.08,Math.min(.72,pitch-(e.clientY-ly)*.004));lx=e.clientX;ly=e.clientY});
-
+window.addEventListener("mousemove",e=>{
+ if(!dragging)return;
+ camYaw-=(e.clientX-lx)*.006;camPitch=Math.max(.10,Math.min(.78,camPitch-(e.clientY-ly)*.004));lx=e.clientX;ly=e.clientY;
+});
 renderer.domElement.addEventListener("pointerdown",e=>{
  if(e.pointerType==="mouse")return;
- if(e.clientX<170&&innerWidth<760)return;
  touchLook=e.pointerId;lx=e.clientX;ly=e.clientY;renderer.domElement.setPointerCapture?.(e.pointerId);
 });
 renderer.domElement.addEventListener("pointermove",e=>{
  if(e.pointerId!==touchLook)return;
- yaw-=(e.clientX-lx)*.006;pitch=Math.max(.08,Math.min(.72,pitch-(e.clientY-ly)*.004));lx=e.clientX;ly=e.clientY;
+ camYaw-=(e.clientX-lx)*.006;camPitch=Math.max(.10,Math.min(.78,camPitch-(e.clientY-ly)*.004));lx=e.clientX;ly=e.clientY;
 });
 renderer.domElement.addEventListener("pointerup",()=>touchLook=null);
 renderer.domElement.addEventListener("pointercancel",()=>touchLook=null);
 
-const joy=document.getElementById("joy"),stick=document.getElementById("stick");
-let joyActive=false,joyId=null;
-function joyMove(e){
- const r=joy.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;
- let dx=e.clientX-cx,dy=e.clientY-cy,len=Math.hypot(dx,dy)||1,rad=38;
- if(len>rad){dx=dx/len*rad;dy=dy/len*rad}
- joystick.x=dx/rad;joystick.y=dy/rad;stick.style.transform="translate("+dx+"px,"+dy+"px)";
+const joyEl=document.getElementById("joy"),stickEl=document.getElementById("stick");let joyOn=false,joyId=null,joyX=0,joyY=0;
+function moveJoy(e){
+ const r=joyEl.getBoundingClientRect(),dx0=e.clientX-(r.left+r.width/2),dy0=e.clientY-(r.top+r.height/2),len=Math.hypot(dx0,dy0)||1,rad=38;
+ let dx=dx0,dy=dy0;if(len>rad){dx=dx0/len*rad;dy=dy0/len*rad}
+ joyX=dx/rad;joyY=dy/rad;stickEl.style.transform="translate("+dx+"px,"+dy+"px)";
 }
-function joyStop(){joyActive=false;joyId=null;joystick.x=0;joystick.y=0;stick.style.transform="translate(0,0)"}
-joy.addEventListener("pointerdown",e=>{joyActive=true;joyId=e.pointerId;joy.setPointerCapture?.(e.pointerId);joyMove(e)});
-joy.addEventListener("pointermove",e=>{if(joyActive&&e.pointerId===joyId)joyMove(e)});
-joy.addEventListener("pointerup",joyStop);joy.addEventListener("pointercancel",joyStop);
-document.getElementById("mobileJump").addEventListener("pointerdown",e=>{e.preventDefault();keys.Space=true;setTimeout(()=>keys.Space=false,120)});
+function stopJoy(){joyOn=false;joyId=null;joyX=0;joyY=0;stickEl.style.transform="translate(0,0)"}
+joyEl.addEventListener("pointerdown",e=>{joyOn=true;joyId=e.pointerId;joyEl.setPointerCapture?.(e.pointerId);moveJoy(e)});
+joyEl.addEventListener("pointermove",e=>{if(joyOn&&e.pointerId===joyId)moveJoy(e)});
+joyEl.addEventListener("pointerup",stopJoy);joyEl.addEventListener("pointercancel",stopJoy);
+document.getElementById("jump").addEventListener("pointerdown",e=>{e.preventDefault();keys.Space=true;setTimeout(()=>keys.Space=false,120)});
 
+let nearest=null;
 function loop(){
  const dt=Math.min(clock.getDelta(),.04);
- let ix=(keys.KeyD?1:0)-(keys.KeyA?1:0)+joystick.x;
- let iz=(keys.KeyW?1:0)-(keys.KeyS?1:0)-joystick.y;
- let len=Math.hypot(ix,iz)||1;if(len>1){ix/=len;iz/=len}
- const speed=(keys.ShiftLeft||keys.ShiftRight?7:3.5)*dt;
- if(ix||iz){
-   const nx=avatar.position.x+ix*speed,nz=avatar.position.z+iz*speed;
-   if(!blocked(nx,avatar.position.z))avatar.position.x=nx;
-   if(!blocked(avatar.position.x,nz))avatar.position.z=nz;
-   avatar.rotation.y=yaw+Math.atan2(ix,iz);
-   const walk=Math.sin(performance.now()*.012)*.17;
-   armL.rotation.z=.15+walk;armR.rotation.z=-.15-walk;legL.rotation.x=walk*.8;legR.rotation.x=-walk*.8;
- }else{armL.rotation.z=.15;armR.rotation.z=-.15;legL.rotation.x=0;legR.rotation.x=0}
- if(keys.Space&&avatar.position.y<=.02){avatar.userData.vy=6.3}
- avatar.userData.vy=(avatar.userData.vy||0)-18*dt;avatar.position.y+=avatar.userData.vy*dt;
- if(avatar.position.y<.02){avatar.position.y=.02;avatar.userData.vy=0}
- const target=new THREE.Vector3(avatar.position.x,avatar.position.y+1.15,avatar.position.z);
- const dist=7.7,flat=dist*Math.cos(pitch),up=dist*Math.sin(pitch);
- const desired=new THREE.Vector3(target.x+Math.sin(yaw)*flat,target.y+up,target.z+Math.cos(yaw)*flat);
- camera.position.lerp(desired,Math.min(1,dt*8));
- camera.lookAt(target);
-
- nearest=null;
- let best=99;
+ let forward=(keys.KeyW?1:0)-(keys.KeyS?1:0)-joyY;
+ let strafe=(keys.KeyD?1:0)-(keys.KeyA?1:0)+joyX;
+ const len=Math.hypot(forward,strafe)||1;if(len>1){forward/=len;strafe/=len}
+ const speed=(keys.ShiftLeft||keys.ShiftRight?7.0:3.5)*dt;
+ // Camera-relative basis: forward follows yaw; right is yaw + 90 degrees.
+ const fx=-Math.sin(camYaw),fz=-Math.cos(camYaw);
+ const rx=Math.cos(camYaw),rz=-Math.sin(camYaw);
+ const dx=(fx*forward+rx*strafe)*speed;
+ const dz=(fz*forward+rz*strafe)*speed;
+ const nx=avatar.position.x+dx,nz=avatar.position.z+dz;
+ if((dx||dz)&&!blocked(nx,avatar.position.z))avatar.position.x=nx;
+ if((dx||dz)&&!blocked(avatar.position.x,nz))avatar.position.z=nz;
+ if(dx||dz){
+  avatar.rotation.y=Math.atan2(dx,dz);
+  const walk=Math.sin(performance.now()*.011)*.2;
+  armL.rotation.z=.14+walk;armR.rotation.z=-.14-walk;
+  legL.rotation.x=walk*.75;legR.rotation.x=-walk*.75;
+ }else{armL.rotation.z=.14;armR.rotation.z=-.14;legL.rotation.x=0;legR.rotation.x=0}
+ if(keys.Space&&avatar.position.y<=.03)avatar.userData.vy=6.2;
+ avatar.userData.vy=(avatar.userData.vy||0)-17.5*dt;avatar.position.y+=avatar.userData.vy*dt;if(avatar.position.y<.02){avatar.position.y=.02;avatar.userData.vy=0}
+ const target=new THREE.Vector3(avatar.position.x,avatar.position.y+1.16,avatar.position.z);
+ const flat=camDistance*Math.cos(camPitch),up=camDistance*Math.sin(camPitch);
+ const desired=new THREE.Vector3(target.x+Math.sin(camYaw)*flat,target.y+up,target.z+Math.cos(camYaw)*flat);
+ camera.position.lerp(desired,Math.min(1,dt*8));camera.lookAt(target);
+ nearest=null;let nearestDist=999;
  for(const lm of landmarks){
-   const d=Math.hypot(lm.x-avatar.position.x,lm.z-avatar.position.z);
-   const pulse=0.78+Math.sin(performance.now()*.003)*.12;
-   lm.marker.scale.setScalar(pulse);
-   if(d<4.5&&d<best){best=d;nearest=lm}
+  const d=Math.hypot(lm.x-avatar.position.x,lm.z-avatar.position.z);
+  lm.marker.scale.setScalar(.82+.14*Math.sin(performance.now()*.003));
+  if(d<4.6&&d<nearestDist){nearest=lm;nearestDist=d}
  }
  const pr=document.getElementById("prompt");
- if(nearest){pr.textContent="E  查看　"+nearest.name;pr.classList.add("show")}else pr.classList.remove("show");
- updateMapDot();
-
- // Little idle animation to make the city feel alive.
- car.position.y=.5+Math.sin(performance.now()*.0018)*.025;
+ if(nearest){pr.textContent="E  查看 · "+nearest.name;pr.classList.add("promptOn")}else pr.classList.remove("promptOn");
+ updateMap();
  renderer.render(scene,camera);
 }
 renderer.setAnimationLoop(loop);
-
-addEventListener("resize",()=>{
- camera.aspect=innerWidth/innerHeight;
- camera.updateProjectionMatrix();
- renderer.setSize(innerWidth,innerHeight);
-});
+addEventListener("resize",()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
 </script>
 </body>
 </html>
