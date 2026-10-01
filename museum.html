@@ -302,336 +302,80 @@ const im2=new THREE.InstancedMesh(towerFinGeo,mat.ceramic,towerFinCount);im2.cas
 for(let i=0;i<towerFinCount;i++){const x=towerFinStart+i*towerFinStep;im2.setMatrixAt(i,new THREE.Matrix4().makeTranslation(x,22,0.7))}
 im2.instanceMatrix.needsUpdate=true;scene.add(im2);
 
-// ---------- COMPLETE INTERIOR REBUILD ----------
+// ---------- FRESH IMMERSIVE INTERIOR ----------
 const groundFloorTop=.72;
-const groundFloorSlabY=groundFloorTop-.09;
-const interiorFloorMat=new THREE.MeshStandardMaterial({color:0xc8c5bc,roughness:.74});
-const interiorWallMat=new THREE.MeshStandardMaterial({color:0xd8d4ca,roughness:.78});
-const interiorTrimMat=new THREE.MeshStandardMaterial({color:0x9b7a4f,metalness:.16,roughness:.42});
-const walnutMat=new THREE.MeshStandardMaterial({color:0x654b39,roughness:.64});
-const galleryAccentMat=new THREE.MeshStandardMaterial({color:0x8d7561,roughness:.68});
-const displayGlassMat=new THREE.MeshPhysicalMaterial({color:0xc7d7dc,roughness:.08,transmission:.30,transparent:true,opacity:.48,side:THREE.DoubleSide});
-const ceilingMat=new THREE.MeshStandardMaterial({color:0xe2dfd7,roughness:.9});
-const warmLightMat=new THREE.MeshBasicMaterial({color:0xffd889});
-const signMat=new THREE.MeshStandardMaterial({color:0x8b6f47,metalness:.18,roughness:.46});
-
-// Base foundation stays below the new interior and is no longer used as a visual floor.
-const foundationMat=mat.concrete2;
-B(58,.34,43.2,0,.25,-13.0,foundationMat,false,true);
-B(18.0,.22,4.8,-20.0,.42,8.25,foundationMat,false,true);
-B(18.0,.22,4.8,20.0,.42,8.25,foundationMat,false,true);
-B(13.2,.22,3.6,0,.42,8.15,foundationMat,false,true);
-
-// ---------- GROUND FLOOR: open public hall ----------
-B(54,.18,44,0,groundFloorSlabY,-12.8,interiorFloorMat,false);
-
-// Clean light ceiling panels hide the dark structural underside while preserving the central void.
-B(19.2,.10,38,-17.1,6.08,-14.0,ceilingMat,false);
-B(19.2,.10,38,17.1,6.08,-14.0,ceilingMat,false);
-B(13.2,.10,8.0,0,6.08,7.0,ceilingMat,false);
-B(13.2,.10,7.2,0,6.08,-30.0,ceilingMat,false);
-
-// Perimeter structure only. No full-height black blocks in the public interior.
-for(const x of [-25,-19,19,25])C(.30,5.15,x,3.25,-14.0,interiorTrimMat,24);
-for(const z of [-33,-26,-19,-12,-5])C(.22,4.85,-25,3.05,z,interiorTrimMat,20);
-for(const z of [-33,-26,-19,-12,-5])C(.22,4.85,25,3.05,z,interiorTrimMat,20);
-
-// ---------- MAIN ENTRANCE / MONUMENTAL PORTAL ----------
-B(23,.72,7.8,0,8.45,13.85,mat.black);
-B(19,.18,7.1,0,8.08,10.95,mat.gold);
-B(21,6.7,.34,-13.0,4.35,11.02,mat.glass);
-B(21,6.7,.34,13.0,4.35,11.02,mat.glass);
-
-// No entrance pillars in the center approach.
-makeSlidingDoor(-1.78);
-makeSlidingDoor(1.78);
-
-B(14.2,.16,.20,0,7.12,10.70,mat.gold);
-const sensorBar=B(13.8,.11,.12,0,7.28,10.58,mat.light,false);
-sensorBar.userData.entranceSensor=true;
-entranceLights.push(sensorBar);
-
-// Central main light stays exactly in the entrance axis.
-const centralLampLight=new THREE.PointLight(0xffd89a,68,24,1.7);
-centralLampLight.position.set(0,6.35,8.0);
-centralLampLight.castShadow=false;
-scene.add(centralLampLight);
-
-const centralLampGroup=new THREE.Group();
-centralLampGroup.position.set(0,6.55,8.0);
-scene.add(centralLampGroup);
-
-const t0LampPlate=add(
-  new THREE.BoxGeometry(5.8,.16,1.18),
-  new THREE.MeshStandardMaterial({color:0xc9a85f,metalness:.45,roughness:.28}),
-  [0,6.88,8.02],[0,0,0],false
-);
-const t0LampGlow=add(
-  new THREE.BoxGeometry(4.6,.045,.62),
-  new THREE.MeshBasicMaterial({color:0xffdda0,transparent:true,opacity:.92}),
-  [0,6.76,8.02],[0,0,0],false
-);
-const t0LampPoint=new THREE.PointLight(0xffd28a,28,16,1.8);
-t0LampPoint.position.set(0,6.55,8.0);
-scene.add(t0LampPoint);
-
-for(const x of [-5.8,5.8]){
-  const glow=B(3.0,2.5,.045,x,4.0,10.92,new THREE.MeshBasicMaterial({color:0xffd58a,transparent:true,opacity:.55,side:THREE.DoubleSide}),false);
-  glow.material.depthWrite=false;
-}
-for(const x of [-5.8,0,5.8]){
-  const pl=new THREE.PointLight(0xffc978,10,13,1.8);
-  pl.position.set(x,4.8,9.0);
-  scene.add(pl);
-}
-
-// The central lamp has an in-scene fallback model so museum startup does not depend on a secondary loader.
-const sensorIndicator=B(.20,.20,.08,0,7.12,10.56,mat.light,false);
-entranceLights.push(sensorIndicator);
-
-// Entrance marquee.
-function makeFallbackMarquee(){
-  const cc=document.createElement("canvas");cc.width=1600;cc.height=420;
-  const g=cc.getContext("2d");g.textAlign="center";
-  g.fillStyle="#68181b";g.fillRect(0,0,cc.width,cc.height);
-  g.strokeStyle="#d9b56d";g.lineWidth=10;g.strokeRect(22,22,cc.width-44,cc.height-44);
-  g.fillStyle="#f3dfac";g.font="700 106px serif";g.fillText("帝國歷史博物館",800,185);
-  g.fillStyle="#e5d2a2";g.font="32px sans-serif";g.fillText("WONGMING MUSEUM OF HISTORY",800,270);
-  g.fillStyle="#f0c76c";g.font="24px sans-serif";g.fillText("WMMOH",800,325);
-  return new THREE.CanvasTexture(cc);
-}
-const marqueeMaterial=new THREE.MeshBasicMaterial({map:makeFallbackMarquee(),side:THREE.DoubleSide});
-const marquee=add(new THREE.PlaneGeometry(16.6,3.45),marqueeMaterial,[0,6.08,10.12],[0,0,0],false);
-new THREE.TextureLoader().load("/api/museum-banner",(tex)=>{
-  tex.colorSpace=THREE.SRGBColorSpace;
-  marqueeMaterial.map=tex;
-  marqueeMaterial.needsUpdate=true;
-},undefined,(err)=>console.warn("Forum banner unavailable; fallback marquee remains.",err));
-
-// ---------- FIRST FLOOR EXHIBITION DESIGN ----------
-function addFirstFloorGallery(x,z,title,side){
-  const w=9.4,d=5.8,h=3.25;
-  const backX=x+side*(w/2);
-  const innerX=x-side*(w/2);
-  // Back feature wall, intentionally low enough to preserve sight lines.
-  B(.22,h,d,backX,groundFloorTop+h/2,z,interiorWallMat);
-  // Short side fins define the gallery without closing the hall.
-  B(.16,2.65,2.25,innerX+side*.05,groundFloorTop+1.325,z-1.77,interiorWallMat);
-  B(.16,2.65,2.25,innerX+side*.05,groundFloorTop+1.325,z+1.77,interiorWallMat);
-  // Warm wood display spine.
-  B(.18,2.35,4.2,backX-side*.18,groundFloorTop+1.18,z,walnutMat);
-  // Three independent vitrines.
-  for(const dz of [-1.7,0,1.7]){
-    B(1.7,.14,1.05,x-side*.9,groundFloorTop+.07,z+dz,interiorTrimMat,false);
-    B(1.42,.82,.82,x-side*.9,groundFloorTop+.55,z+dz,displayGlassMat,false);
-    B(1.1,.05,.64,x-side*.9,groundFloorTop+.98,z+dz,mat.gold,false);
-  }
-  // Floating identification plaque facing the central aisle.
-  const cc=document.createElement("canvas");cc.width=1000;cc.height=240;
-  const q=cc.getContext("2d");q.clearRect(0,0,1000,240);q.textAlign="center";
-  q.fillStyle="#f1dfb2";q.font='700 44px "Microsoft JhengHei","Noto Serif TC",serif';q.fillText(title,500,96);
-  q.fillStyle="#c5c9cd";q.font="20px Arial,sans-serif";q.fillText("FEATURED COLLECTION",500,138);
-  const plaque=add(new THREE.PlaneGeometry(3.9,.92),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(cc),side:THREE.DoubleSide}),[innerX+side*.20,groundFloorTop+2.35,z],[0,side*Math.PI/2,0],false);
-  plaque.userData.galleryTitle=title;
-}
-const firstFloorRows=[
-  ["黃名宮廷文物", -18,-5,-1],
-  ["帝國早期文獻", -18,-16,-1],
-  ["國家文化收藏", -18,-27,-1],
-  ["黃名外交史料", 18,-5,1],
-  ["微國珍藏展", 18,-16,1],
-  ["帝國現代史", 18,-27,1]
-];
-for(const g of firstFloorRows)addFirstFloorGallery(g[1],g[2],g[0],g[3]);
-
-// Open central hall: reception, sculpture, orientation.
-C(1.55,1.0,10.0,1.15,3.55,walnutMat,40);
-C(1.25,.16,10.0,1.67,3.55,mat.gold,40);
-B(2.5,.16,1.15,10.0,.82,3.55,interiorTrimMat,false);
-
-C(.78,1.25,0,1.34,-13.8,interiorTrimMat,40);
-C(1.05,.11,0,1.03,-13.8,mat.gold,40);
-// Central sculpture mast / timeline.
-for(const y of [2.2,3.1,4.0])C(.08,.7,0,y,-13.8,mat.gold,20);
-
-// Low orientation walls, not full partitions.
-B(.18,2.1,4.8,-5.9,groundFloorTop+1.05,3.0,interiorWallMat,false);
-B(.18,2.1,4.8,5.9,groundFloorTop+1.05,3.0,interiorWallMat,false);
-
-// Stair / Level 2 geometry must be defined before any railing references level2Y.
-const stairX=-7.6;
-const stairStartZ=4.25;
-const stairSteps=24;
-const stairRun=.34;
-const stairRise=.23875;
+const stairX=-7.6,stairStartZ=4.25,stairSteps=24,stairRun=.34,stairRise=.23875;
 const level2Y=groundFloorTop+stairSteps*stairRise;
-const level2FloorTop=level2Y;
-const level2FloorSlabY=level2FloorTop-.11;
+const level2FloorTop=level2Y,level2FloorSlabY=level2Y-.11;
+const IF=new THREE.MeshStandardMaterial({color:0xc8c5bc,roughness:.76});
+const IW=new THREE.MeshStandardMaterial({color:0xd9d3c8,roughness:.82});
+const IG=new THREE.MeshStandardMaterial({color:0xa17a43,metalness:.55,roughness:.34});
+const GL=new THREE.MeshPhysicalMaterial({color:0xc9e2e5,roughness:.08,transmission:.3,transparent:true,opacity:.44,side:THREE.DoubleSide});
+const LX=new THREE.MeshBasicMaterial({color:0xffd98c});
 
-// Atrium edge railings with clear views to the first floor.
-const atriumRailMat=new THREE.MeshStandardMaterial({color:0xc2a262,metalness:.68,roughness:.28});
-for(const x of [-7.15,7.15]){
-  B(.07,1.08,26.0,x,level2Y+.54,-15.0,atriumRailMat,false);
-  for(let z=-27;z<=-3;z+=2.4)B(.05,.92,.05,x,level2Y+.46,z,atriumRailMat,false);
-}
-B(14.2,1.08,.07,0,level2Y+.54,-4.15,atriumRailMat,false);
-B(14.2,1.08,.07,0,level2Y+.54,-26.05,atriumRailMat,false);
+B(54,.18,44,0,.63,-12.8,IF,false);
+B(19.5,.1,38,-17.1,6.08,-14,IW,false);
+B(19.5,.1,38,17.1,6.08,-14,IW,false);
 
-// ---------- REAL GRAND STAIR / LEVEL 2 CONNECTION ----------
-for(let i=0;i<stairSteps;i++){
-  const z=stairStartZ-(i+1)*stairRun;
-  const top=groundFloorTop+(i+1)*stairRise;
-  B(5.2,stairRise,stairRun,stairX,top-stairRise/2,z,mat.concreteLight);
+function tx(t,s){
+  const c=document.createElement("canvas");c.width=900;c.height=220;const g=c.getContext("2d");
+  g.fillStyle="#11191f";g.fillRect(0,0,900,220);g.strokeStyle="#d7b66d";g.lineWidth=5;g.strokeRect(12,12,876,196);
+  g.fillStyle="#f0dca7";g.textAlign="center";g.font='700 38px "Microsoft JhengHei","Noto Serif TC",serif';g.fillText(t,450,98);
+  g.fillStyle="#bbc3c7";g.font="16px Arial";g.fillText(s,450,140);return new THREE.CanvasTexture(c)
 }
+function gallery(x,z,t,s,side){
+  const outer=x+side*5;B(.25,3.2,6.2,outer,2.35,z,IW);
+  for(const dz of [-1.75,0,1.75]){
+    B(1.7,.14,.95,x-side*1.15,.83,z+dz,IG,false);
+    B(1.42,.8,.74,x-side*1.15,1.28,z+dz,GL,false);
+    B(1.02,.05,.55,x-side*1.15,1.75,z+dz,LX,false)
+  }
+  add(new THREE.PlaneGeometry(4.5,1.05),new THREE.MeshBasicMaterial({map:tx(t,s),side:THREE.DoubleSide}),[x-side*.2,3.5,z],[0,side*Math.PI/2,0],false)
+}
+gallery(-18,-5,"黃名宮廷文物","PALACE",-1);gallery(-18,-16,"帝國早期文獻","ARCHIVES",-1);gallery(-18,-27,"國家文化收藏","CULTURE",-1);
+gallery(18,-5,"黃名外交史料","DIPLOMACY",1);gallery(18,-16,"微國珍藏展","MICRONATION",1);gallery(18,-27,"帝國現代史","MODERN",1);
+
+B(6.5,.035,13.5,0,.7,20.7,mat.black,false);
+for(let i=0;i<5;i++){const z=15.05-i*.86,y=groundFloorTop-(4-i)*.12;B(11.6-i*.32,.12,.86,0,y-.06,z,mat.concrete2);B(6.4,.035,.84,0,y+.035,z,LX,false)}
+for(const x of [-4,-2,0,2,4])C(.14,.44,x,5.7,8,IG,18);
+B(10,.12,1,0,5.45,8,IG,false);
+const centralLight=new THREE.PointLight(0xffd58d,52,24,1.7);centralLight.position.set(0,5.1,8);scene.add(centralLight);
+const screen=add(new THREE.PlaneGeometry(8,2.6),new THREE.MeshBasicMaterial({map:tx("WONGMING STREET","EXPLORE · DISCOVER · REMEMBER"),side:THREE.DoubleSide}),[0,4.1,1.2],[0,0,0],false);screen.userData.screen=true;
+
+for(let i=0;i<stairSteps;i++){const z=stairStartZ-(i+1)*stairRun,y=groundFloorTop+(i+1)*stairRise;B(5.2,stairRise,stairRun,stairX,y-stairRise/2,z,mat.concreteLight)}
 B(5.2,.12,1.35,stairX,groundFloorTop+.06,4.72,mat.concreteLight,false);
 B(5.2,.18,2.1,stairX,level2FloorTop-.09,stairStartZ-stairSteps*stairRun-.78,mat.concreteLight,false);
+for(const side of [-1,1])for(let i=0;i<9;i++){const t=i/8;const x=stairX+side*2.42,z=stairStartZ-t*stairSteps*stairRun,y=groundFloorTop+1+t*stairSteps*stairRise;B(.07,1.05,.07,x,y-.5,z,IG,false)}
 
-for(const side of [-1,1]){
-  const x=stairX+side*2.42;
-  for(let i=0;i<9;i++){
-    const t=i/8;
-    const z=stairStartZ-t*(stairSteps*stairRun);
-    const y=groundFloorTop+1.0+t*(stairSteps*stairRise);
-    B(.07,1.05,.07,x,y-.5,z,mat.gold,false);
-  }
-  const railLen=Math.hypot(stairSteps*stairRise,stairSteps*stairRun);
-  const railAngle=-Math.atan2(stairSteps*stairRise,stairSteps*stairRun);
-  B(.10,.10,railLen,x,groundFloorTop+1.0+(stairSteps*stairRise)/2,stairStartZ-(stairSteps*stairRun)/2,mat.gold,[railAngle,0,0],false);
+B(19.8,.22,38,-17,level2FloorSlabY,-14,IF,false);B(19.8,.22,38,17,level2FloorSlabY,-14,IF,false);B(14.2,.22,8,0,level2FloorSlabY,-.15,IF,false);B(14.2,.22,8,0,level2FloorSlabY,-29.9,IF,false);
+const rail=new THREE.MeshStandardMaterial({color:0xd4b26b,metalness:.7,roughness:.26});for(const x of [-7.15,7.15])B(.07,1.1,26,x,level2FloorTop+.55,-15,rail,false);
+
+for(const q of [[-18,-2,"帝國紀念廳"],[-18,-9,"黃名歷史廳"],[-18,-16,"微國歷史廳"],[-18,-23,"黃名專題廳"],[-18,-30,"黃名文物廳"],[18,-2,"微國專題廳"],[18,-9,"微國文物廳"],[18,-16,"歷史回顧廳"],[18,-23,"文化景區中心"],[18,-30,"歷史文物局"]]){
+  const x=q[0],z=q[1],side=x<0?-1:1,outer=x+side*5.2;
+  B(.22,3,5.5,outer,level2FloorTop+1.5,z,IW);
+  add(new THREE.PlaneGeometry(4.5,.9),new THREE.MeshBasicMaterial({map:tx(q[2],"LEVEL 2 HISTORY GALLERY"),side:THREE.DoubleSide}),[x-side*4.9,level2FloorTop+2.1,z],[0,side*Math.PI/2,0],false)
 }
 
-// ---------- LEVEL 2: coherent wings + central atrium ----------
-const floorMat=new THREE.MeshStandardMaterial({color:0xb7b2a8,roughness:.72});
-B(19.8,.22,38,-17.0,level2FloorSlabY,-14.0,floorMat,false);
-B(19.8,.22,38,17.0,level2FloorSlabY,-14.0,floorMat,false);
-B(14.3,.22,8.0,0,level2FloorSlabY,-.15,floorMat,false);
-B(14.3,.22,8.0,0,level2FloorSlabY,-29.9,floorMat,false);
-
-// Soft ceiling above the Level 2 galleries.
-B(19.2,.10,37.0,-17.1,8.92,-14.0,ceilingMat,false);
-B(19.2,.10,37.0,17.1,8.92,-14.0,ceilingMat,false);
-B(15.0,.12,21.0,0,8.32,-14.0,new THREE.MeshPhysicalMaterial({color:0xbcced2,roughness:.18,transmission:.22,transparent:true,opacity:.5,side:THREE.DoubleSide}),false);
-
-// Atrium framing / skylight mullions.
-for(const x of [-6.4,-3.2,0,3.2,6.4])B(.06,.06,21.0,x,8.26,-14.0,mat.gold,false);
-
-const galleryData=[
- {title:"帝國紀念廳",sub:"紀念本國功勛人士",kind:"MEMORIAL"},
- {title:"黃名歷史廳",sub:"黃名帝國歷史展覽",kind:"WONGMING HISTORY"},
- {title:"微國歷史廳",sub:"微國歷史展覽",kind:"MICRONATION HISTORY"},
- {title:"黃名專題廳",sub:"黃名帝國專題歷史介紹",kind:"SPECIAL COLLECTION"},
- {title:"黃名文物廳",sub:"黃名帝國文物展覽",kind:"ARTIFACTS"},
- {title:"微國專題廳",sub:"微國專題歷史介紹",kind:"MICRONATION TOPICS"},
- {title:"微國文物廳",sub:"微國文物展覽",kind:"MICRONATION ARTIFACTS"},
- {title:"歷史回顧廳",sub:"討論黃名或微國歷史故事",kind:"HISTORICAL REVIEW"},
- {title:"文化景區中心",sub:"全國歷史建築與景區導覽中心",kind:"CULTURAL SITES"},
- {title:"歷史文物局辦公室",sub:"本國歷史研究及文物事務部門",kind:"HERITAGE OFFICE"}
+const spots=[
+{x:10,y:1.3,z:3.55,t:"中央導覽台",d:"入口大廳與博物館探索起點。"},
+{x:0,y:1.2,z:-13.8,t:"中央中庭",d:"可從這裡看到二樓橋面與兩側展區。"},
+{x:-18,y:1.4,z:-5,t:"黃名宮廷文物",d:"宮廷與皇室文化展區。"},
+{x:18,y:1.4,z:-5,t:"黃名外交史料",d:"外交、條約與國際交流展區。"},
+{x:-18,y:level2FloorTop+1,z:-9,t:"黃名歷史廳",d:"黃名帝國歷史主展區。"},
+{x:18,y:level2FloorTop+1,z:-16,t:"歷史回顧廳",d:"回顧黃名與微國社群的歷史。"},
+{x:-24,y:1,z:-31,t:"彩蛋：1995",d:"找到黃名帝國 1995 年歷史彩蛋。",secret:true},
+{x:24,y:1,z:-31,t:"彩蛋：帝國印璽",d:"找到隱藏的帝國印璽。",secret:true},
+{x:0,y:1,z:0,t:"彩蛋：中央街區",d:"找到中央街區的隱藏彩蛋。",secret:true}
 ];
+const rings=[];for(const h of spots){const ring=new THREE.Mesh(new THREE.RingGeometry(.6,.72,32),new THREE.MeshBasicMaterial({color:h.secret?0x7ee3e8:0xd2b56e,transparent:true,opacity:.9,side:THREE.DoubleSide}));ring.rotation.x=-Math.PI/2;ring.position.set(h.x,h.y<5?.74:level2FloorTop+.12,h.z);scene.add(ring);rings.push(ring)}
 
-function doorPlaqueTexture(g){
-  const cc=document.createElement("canvas");cc.width=900;cc.height=200;
-  const q=cc.getContext("2d");
-  q.fillStyle="#332920";q.fillRect(0,0,900,200);
-  q.strokeStyle="#d3b06d";q.lineWidth=5;q.strokeRect(10,10,880,180);
-  q.textAlign="center";
-  q.fillStyle="#f2dfaa";q.font='700 39px "Microsoft JhengHei","Noto Serif TC",sans-serif';q.fillText(g.title,450,76);
-  q.fillStyle="#d1d5d9";q.font="18px Arial,sans-serif";q.fillText(g.kind,450,113);
-  q.fillStyle="#c8cdd2";q.font='17px "Microsoft JhengHei","Noto Sans TC",sans-serif';q.fillText(g.sub,450,148);
-  return new THREE.CanvasTexture(cc);
-}
-function makeGallery(g,x,z,side){
-  const w=10.6,d=5.8,h=2.82;
-  const floor=level2FloorTop;
-  const outerX=x+side*(w/2);
-  const innerX=x-side*(w/2);
-  // Floor edge / room platform.
-  B(w,.14,d,x,floor-.07,z,interiorWallMat,false);
-  // Outer wall and two side returns.
-  B(.20,h,d,outerX,floor+h/2,z,interiorWallMat);
-  B(w,.20,.20,x,floor+h/2,z-d/2,interiorWallMat);
-  B(w,.20,.20,x,floor+h/2,z+d/2,interiorWallMat);
-  // Inner wall split around a generous double door.
-  const sideDepth=(d-2.8)/2;
-  B(.20,h,sideDepth,innerX,floor+h/2,z-(2.8+sideDepth)/2,interiorWallMat);
-  B(.20,h,sideDepth,innerX,floor+h/2,z+(2.8+sideDepth)/2,interiorWallMat);
-
-  B(1.22,2.28,.12,innerX, floor+1.14,z-.68,walnutMat,false);
-  B(1.22,2.28,.12,innerX, floor+1.14,z+.68,walnutMat,false);
-
-  add(new THREE.PlaneGeometry(4.2,.86),
-      new THREE.MeshBasicMaterial({map:doorPlaqueTexture(g),side:THREE.DoubleSide}),
-      [innerX-side*.10,floor+2.45,z],[0,side*Math.PI/2,0],false);
-
-  // Interior displays sit against the outer wall, leaving a clear 2.9m gallery aisle.
-  for(const dz of [-1.55,0,1.55]){
-    B(1.65,.14,.92,x+side*.9,floor+.07,z+dz,interiorTrimMat,false);
-    B(1.4,.82,.72,x+side*.9,floor+.55,z+dz,displayGlassMat,false);
-    B(1.08,.05,.56,x+side*.9,floor+.98,z+dz,mat.gold,false);
-  }
-}
-const zRows=[-2,-9,-16,-23,-30];
-for(let i=0;i<5;i++){
-  makeGallery(galleryData[i],-18,zRows[i],-1);
-  makeGallery(galleryData[i+5],18,zRows[i],1);
-}
-
-// Level 2 wayfinding and history wall.
-const wayCanvas=document.createElement("canvas");wayCanvas.width=1100;wayCanvas.height=190;
-const wayctx=wayCanvas.getContext("2d");wayctx.fillStyle="#332920";wayctx.fillRect(0,0,1100,190);wayctx.textAlign="center";
-wayctx.fillStyle="#f0dda8";wayctx.font='700 46px "Microsoft JhengHei","Noto Sans TC","Noto Serif TC",sans-serif';wayctx.fillText("LEVEL 2 · 展廳",550,80);
-wayctx.fillStyle="#c8cdd2";wayctx.font="19px Arial,sans-serif";wayctx.fillText("十個歷史展廳　／　HISTORY GALLERIES",550,124);
-add(new THREE.PlaneGeometry(6.8,1.16),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(wayCanvas),side:THREE.DoubleSide}),[stairX,level2FloorTop+1.7,stairStartZ-stairSteps*stairRun-.25],[0,Math.PI,0],false);
-
-const historyMat=new THREE.MeshStandardMaterial({color:0x7c6a58,roughness:.62});
-B(20.0,4.4,.16,2.0,8.0,.72,historyMat,false);
-B(18.0,3.8,.08,2.0,8.0,.60,mat.gold,false);
-for(let i=0;i<8;i++)B(1.5,.28,.04,-5.5+i*2.1,7.15,.52,new THREE.MeshBasicMaterial({color:0xcbb06a}),false);
-
-// Level 2 circulation markers.
-for(const z of [-2,-9,-16,-23,-30])B(4.2,.035,.06,0,level2FloorTop+.14,z,mat.gold,false);
-
-// ---------- formal arrival sequence ----------
-const carpetMat=new THREE.MeshStandardMaterial({color:0x74171c,roughness:.76,metalness:.02});
-B(6.4,.035,13.8,0,.70,20.9,carpetMat,false);
-for(let i=0;i<5;i++){
-  const z=15.05-i*.86;
-  const top=groundFloorTop-(4-i)*.12;
-  B(11.6-i*.32,.12,.86,0,top-.06,z,mat.concrete2);
-  B(6.4,.035,.84,0,top+.035,z,carpetMat,false);
-}
-B(6.4,.04,1.55,0,groundFloorTop,10.95,carpetMat,false);
-B(6.4,.04,5.2,0,groundFloorTop,8.35,carpetMat,false);
-B(13.6,.08,7.8,0,groundFloorTop,6.55,mat.concreteLight,false);
-B(13.0,.08,7.0,0,groundFloorTop,9.15,mat.concreteLight,false);
-
-// ---------- exhibition hotspots ----------
-const hotspots=[
- {p:new THREE.Vector3(-18,1.5,-5),title:"黃名宮廷文物",text:"一樓特色展區，展示黃名帝國宮廷與歷史文物。"},
- {p:new THREE.Vector3(-18,1.5,-16),title:"帝國早期文獻",text:"一樓特色展區，展示帝國早期文獻與檔案。"},
- {p:new THREE.Vector3(-18,1.5,-27),title:"國家文化收藏",text:"一樓特色展區，展示國家文化與社會記憶。"},
- {p:new THREE.Vector3(18,1.5,-5),title:"黃名外交史料",text:"一樓特色展區，展示外交、條約與國際往來史料。"},
- {p:new THREE.Vector3(18,1.5,-16),title:"微國珍藏展",text:"一樓特色展區，展示世界微型國家的文化與收藏。"},
- {p:new THREE.Vector3(18,1.5,-27),title:"帝國現代史",text:"一樓特色展區，展示近現代黃名帝國發展歷程。"},
- {p:new THREE.Vector3(0,1.45,-13.8),title:"中央中庭",text:"中央開放中庭是全館的視覺核心，二樓展廳環繞於兩側。"},
- {p:new THREE.Vector3(10,1.5,3.55),title:"服務台",text:"入口大堂的服務與導覽櫃台。"},
- {p:new THREE.Vector3(-18,7.8,-2),title:"帝國紀念廳",text:"二樓展廳。"},
- {p:new THREE.Vector3(-18,7.8,-9),title:"黃名歷史廳",text:"二樓展廳。"},
- {p:new THREE.Vector3(-18,7.8,-16),title:"微國歷史廳",text:"二樓展廳。"},
- {p:new THREE.Vector3(-18,7.8,-23),title:"黃名專題廳",text:"二樓展廳。"},
- {p:new THREE.Vector3(-18,7.8,-30),title:"黃名文物廳",text:"二樓展廳。"},
- {p:new THREE.Vector3(18,7.8,-2),title:"微國專題廳",text:"二樓展廳。"},
- {p:new THREE.Vector3(18,7.8,-9),title:"微國文物廳",text:"二樓展廳。"},
- {p:new THREE.Vector3(18,7.8,-16),title:"歷史回顧廳",text:"二樓展廳。"},
- {p:new THREE.Vector3(18,7.8,-23),title:"文化景區中心",text:"二樓展廳。"},
- {p:new THREE.Vector3(18,7.8,-30),title:"歷史文物局辦公室",text:"二樓展廳。"}
-];
-const ringMat=new THREE.MeshBasicMaterial({color:0xd1af63});
-hotspots.forEach(h=>{
-  const r=new THREE.Mesh(new THREE.RingGeometry(.72,.82,36),ringMat);
-  r.rotation.x=-Math.PI/2;
-  r.position.set(h.p.x,h.p.y<5?.725:level2FloorTop+.13,h.p.z);
-  r.userData=h;
-  scene.add(r);
-});
+function stairProgress(x,z){if(x>stairX-2.8&&x<stairX+2.8&&z<=stairStartZ&&z>=stairStartZ-stairSteps*stairRun)return Math.max(0,Math.min(1,(stairStartZ-z)/(stairSteps*stairRun)));return -1}
+function entryHeight(x,z){if(Math.abs(x)>6.2)return -1;for(let i=0;i<5;i++){const cz=15.05-i*.86;if(Math.abs(z-cz)<=.43&&Math.abs(x)<=((11.6-i*.32)/2))return(i+1)*.12+.035}if(Math.abs(x)<=6.5&&z>=5.3&&z<=11.9)return groundFloorTop;return -1}
+let currentLevel=0;
+function groundHeight(x,z){const p=stairProgress(x,z);if(p>=0){if(p>.92)currentLevel=1;if(p<.08)currentLevel=0;return .56+p*(level2Y-.56)}if(currentLevel===1)return level2Y;const e=entryHeight(x,z);if(e>=0)return e;if(z>9.2||x<-28||x>28)return .07;return groundFloorTop}
+function upperWalk(x,z){if(x<-7.15||x>7.15)return x>-28.2&&x<28.2&&z>-33&&z<5;return(z>-4.3&&z<3.8)||(z>-34&&z<-26)}
+function blockedAt(x,z){if(currentLevel===1&&stairProgress(x,z)<0&&!upperWalk(x,z))return true;return Math.abs(x)>29||z<-37||z>12}
+function moveWithCollision(dx,dz){const nx=camera.position.x+dx,nz=camera.position.z+dz;const portal=(camera.position.z>7&&camera.position.z<24&&Math.abs(camera.position.x)<8.3)||(nz>7&&nz<24&&Math.abs(nx)<8.3);if(portal){camera.position.x=THREE.MathUtils.clamp(nx,-8.15,8.15);camera.position.z=nz;return}if(!blockedAt(nx,camera.position.z))camera.position.x=nx;if(!blockedAt(camera.position.x,nz))camera.position.z=nz}
 
 // Roof garden / upper exterior retained unchanged.
 createGrassSurface(52,38,0,9.755,-13);
@@ -641,351 +385,23 @@ B(54,1.0,1,0,10.25,-31.2,mat.black);
 B(1,1,38,-26.5,10.25,-13,mat.black);
 B(1,1,38,26.5,10.25,-13,mat.black);
 
-// Automatic sensor door controller.
-function updateEntrance(dt){
-  const dz=Math.abs(camera.position.z-10.8);
-  const dx=Math.abs(camera.position.x);
-  const detected=dz<12.5 && dx<8.5;
-  for(const d of entranceDoors){
-    const target=d.userData.closedX + (detected ? d.userData.side*3.75 : 0);
-    d.position.x += THREE.MathUtils.clamp(target-d.position.x,-3.6*dt,3.6*dt);
-  }
-  const pulse=detected ? .78+.18*Math.sin(performance.now()*.009) : .32;
-  for(const l of entranceLights)if(l.material?.color)l.material.color.setScalar(pulse);
-}
-
-// Human-scale floor elevations: footsteps and ramps create real vertical movement.
-let currentLevel=0;
-function stairProgress(x,z){
-  if(x>stairX-2.7&&x<stairX+2.7&&z<=stairStartZ&&z>=stairStartZ-stairSteps*stairRun){
-    return Math.max(0,Math.min(1,(stairStartZ-z)/(stairSteps*stairRun)));
-  }
-  return -1;
-}
-function entranceStepHeight(x,z){
-  if(Math.abs(x)>5.9)return -1;
-  for(let i=0;i<5;i++){
-    const centerZ=15.05-i*.86;
-    const halfZ=.43;
-    const width=(11.6-i*.32)/2;
-    if(Math.abs(z-centerZ)<=halfZ && Math.abs(x)<=width){
-      return (i+1)*.12+.035;
-    }
-  }
-  // The red-carpet vestibule is a single raised landing.
-  if(Math.abs(x)<=6.5 && z>=5.35 && z<=11.9)return groundFloorTop;
-  return -1;
-}
-function groundHeight(x,z){
-  const p=stairProgress(x,z);
-  if(p>=0){
-    if(currentLevel===0&&p>.92)currentLevel=1;
-    if(currentLevel===1&&p<.08)currentLevel=0;
-    return .56+p*(level2Y-.56);
-  }
-
-  const entranceH=entranceStepHeight(x,z);
-  if(entranceH>=0)return entranceH;
-
-  if(currentLevel===1)return level2Y;
-
-  // Entire ground-floor interior uses the single finished-floor elevation.
-  if(z>9.2 || x<-28 || x>28)return .07;
-
-  return groundFloorTop;
-}
-function upperFloorWalkable(x,z){
-  // Side wings are continuous from the outer walls to the atrium edge.
-  if(x<-7.15||x>7.15)return x>-28.2&&x<28.2&&z>-33.0&&z<5.0;
-  // Only the two bridges cross the central atrium.
-  return (z>=-4.25&&z<=3.75)||(z>=-34.0&&z<=-26.0);
-}
-
-// Collision boundaries: solve X/Z separately so the camera cannot tunnel through walls.
-const colliders=[
- {minX:-29.6,maxX:-28.7,minZ:-37,maxZ:11.0},
- {minX:28.7,maxX:29.6,minZ:-37,maxZ:11.0},
- {minX:-29,maxX:29,minZ:-37.6,maxZ:-36.7},
- // Front facade: only the central doorway remains open.
- {minX:-29,maxX:-7.25,minZ:10.65,maxZ:11.18},
- {minX:7.25,maxX:29,minZ:10.65,maxZ:11.18}
-];
-for(const z of zRows){
-  colliders.push({minX:-23.5,maxX:-22.9,minZ:z-3.15,maxZ:z+3.15});
-  colliders.push({minX:22.9,maxX:23.5,minZ:z-3.15,maxZ:z+3.15});
-  colliders.push({minX:-23.5,maxX:-12.6,minZ:z-3.18,maxZ:z-2.95});
-  colliders.push({minX:12.6,maxX:23.5,minZ:z-3.18,maxZ:z-2.95});
-  colliders.push({minX:-12.9,maxX:-12.25,minZ:z-3.15,maxZ:z-1.42});
-  colliders.push({minX:-12.9,maxX:-12.25,minZ:z+1.42,maxZ:z+3.15});
-  colliders.push({minX:12.25,maxX:12.9,minZ:z-3.15,maxZ:z-1.42});
-  colliders.push({minX:12.25,maxX:12.9,minZ:z+1.42,maxZ:z+3.15});
-}
-function insideRect(x,z,r){return x>r.minX&&x<r.maxX&&z>r.minZ&&z<r.maxZ;}
-function blockedAt(x,z){
-  if(currentLevel===1&&stairProgress(x,z)<0&&!upperFloorWalkable(x,z))return true;
-  for(const r of colliders)if(x>r.minX&&x<r.maxX&&z>r.minZ&&z<r.maxZ)return true;
-  // Automatic doors are visual/animated only. Never trap the player at the threshold.
-  // The facade colliders above already define the actual entrance opening.
-
-  return false;
-}
-function moveWithCollision(dx,dz){
-  const nx=camera.position.x+dx;
-  const nz=camera.position.z+dz;
-
-  // Main entrance corridor: force a clear path through the original center opening.
-  // This is deliberately checked before general collision so the old facade never
-  // traps the camera outside the museum.
-  const portalNow =
-    camera.position.z > 7.0 && camera.position.z < 24.0 &&
-    Math.abs(camera.position.x) < 8.2;
-
-  const portalNext =
-    nz > 7.0 && nz < 24.0 &&
-    Math.abs(nx) < 8.2;
-
-  if(portalNow || portalNext){
-    camera.position.x = THREE.MathUtils.clamp(nx,-8.15,8.15);
-    camera.position.z = nz;
-    return;
-  }
-
-  if(!blockedAt(nx,camera.position.z)) camera.position.x=nx;
-  if(!blockedAt(camera.position.x,nz)) camera.position.z=nz;
-}
-
-function applyTimeMode(mode){
-  timeMode=mode;
-  const night=mode==="night";
-  if(night){
-    scene.background=nightSkyColor;
-    scene.backgroundIntensity=.72;
-    scene.environmentIntensity=.20;
-    scene.fog.color.set(0x030711);
-    key.intensity=.26;
-    fill.intensity=.08;
-    rim.intensity=.16;
-    stars.material.opacity=.92;
-    nightLights.forEach(l=>{l.intensity=l.color.r>.8?28:8;});
-    document.getElementById("timeBtn").textContent="切換至日景 · DAY";
-  }else{
-    scene.background=dayFallbackColor;
-    scene.backgroundIntensity=.66;
-    scene.environmentIntensity=.72;
-    scene.fog.color.set(0x080a0d);
-    key.intensity=2.25;
-    fill.intensity=.42;
-    rim.intensity=.30;
-    stars.material.opacity=0;
-    nightLights.forEach(l=>{l.intensity=0;});
-    document.getElementById("timeBtn").textContent="切換至夜景 · NIGHT";
-  }
-}
-document.getElementById("timeBtn").onclick=()=>applyTimeMode(timeMode==="day"?"night":"day");
-addEventListener("keydown",e=>{if(e.code==="KeyN")applyTimeMode(timeMode==="day"?"night":"day")});
-
-// ---------- EASY TOMORROW-STYLE WORLD CONTROLS ----------
-let yaw=0,pitch=0;
-let lookPointerId=null,lastLookX=0,lastLookY=0;
-let started=false;
-let verticalVelocity=0;
-let grounded=true;
-const keys=Object.create(null);
-const mobileMove={x:0,y:0};
+// ---------- EASY TOMORROW-STYLE CONTROLLER ----------
+function updateEntrance(dt){const dz=Math.abs(camera.position.z-10.8),dx=Math.abs(camera.position.x),open=dz<12.5&&dx<8.5;for(const d of entranceDoors){const target=d.userData.closedX+(open?d.userData.side*3.75:0);d.position.x+=THREE.MathUtils.clamp(target-d.position.x,-3.6*dt,3.6*dt)}}
+const gameClock=new THREE.Clock(),keys=Object.create(null),mobile={x:0,y:0};let yaw=0,pitch=0,vy=0,grounded=true,started=false,lookId=null,lx=0,ly=0;
 const canvas=renderer.domElement;
-canvas.tabIndex=0;
-
-function jump(){
-  if(!started||!grounded)return;
-  verticalVelocity=6.6;
-  grounded=false;
-}
-
-function adjustLook(dx,dy){
-  yaw-=dx*.0026;
-  pitch-=dy*.0022;
-  pitch=Math.max(-1.2,Math.min(1.2,pitch));
-}
-
-canvas.addEventListener("click",()=>{
-  if(!started||renderer.xr.isPresenting)return;
-  if(window.matchMedia("(pointer:fine)").matches){
-    canvas.requestPointerLock?.();
-  }else{
-    interact();
-  }
-});
-
-document.addEventListener("pointerlockchange",()=>{
-  canvas.style.cursor=document.pointerLockElement===canvas?"none":"crosshair";
-});
-
-document.addEventListener("mousemove",e=>{
-  if(document.pointerLockElement===canvas)adjustLook(e.movementX,e.movementY);
-});
-
-canvas.addEventListener("pointerdown",e=>{
-  if(!started||e.pointerType==="mouse")return;
-  lookPointerId=e.pointerId;
-  lastLookX=e.clientX;
-  lastLookY=e.clientY;
-  canvas.setPointerCapture?.(e.pointerId);
-});
-canvas.addEventListener("pointermove",e=>{
-  if(e.pointerId!==lookPointerId)return;
-  const dx=e.clientX-lastLookX,dy=e.clientY-lastLookY;
-  adjustLook(dx,dy);
-  lastLookX=e.clientX;lastLookY=e.clientY;
-});
-canvas.addEventListener("pointerup",e=>{
-  if(e.pointerId===lookPointerId)lookPointerId=null;
-});
-canvas.addEventListener("pointercancel",e=>{
-  if(e.pointerId===lookPointerId)lookPointerId=null;
-});
-
-addEventListener("keydown",e=>{
-  keys[e.code]=true;
-  if(["KeyW","KeyA","KeyS","KeyD","ShiftLeft","ShiftRight","ArrowUp","ArrowDown","ArrowLeft","ArrowRight","Space","KeyE","Enter"].includes(e.code))e.preventDefault();
-  if(e.code==="Space")jump();
-  if(e.code==="KeyE"||e.code==="Enter")interact();
-});
-addEventListener("keyup",e=>{keys[e.code]=false;});
-
-function bindJoystick(){
-  const zone=document.getElementById("joystick");
-  const stick=document.getElementById("stick");
-  if(!zone||!stick)return;
-  let active=false,pid=null;
-  const radius=38;
-  function update(e){
-    const r=zone.getBoundingClientRect();
-    const cx=r.left+r.width/2,cy=r.top+r.height/2;
-    let dx=e.clientX-cx,dy=e.clientY-cy;
-    const len=Math.hypot(dx,dy)||1;
-    if(len>radius){dx=dx/len*radius;dy=dy/len*radius;}
-    mobileMove.x=dx/radius;
-    mobileMove.y=dy/radius;
-    stick.style.transform="translate("+dx+"px,"+dy+"px)";
-  }
-  function stop(){
-    active=false;pid=null;mobileMove.x=0;mobileMove.y=0;
-    stick.style.transform="translate(0,0)";
-  }
-  zone.addEventListener("pointerdown",e=>{
-    active=true;pid=e.pointerId;zone.setPointerCapture?.(e.pointerId);update(e);
-  });
-  zone.addEventListener("pointermove",e=>{if(active&&e.pointerId===pid)update(e)});
-  zone.addEventListener("pointerup",stop);
-  zone.addEventListener("pointercancel",stop);
-}
-bindJoystick();
-
-const jumpBtn=document.getElementById("jumpBtn");
-if(jumpBtn)jumpBtn.addEventListener("pointerdown",e=>{e.preventDefault();jump()});
-
-function interact(){
-  if(!started)return;
-  const candidate=findNearestHotspot(true);
-  if(candidate){
-    const el=document.getElementById("info");
-    el.innerHTML="<strong>"+candidate.title+"</strong><br>"+candidate.text;
-    el.style.display="block";
-    clearTimeout(window.__inf);
-    window.__inf=setTimeout(()=>el.style.display="none",4200);
-  }
-}
-
-function findNearestHotspot(ahead=false){
-  const forward=new THREE.Vector3(0,0,-1).applyQuaternion(camera.quaternion).setY(0).normalize();
-  let best=null,bestScore=Infinity;
-  for(const h of hotspots){
-    const dx=h.p.x-camera.position.x,dz=h.p.z-camera.position.z;
-    const dist=Math.hypot(dx,dz);
-    if(dist>4.8)continue;
-    if(ahead){
-      const dir=new THREE.Vector3(dx,0,dz).normalize();
-      if(forward.dot(dir)<.12)continue;
-    }
-    const score=dist+(ahead?Math.max(0,1-forward.dot(new THREE.Vector3(dx,0,dz).normalize()))*2:0);
-    if(score<bestScore){best=h;bestScore=score;}
-  }
-  return best;
-}
-
-document.getElementById("startWorld").onclick=()=>{
-  started=true;
-  document.getElementById("startScreen").classList.add("hidden");
-  document.getElementById("panel").classList.remove("hidden");
-  document.getElementById("hint").classList.remove("hidden");
-  canvas.focus();
-  if(window.matchMedia("(pointer:fine)").matches)canvas.requestPointerLock?.();
-};
-
-document.getElementById("panel").classList.add("hidden");
-
-// ---------- immersive ----------
-const clock=new THREE.Clock();
-function animate(){
-  const dt=Math.min(clock.getDelta(),.045);
-  updateEntrance(dt);
-
-  if(!renderer.xr.isPresenting){
-    const f=new THREE.Vector3(Math.sin(yaw),0,Math.cos(yaw));
-    const r=new THREE.Vector3(Math.cos(yaw),0,-Math.sin(yaw));
-    const sp=(keys.ShiftLeft||keys.ShiftRight?6.2:3.2)*dt;
-    let inputX=0,inputY=0;
-    if(keys.KeyA||keys.ArrowLeft)inputX-=1;
-    if(keys.KeyD||keys.ArrowRight)inputX+=1;
-    if(keys.KeyW||keys.ArrowUp)inputY+=1;
-    if(keys.KeyS||keys.ArrowDown)inputY-=1;
-    inputX+=mobileMove.x;
-    inputY+=-mobileMove.y;
-    const inputLen=Math.hypot(inputX,inputY);
-    if(inputLen>1){inputX/=inputLen;inputY/=inputLen}
-    moveWithCollision((r.x*inputX-f.x*inputY)*sp,(r.z*inputX-f.z*inputY)*sp);
-
-    const floorY=groundHeight(camera.position.x,camera.position.z)+1.68;
-    if(started){
-      verticalVelocity-=18*dt;
-      camera.position.y+=verticalVelocity*dt;
-      if(camera.position.y<=floorY){
-        camera.position.y=floorY;
-        verticalVelocity=0;
-        grounded=true;
-      }else{
-        grounded=false;
-      }
-    }else{
-      camera.position.y+=((floorY)-camera.position.y)*Math.min(1,dt*10);
-      grounded=true;
-    }
-    camera.position.x=Math.max(-37,Math.min(37,camera.position.x));
-    camera.position.z=Math.max(-74,Math.min(41,camera.position.z));
-    camera.rotation.set(pitch,yaw,0,"YXZ");
-  }
-
-  const near=findNearestHotspot(true);
-  const prompt=document.getElementById("interaction");
-  if(started&&near){
-    prompt.textContent="E  互動｜"+near.title;
-    prompt.classList.add("visible");
-  }else{
-    prompt.classList.remove("visible");
-  }
-
-  const t=performance.now()*.001;
-  scene.traverse(o=>{
-    if(o.userData&&o.userData.led&&o.material&&o.material.color){
-      const n=o.position.x*7+o.position.y*3;
-      const v=.12+.18*(.5+.5*Math.sin(t*1.25+n));
-      o.material.color.setHSL(.56,.28,.08+v);
-    }
-  });
-  renderer.render(scene,camera);
-}
-applyTimeMode("day");
-renderer.setAnimationLoop(animate);
-addEventListener("resize",()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
+function nearestSpot(){const f=new THREE.Vector3(0,0,-1).applyQuaternion(camera.quaternion).setY(0).normalize();let best=null,sc=99;for(const h of spots){const dx=h.x-camera.position.x,dz=h.z-camera.position.z,d=Math.hypot(dx,dz);if(d>4.2)continue;const dir=new THREE.Vector3(dx,0,dz).normalize();if(d>.7&&f.dot(dir)<0)continue;const score=d+(1-f.dot(dir));if(score<sc){sc=score;best=h}}return best}
+function interact(){const h=nearestSpot();if(!h)return;const info=document.getElementById("info");info.innerHTML="<strong>"+(h.secret?"EASTER EGG":"MUSEUM")+"</strong><h3>"+h.t+"</h3><p>"+h.d+"</p>";info.style.display="block";if(h.secret&&!h.found){h.found=true;const toast=document.getElementById("toast");toast.textContent="發現隱藏彩蛋";toast.classList.add("show");setTimeout(()=>toast.classList.remove("show"),1500)}}
+function jump(){if(started&&grounded){vy=6.4;grounded=false}}
+function look(dx,dy){yaw-=dx*.0026;pitch=Math.max(-1.18,Math.min(1.18,pitch-dy*.0022))}
+document.getElementById("startWorld").onclick=()=>{started=true;document.getElementById("startScreen").classList.add("hidden");document.getElementById("panel").classList.remove("hidden");document.getElementById("hint").classList.remove("hidden");if(matchMedia("(pointer:fine)").matches)canvas.requestPointerLock?.()};
+document.addEventListener("mousemove",e=>{if(document.pointerLockElement===canvas)look(e.movementX,e.movementY)});canvas.addEventListener("click",()=>{if(started&&matchMedia("(pointer:fine)").matches)canvas.requestPointerLock?.()});
+canvas.addEventListener("pointerdown",e=>{if(!started||e.pointerType==="mouse")return;lookId=e.pointerId;lx=e.clientX;ly=e.clientY;canvas.setPointerCapture?.(e.pointerId)});canvas.addEventListener("pointermove",e=>{if(e.pointerId!==lookId)return;look(e.clientX-lx,e.clientY-ly);lx=e.clientX;ly=e.clientY});canvas.addEventListener("pointerup",()=>lookId=null);canvas.addEventListener("pointercancel",()=>lookId=null);
+addEventListener("keydown",e=>{keys[e.code]=true;if(["KeyW","KeyA","KeyS","KeyD","ShiftLeft","ShiftRight","Space","KeyE"].includes(e.code))e.preventDefault();if(e.code==="Space")jump();if(e.code==="KeyE")interact()});addEventListener("keyup",e=>keys[e.code]=false);
+const zone=document.getElementById("joystick"),stick=document.getElementById("stick");if(zone){let active=false,pid=null;const radius=38;const mv=e=>{const r=zone.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;let dx=e.clientX-cx,dy=e.clientY-cy,l=Math.hypot(dx,dy)||1;if(l>radius){dx=dx/l*radius;dy=dy/l*radius}mobile.x=dx/radius;mobile.y=dy/radius;stick.style.transform="translate("+dx+"px,"+dy+"px)"};const stop=()=>{active=false;pid=null;mobile.x=0;mobile.y=0;stick.style.transform="translate(0,0)"};zone.addEventListener("pointerdown",e=>{active=true;pid=e.pointerId;zone.setPointerCapture?.(e.pointerId);mv(e)});zone.addEventListener("pointermove",e=>{if(active&&e.pointerId===pid)mv(e)});zone.addEventListener("pointerup",stop);zone.addEventListener("pointercancel",stop)}
+document.getElementById("jumpBtn").addEventListener("pointerdown",e=>{e.preventDefault();jump()});
+function applyTimeMode(mode){timeMode=mode;const night=mode==="night";scene.background=night?nightSkyColor:dayFallbackColor;key.intensity=night?.24:2.25;fill.intensity=night?.08:.42;rim.intensity=night?.14:.30;stars.material.opacity=night?.95:0;nightLights.forEach(l=>l.intensity=night?(l.color.r>.8?24:7):0);document.getElementById("timeBtn").textContent=night?"切換至日景 · DAY":"切換至夜景 · NIGHT"}
+document.getElementById("timeBtn").onclick=()=>applyTimeMode(timeMode==="day"?"night":"day");
+function animate(){const dt=Math.min(gameClock.getDelta(),.045);updateEntrance(dt);if(!renderer.xr.isPresenting){const f=new THREE.Vector3(Math.sin(yaw),0,Math.cos(yaw)),r=new THREE.Vector3(Math.cos(yaw),0,-Math.sin(yaw));let ix=0,iy=0;if(keys.KeyA)ix--;if(keys.KeyD)ix++;if(keys.KeyW)iy++;if(keys.KeyS)iy--;ix+=mobile.x;iy-=mobile.y;const l=Math.hypot(ix,iy)||1;if(l>1){ix/=l;iy/=l}const sp=(keys.ShiftLeft||keys.ShiftRight?6.2:3.2)*dt;moveWithCollision((r.x*ix-f.x*iy)*sp,(r.z*ix-f.z*iy)*sp);const floorY=groundHeight(camera.position.x,camera.position.z)+1.68;if(started){vy-=18*dt;camera.position.y+=vy*dt;if(camera.position.y<=floorY){camera.position.y=floorY;vy=0;grounded=true}else grounded=false}else camera.position.y+=(floorY-camera.position.y)*Math.min(1,dt*10);camera.rotation.set(pitch,yaw,0,"YXZ")}const h=nearestSpot(),prompt=document.getElementById("interaction");if(started&&h){prompt.textContent="E 互動｜"+h.t;prompt.classList.add("visible")}else prompt.classList.remove("visible");const t=performance.now()*.001;centralLight.intensity=46+8*Math.sin(t*1.4);rings.forEach((r,i)=>r.material.opacity=.55+.35*Math.sin(t*2+i));renderer.render(scene,camera)}
+applyTimeMode("day");renderer.setAnimationLoop(animate);addEventListener("resize",()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
 </script>
 </body></html>
