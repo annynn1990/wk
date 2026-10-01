@@ -188,27 +188,46 @@ for(const x of [-8,8]){addBox(2,.16,.45,x,.76,10,M.trunk);addBox(.12,.6,.12,x-.7
 
 // Cartoon car in right foreground.
 const car=new THREE.Group();scene.add(car);car.position.set(8,.55,17);
+avatar.renderOrder=20;
+avatar.traverse(function(o){o.frustumCulled=false});
+for(const n of npcs){n.obj.renderOrder=18;n.obj.traverse(function(o){o.frustumCulled=false})}
+
 const cb=new THREE.Mesh(new THREE.BoxGeometry(4.1,.8,1.7),new THREE.MeshStandardMaterial({color:0x4e89c8,roughness:.32,metalness:.15,flatShading:true}));cb.castShadow=true;car.add(cb);
 const roof=new THREE.Mesh(new THREE.BoxGeometry(2.2,.62,1.35),M.window);roof.position.y=.65;roof.castShadow=true;car.add(roof);
 for(const sx of [-1.5,1.5])for(const sy of [-.78,.78]){const w=new THREE.Mesh(new THREE.CylinderGeometry(.4,.4,.24,16),M.dark);w.rotation.z=Math.PI/2;w.position.set(sx,-.47,sy);w.castShadow=true;car.add(w)}
 
-// ---------- Player ----------
-const avatar=new THREE.Group();scene.add(avatar);
-function av(g,m,x,y,z){const o=new THREE.Mesh(g,m);o.position.set(x,y,z);o.castShadow=true;avatar.add(o);return o}
-av(new THREE.CapsuleGeometry(.4,.78,6,10),M.shirt,0,1.22,0);
-av(new THREE.SphereGeometry(.35,18,14),M.skin,0,1.98,0);
-av(new THREE.CapsuleGeometry(.12,.65,5,8),M.pants,-.19,.57,0);
-av(new THREE.CapsuleGeometry(.12,.65,5,8),M.pants,.19,.57,0);
-const armL=av(new THREE.CapsuleGeometry(.11,.6,5,8),M.shirt,-.48,1.2,0),armR=av(new THREE.CapsuleGeometry(.11,.6,5,8),M.shirt,.48,1.2,0);
-av(new THREE.BoxGeometry(.27,.12,.45),M.shoe,-.19,.17,-.08);av(new THREE.BoxGeometry(.27,.12,.45),M.shoe,.19,.17,-.08);
-av(new THREE.BoxGeometry(.72,.08,.34),M.dark,0,2.19,0);
+// ---------- Characters ----------
+function makeCharacter(shirtMat,pantsMat,scale=1){
+  const g=new THREE.Group();
+  function cp(geo,mat,x,y,z){
+    const o=new THREE.Mesh(geo,mat);
+    o.position.set(x,y,z);o.castShadow=true;o.receiveShadow=true;g.add(o);return o;
+  }
+  const head=cp(new THREE.SphereGeometry(.34,18,14),M.skin,0,1.98,0);
+  cp(new THREE.BoxGeometry(.72,.08,.34),M.dark,0,2.22,0);
+  const body=cp(new THREE.CapsuleGeometry(.40,.78,6,10),shirtMat,0,1.22,0);
+  const lArm=cp(new THREE.CapsuleGeometry(.11,.60,5,8),shirtMat,-.48,1.20,0);
+  const rArm=cp(new THREE.CapsuleGeometry(.11,.60,5,8),shirtMat,.48,1.20,0);
+  const lLeg=cp(new THREE.CapsuleGeometry(.13,.64,5,8),pantsMat,-.19,.55,0);
+  const rLeg=cp(new THREE.CapsuleGeometry(.13,.64,5,8),pantsMat,.19,.55,0);
+  cp(new THREE.BoxGeometry(.27,.12,.45),M.shoe,-.19,.17,-.08);
+  cp(new THREE.BoxGeometry(.27,.12,.45),M.shoe,.19,.17,-.08);
+  g.scale.setScalar(scale);
+  g.userData.lArm=lArm;g.userData.rArm=rArm;g.userData.lLeg=lLeg;g.userData.rLeg=rLeg;
+  return g;
+}
 
-// Camera/world starting composition like reference: character foreground, road into center.
-avatar.position.set(0,0.02,21);
-let camYaw=0,camPitch=.30,camDistance=8.7;
-camera.position.set(0,4.1,29.2);
-camera.lookAt(0,1.3,8);
+const avatar=makeCharacter(M.shirt,M.pants,1);
+scene.add(avatar);
+avatar.position.set(0,.02,21);
 
+const npcs=[
+  {obj:makeCharacter(new THREE.MeshStandardMaterial({color:0xf0b3a6,roughness:.82,flatShading:true}),new THREE.MeshStandardMaterial({color:0x5b467f,roughness:.84,flatShading:true}),.92),x:-6,z:8,turn:.25,phase:0},
+  {obj:makeCharacter(new THREE.MeshStandardMaterial({color:0xd9f0d9,roughness:.82,flatShading:true}),new THREE.MeshStandardMaterial({color:0x4f6d54,roughness:.84,flatShading:true}),.96),x:7,z:0,turn:-.35,phase:1.7},
+  {obj:makeCharacter(new THREE.MeshStandardMaterial({color:0xf0dfb0,roughness:.82,flatShading:true}),new THREE.MeshStandardMaterial({color:0x496788,roughness:.84,flatShading:true}),.90),x:-7,z:-18,turn:.15,phase:3.1},
+  {obj:makeCharacter(new THREE.MeshStandardMaterial({color:0xd6e2f4,roughness:.82,flatShading:true}),new THREE.MeshStandardMaterial({color:0x6d4e4a,roughness:.84,flatShading:true}),.98),x:8,z:-29,turn:-.1,phase:4.6}
+];
+for(const n of npcs){n.obj.position.set(n.x,.02,n.z);n.obj.rotation.y=n.turn;scene.add(n.obj)}
 // ---------- Colliders ----------
 const colliders=[
  [-31,-15,-4,14],[-49,-33,-8,6],[-67,-51,-10,2],
@@ -349,6 +368,15 @@ function loop(){
  const pr=document.getElementById("prompt");
  if(nearest){pr.textContent="E  查看 · "+nearest.name;pr.classList.add("promptOn")}else pr.classList.remove("promptOn");
  updateMap();
+
+ const tNow=performance.now()*.001;
+ for(let ni=0;ni<npcs.length;ni++){
+   const n=npcs[ni];
+   const w=Math.sin(tNow*1.8+n.phase)*.055;
+   n.obj.position.y=.02+Math.abs(Math.sin(tNow*1.15+n.phase))*.018;
+   n.obj.userData.lArm.rotation.z=.14+w;
+   n.obj.userData.rArm.rotation.z=-.14-w;
+ }
  renderer.render(scene,camera);
 }
 renderer.setAnimationLoop(loop);
