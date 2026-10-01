@@ -19,7 +19,7 @@
 @media(max-width:760px){#brand{left:12px;top:12px}.brandZh{font-size:17px}.brandEn{display:none}#switcher{top:10px}#bubble{right:9px;bottom:103px;width:166px}#map{left:9px;bottom:10px;width:132px;height:95px}#controls{bottom:10px}#prompt{bottom:160px}.grid{grid-template-columns:1fr 1fr}#mobile{display:block}}
 </style>
 </head>
-<body>
+<body><div id="threeLoading" style="position:fixed;z-index:9998;inset:0;display:flex;align-items:center;justify-content:center;background:#9bc7eb;color:#24435e;font:14px Arial,'Microsoft JhengHei',sans-serif">3D 世界載入中…</div>
 <div id="bootError" style="display:none;position:fixed;z-index:9999;inset:0;background:#f4f7fa;color:#22384d;padding:40px;font:14px/1.8 Arial,'Microsoft JhengHei',sans-serif"><div style="max-width:760px;margin:8vh auto;padding:28px;background:#fff;border:1px solid #d9e3ea;border-radius:18px;box-shadow:0 20px 70px #23445a22"><strong style="font-size:20px">3D 世界啟動失敗</strong><pre id="bootErrorText" style="white-space:pre-wrap;margin-top:15px;background:#f3f6f8;padding:15px;border-radius:10px;color:#9b3342"></pre></div></div>
 <script>
 (function(){
@@ -42,9 +42,21 @@
 <div id="modal"><div class="card"><div class="cardHead"><div><div class="eyebrow">WONGMING EMPIRE · STREET DISTRICT</div><h2 id="modalTitle">黃名歷史展區</h2><p id="modalText">從 3D 街區進入不同歷史地標。</p></div><button class="close" id="closeModal">×</button></div><div class="grid" id="grid"></div></div></div>
 <div id="mobile"><div class="joy" id="joy"><div class="stick" id="stick"></div></div><button class="jump" id="jump">↑</button></div>
 
-<script type="module">
-import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.180.0/+esm";
-
+<script>
+(function(){
+  function fail(err){
+    var box=document.getElementById("bootError"),txt=document.getElementById("bootErrorText"),loading=document.getElementById("threeLoading");
+    if(loading)loading.style.display="none";
+    if(!box)return;
+    var msg=err&&err.message?err.message:String(err||"未知錯誤");
+    if(err&&err.stack)msg+="\n\n"+err.stack;
+    txt.textContent=msg;
+    box.style.display="block";
+  }
+  import("https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js")
+    .then(function(THREE){
+      var loading=document.getElementById("threeLoading");if(loading)loading.style.display="none";
+      try{
 const scene=new THREE.Scene();
 const daySky=new THREE.Color(0x9bc7eb),nightSky=new THREE.Color(0x162845);
 scene.background=daySky.clone();
@@ -375,6 +387,31 @@ function loop(){
  nearest=null;let nearestDist=999;
  for(const lm of landmarks){
   const d=Math.hypot(lm.x-avatar.position.x,lm.z-avatar.position.z);
+  lm.marker.scale.setScalar(.82+.14*Math.sin(performance.now()*.003));
+  if(d<4.6&&d<nearestDist){nearest=lm;nearestDist=d}
+ }
+ const pr=document.getElementById("prompt");
+ if(nearest){pr.textContent="E  查看 · "+nearest.name;pr.classList.add("promptOn")}else pr.classList.remove("promptOn");
+ updateMap();
+
+ const tNow=performance.now()*.001;
+ for(let ni=0;ni<npcs.length;ni++){
+   const n=npcs[ni];
+   const w=Math.sin(tNow*1.8+n.phase)*.055;
+   n.obj.position.y=.02+Math.abs(Math.sin(tNow*1.15+n.phase))*.018;
+   n.obj.userData.lArm.rotation.z=.14+w;
+   n.obj.userData.rArm.rotation.z=-.14-w;
+ }
+ renderer.render(scene,camera);
+}
+renderer.setAnimationLoop(loop);
+addEventListener("resize",()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
+
+      }catch(err){fail(err);}
+    })
+    .catch(fail);
+})();
+osition.z);
   lm.marker.scale.setScalar(.82+.14*Math.sin(performance.now()*.003));
   if(d<4.6&&d<nearestDist){nearest=lm;nearestDist=d}
  }
