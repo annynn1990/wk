@@ -20,6 +20,19 @@
 </style>
 </head>
 <body>
+<div id="bootError" style="display:none;position:fixed;z-index:9999;inset:0;background:#f4f7fa;color:#22384d;padding:40px;font:14px/1.8 Arial,'Microsoft JhengHei',sans-serif"><div style="max-width:760px;margin:8vh auto;padding:28px;background:#fff;border:1px solid #d9e3ea;border-radius:18px;box-shadow:0 20px 70px #23445a22"><strong style="font-size:20px">3D 世界啟動失敗</strong><pre id="bootErrorText" style="white-space:pre-wrap;margin-top:15px;background:#f3f6f8;padding:15px;border-radius:10px;color:#9b3342"></pre></div></div>
+<script>
+(function(){
+  function show(e){
+    var box=document.getElementById("bootError"),txt=document.getElementById("bootErrorText");
+    if(!box||!txt)return;
+    txt.textContent=(e&&e.message?e.message:String(e&&e.reason||e||"未知錯誤"))+(e&&e.filename?("\n\n"+e.filename+":"+e.lineno+":"+e.colno):"");
+    box.style.display="block";
+  }
+  window.addEventListener("error",show);
+  window.addEventListener("unhandledrejection",show);
+})();
+</script>
 <div id="switcher"><button id="streetBtn" class="active">Street</button><button id="viewBtn">View Exhibits</button></div>
 <div id="brand"><div class="brandZh">黃名帝國</div><div class="brandEn">WONGMING EMPIRE · 3D STREET</div></div>
 <div id="bubble"><div class="bubbleTitle">歡迎來到黃名帝國</div>沿著街區自由探索。走近地標後按 <b>E</b> 查看內容。</div>
@@ -30,7 +43,7 @@
 <div id="mobile"><div class="joy" id="joy"><div class="stick" id="stick"></div></div><button class="jump" id="jump">↑</button></div>
 
 <script type="module">
-import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js";
+import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.180.0/+esm";
 
 const scene=new THREE.Scene();
 const daySky=new THREE.Color(0x9bc7eb),nightSky=new THREE.Color(0x162845);
