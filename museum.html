@@ -1024,36 +1024,5 @@ function animate(){
 applyTimeMode("day");
 renderer.setAnimationLoop(animate);
 addEventListener("resize",()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
-// immersive
- const b=VRButton.createButton(renderer);
- b.style.position="fixed";b.style.bottom="48px";b.style.left="50%";b.style.transform="translateX(-50%)";b.style.zIndex="50";
- document.body.appendChild(b);b.click();
-};
-
-const clock=new THREE.Clock();
-function animate(){
- const dt=Math.min(clock.getDelta(),.045);
- updateEntrance(dt);
- if(!renderer.xr.isPresenting){
-   const f=new THREE.Vector3(Math.sin(yaw),0,Math.cos(yaw)),r=new THREE.Vector3(Math.cos(yaw),0,-Math.sin(yaw));
-   const sp=(keys.ShiftLeft?6.4:3.1)*dt;
-   let mdx=0,mdz=0;
-   if(keys.KeyW||keys.ArrowUp){mdx+=-f.x*sp;mdz+=-f.z*sp;}
-   if(keys.KeyS||keys.ArrowDown){mdx+=f.x*sp;mdz+=f.z*sp;}
-   if(keys.KeyA||keys.ArrowLeft){mdx+=-r.x*sp;mdz+=-r.z*sp;}
-   if(keys.KeyD||keys.ArrowRight){mdx+=r.x*sp;mdz+=r.z*sp;}
-   moveWithCollision(mdx,mdz);
-   const floorY=groundHeight(camera.position.x,camera.position.z);
-   camera.position.y += ((floorY+1.68)-camera.position.y)*Math.min(1,dt*10);
-   camera.position.x=Math.max(-37,Math.min(37,camera.position.x));camera.position.z=Math.max(-74,Math.min(41,camera.position.z));
-   camera.rotation.set(pitch,yaw,0,"YXZ");
- }
- const t=performance.now()*.001;
- scene.traverse(o=>{if(o.userData&&o.userData.led&&o.material&&o.material.color){const n=o.position.x*7+o.position.y*3;const v=.12+.18*(.5+.5*Math.sin(t*1.25+n));o.material.color.setHSL(.56,.28,.08+v)}});
- renderer.render(scene,camera);
-}
-applyTimeMode("day");
-renderer.setAnimationLoop(animate);
-addEventListener("resize",()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
 </script>
 </body></html>
