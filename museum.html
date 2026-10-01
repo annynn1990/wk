@@ -112,8 +112,8 @@ canvas{display:block;touch-action:none;cursor:crosshair}
     },{capture:true});
   });
 })();
-</script><script src="https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.min.js"></script>
-<script>
+</script><script type="module">
+import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js";
 
 const scene=new THREE.Scene();
 const nightSkyColor=new THREE.Color(0x02050d);
