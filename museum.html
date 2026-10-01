@@ -397,31 +397,236 @@ function blockedAt(x,z){
 }
 function moveWithCollision(dx,dz){const nx=camera.position.x+dx,nz=camera.position.z+dz;const portal=(camera.position.z>7&&camera.position.z<24&&Math.abs(camera.position.x)<8.3)||(nz>7&&nz<24&&Math.abs(nx)<8.3);if(portal){camera.position.x=THREE.MathUtils.clamp(nx,-8.15,8.15);camera.position.z=nz;return}if(!blockedAt(nx,camera.position.z))camera.position.x=nx;if(!blockedAt(camera.position.x,nz))camera.position.z=nz}
 
-// Roof garden / upper exterior retained unchanged.
-createGrassSurface(52,38,0,9.755,-13);
-for(let x=-20;x<=20;x+=8)for(let z=-26;z<=0;z+=8)C(.65,1.0,x,10.45,z,mat.ceramic,20);
-B(54,1.0,1,0,10.25,5.2,mat.black);
-B(54,1.0,1,0,10.25,-31.2,mat.black);
-B(1,1,38,-26.5,10.25,-13,mat.black);
-B(1,1,38,26.5,10.25,-13,mat.black);
 
-// ---------- EASY TOMORROW-STYLE CONTROLLER ----------
-function updateEntrance(dt){const dz=Math.abs(camera.position.z-10.8),dx=Math.abs(camera.position.x),open=dz<12.5&&dx<8.5;for(const d of entranceDoors){const target=d.userData.closedX+(open?d.userData.side*3.75:0);d.position.x+=THREE.MathUtils.clamp(target-d.position.x,-3.6*dt,3.6*dt)}}
-const gameClock=new THREE.Clock(),keys=Object.create(null),mobile={x:0,y:0};let yaw=0,pitch=0,vy=0,grounded=true,started=false,lookId=null,lx=0,ly=0;
-const canvas=renderer.domElement;
-function nearestSpot(){const f=new THREE.Vector3(0,0,-1).applyQuaternion(camera.quaternion).setY(0).normalize();let best=null,sc=99;for(const h of spots){const dx=h.x-camera.position.x,dz=h.z-camera.position.z,d=Math.hypot(dx,dz);if(d>4.2)continue;const dir=new THREE.Vector3(dx,0,dz).normalize();if(d>.7&&f.dot(dir)<0)continue;const score=d+(1-f.dot(dir));if(score<sc){sc=score;best=h}}return best}
-function interact(){const h=nearestSpot();if(!h)return;const info=document.getElementById("info");info.innerHTML="<strong>"+(h.secret?"EASTER EGG":"MUSEUM")+"</strong><h3>"+h.t+"</h3><p>"+h.d+"</p>";info.style.display="block";if(h.secret&&!h.found){h.found=true;const toast=document.getElementById("toast");toast.textContent="發現隱藏彩蛋";toast.classList.add("show");setTimeout(()=>toast.classList.remove("show"),1500)}}
-function jump(){if(started&&grounded){vy=6.4;grounded=false}}
-function look(dx,dy){yaw-=dx*.0026;pitch=Math.max(-1.18,Math.min(1.18,pitch-dy*.0022))}
-document.getElementById("startWorld").onclick=()=>{started=true;document.getElementById("startScreen").classList.add("hidden");document.getElementById("panel").classList.remove("hidden");document.getElementById("hint").classList.remove("hidden");canvas.tabIndex=0;canvas.focus();if(matchMedia("(pointer:fine)").matches)canvas.requestPointerLock?.()};
-document.addEventListener("mousemove",e=>{if(document.pointerLockElement===canvas)look(e.movementX,e.movementY)});canvas.addEventListener("click",()=>{if(started&&matchMedia("(pointer:fine)").matches)canvas.requestPointerLock?.()});
-canvas.addEventListener("pointerdown",e=>{if(!started||e.pointerType==="mouse")return;lookId=e.pointerId;lx=e.clientX;ly=e.clientY;canvas.setPointerCapture?.(e.pointerId)});canvas.addEventListener("pointermove",e=>{if(e.pointerId!==lookId)return;look(e.clientX-lx,e.clientY-ly);lx=e.clientX;ly=e.clientY});canvas.addEventListener("pointerup",()=>lookId=null);canvas.addEventListener("pointercancel",()=>lookId=null);
-addEventListener("keydown",e=>{keys[e.code]=true;if(["KeyW","KeyA","KeyS","KeyD","ShiftLeft","ShiftRight","Space","KeyE"].includes(e.code))e.preventDefault();if(e.code==="Space")jump();if(e.code==="KeyE")interact()});addEventListener("keyup",e=>keys[e.code]=false);
-const zone=document.getElementById("joystick"),stick=document.getElementById("stick");if(zone){let active=false,pid=null;const radius=38;const mv=e=>{const r=zone.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;let dx=e.clientX-cx,dy=e.clientY-cy,l=Math.hypot(dx,dy)||1;if(l>radius){dx=dx/l*radius;dy=dy/l*radius}mobile.x=dx/radius;mobile.y=dy/radius;stick.style.transform="translate("+dx+"px,"+dy+"px)"};const stop=()=>{active=false;pid=null;mobile.x=0;mobile.y=0;stick.style.transform="translate(0,0)"};zone.addEventListener("pointerdown",e=>{active=true;pid=e.pointerId;zone.setPointerCapture?.(e.pointerId);mv(e)});zone.addEventListener("pointermove",e=>{if(active&&e.pointerId===pid)mv(e)});zone.addEventListener("pointerup",stop);zone.addEventListener("pointercancel",stop)}
-document.getElementById("jumpBtn").addEventListener("pointerdown",e=>{e.preventDefault();jump()});
-function applyTimeMode(mode){timeMode=mode;const night=mode==="night";scene.background=night?nightSkyColor:dayFallbackColor;key.intensity=night?.24:2.25;fill.intensity=night?.08:.42;rim.intensity=night?.14:.30;stars.material.opacity=night?.95:0;nightLights.forEach(l=>l.intensity=night?(l.color.r>.8?24:7):0);document.getElementById("timeBtn").textContent=night?"切換至日景 · DAY":"切換至夜景 · NIGHT"}
-document.getElementById("timeBtn").onclick=()=>applyTimeMode(timeMode==="day"?"night":"day");
-function animate(){const dt=Math.min(gameClock.getDelta(),.045);updateEntrance(dt);if(!renderer.xr.isPresenting){const f=new THREE.Vector3(Math.sin(yaw),0,Math.cos(yaw)),r=new THREE.Vector3(Math.cos(yaw),0,-Math.sin(yaw));let ix=0,iy=0;if(keys.KeyA)ix--;if(keys.KeyD)ix++;if(keys.KeyW)iy++;if(keys.KeyS)iy--;ix+=mobile.x;iy-=mobile.y;const l=Math.hypot(ix,iy)||1;if(l>1){ix/=l;iy/=l}const sp=(keys.ShiftLeft||keys.ShiftRight?6.2:3.2)*dt;moveWithCollision((r.x*ix-f.x*iy)*sp,(r.z*ix-f.z*iy)*sp);const floorY=groundHeight(camera.position.x,camera.position.z)+1.68;if(started){vy-=18*dt;camera.position.y+=vy*dt;if(camera.position.y<=floorY){camera.position.y=floorY;vy=0;grounded=true}else grounded=false}else camera.position.y+=(floorY-camera.position.y)*Math.min(1,dt*10);camera.rotation.set(pitch,yaw,0,"YXZ")}const h=nearestSpot(),prompt=document.getElementById("interaction");if(started&&h){prompt.textContent="E 互動｜"+h.t;prompt.classList.add("visible")}else prompt.classList.remove("visible");const t=performance.now()*.001;centralLight.intensity=46+8*Math.sin(t*1.4);rings.forEach((r,i)=>r.material.opacity=.55+.35*Math.sin(t*2+i));renderer.render(scene,camera)}
+// ---------- THIRD PERSON CHARACTER ----------
+var playerAvatar=new THREE.Group();
+scene.add(playerAvatar);
+var pSkin=new THREE.MeshStandardMaterial({color:0xf0c2a3,roughness:.7});
+var pShirt=new THREE.MeshStandardMaterial({color:0xe7edf0,roughness:.75});
+var pPants=new THREE.MeshStandardMaterial({color:0x345789,roughne
+// ---------- STABLE THIRD PERSON CONTROLLER ----------
+var thirdPersonStarted=false;
+var thirdPersonVy=0;
+var thirdPersonGrounded=true;
+var thirdPersonLevel=0;
+var thirdPersonSecrets=0;
+var thirdPersonKeys={};
+var thirdPersonMobileX=0;
+var thirdPersonMobileY=0;
+var thirdPersonYaw=Math.PI;
+var thirdPersonPitch=.34;
+var thirdPersonDrag=false;
+var thirdPersonMouseX=0;
+var thirdPersonMouseY=0;
+var thirdPersonTouchId=null;
+var thirdPersonClock=new THREE.Clock();
+var thirdPersonCanvas=renderer.domElement;
+
+function thirdPersonStair(x,z){
+  if(x>stairX-2.8&&x<stairX+2.8&&z<=stairStartZ&&z>=stairStartZ-stairSteps*stairRun){
+    return Math.max(0,Math.min(1,(stairStartZ-z)/(stairSteps*stairRun)));
+  }
+  return -1;
+}
+function thirdPersonFloor(x,z){
+  var p=thirdPersonStair(x,z);
+  if(p>=0)return .56+p*(level2Y-.56);
+  if(z>9.2)return .07;
+  return groundFloorTop;
+}
+function thirdPersonUpper(x,z){
+  if(x<-7.15||x>7.15)return x>-28.2&&x<28.2&&z>-33&&z<5;
+  return (z>-4.3&&z<3.8)||(z>-34&&z<-26);
+}
+function thirdPersonBlocked(x,z){
+  if(x<-45||x>45||z<-78||z>42)return true;
+  if(thirdPersonLevel===1&&thirdPersonStair(x,z)<0&&!thirdPersonUpper(x,z))return true;
+  return false;
+}
+function thirdPersonNearest(){
+  var best=null,bestDistance=999;
+  for(var i=0;i<spots.length;i++){
+    var h=spots[i];
+    var d=Math.hypot(h.x-playerAvatar.position.x,h.z-playerAvatar.position.z);
+    if(d<4.3&&d<bestDistance){best=h;bestDistance=d;}
+  }
+  return best;
+}
+function thirdPersonInteract(){
+  var h=thirdPersonNearest();
+  if(!h)return;
+  var info=document.getElementById("info");
+  info.innerHTML="<strong>"+(h.secret?"EASTER EGG":"MUSEUM")+"</strong><h3>"+h.t+"</h3><p>"+h.d+"</p>";
+  info.style.display="block";
+  if(h.secret&&!h.found){
+    h.found=true;
+    thirdPersonSecrets++;
+    var toast=document.getElementById("toast");
+    toast.textContent="發現隱藏彩蛋 "+thirdPersonSecrets+" / 3";
+    toast.classList.add("show");
+    setTimeout(function(){toast.classList.remove("show")},1600);
+  }
+}
+function thirdPersonJump(){
+  if(thirdPersonStarted&&thirdPersonGrounded){
+    thirdPersonVy=6.4;
+    thirdPersonGrounded=false;
+  }
+}
+function thirdPersonRotate(dx,dy){
+  thirdPersonYaw-=dx*.007;
+  thirdPersonPitch=Math.max(.16,Math.min(.82,thirdPersonPitch-dy*.005));
+}
+
+document.getElementById("startWorld").onclick=function(){
+  thirdPersonStarted=true;
+  document.getElementById("startScreen").classList.add("hidden");
+  document.getElementById("panel").classList.remove("hidden");
+  document.getElementById("hint").classList.add("hidden");
+};
+document.getElementById("timeBtn").onclick=function(){
+  applyTimeMode(timeMode==="day"?"night":"day");
+};
+window.addEventListener("keydown",function(e){
+  thirdPersonKeys[e.code]=true;
+  if(e.code==="Space"){e.preventDefault();thirdPersonJump();}
+  if(e.code==="KeyE"){e.preventDefault();thirdPersonInteract();}
+});
+window.addEventListener("keyup",function(e){
+  thirdPersonKeys[e.code]=false;
+});
+
+thirdPersonCanvas.addEventListener("mousedown",function(e){
+  if(!thirdPersonStarted)return;
+  thirdPersonDrag=true;
+  thirdPersonMouseX=e.clientX;
+  thirdPersonMouseY=e.clientY;
+});
+window.addEventListener("mouseup",function(){thirdPersonDrag=false;});
+window.addEventListener("mousemove",function(e){
+  if(!thirdPersonDrag)return;
+  thirdPersonRotate(e.clientX-thirdPersonMouseX,e.clientY-thirdPersonMouseY);
+  thirdPersonMouseX=e.clientX;
+  thirdPersonMouseY=e.clientY;
+});
+
+thirdPersonCanvas.addEventListener("pointerdown",function(e){
+  if(!thirdPersonStarted||e.pointerType==="mouse")return;
+  thirdPersonTouchId=e.pointerId;
+  thirdPersonMouseX=e.clientX;
+  thirdPersonMouseY=e.clientY;
+  thirdPersonCanvas.setPointerCapture(e.pointerId);
+});
+thirdPersonCanvas.addEventListener("pointermove",function(e){
+  if(e.pointerId!==thirdPersonTouchId)return;
+  thirdPersonRotate(e.clientX-thirdPersonMouseX,e.clientY-thirdPersonMouseY);
+  thirdPersonMouseX=e.clientX;
+  thirdPersonMouseY=e.clientY;
+});
+thirdPersonCanvas.addEventListener("pointerup",function(){thirdPersonTouchId=null;});
+thirdPersonCanvas.addEventListener("pointercancel",function(){thirdPersonTouchId=null;});
+
+var thirdPersonJoy=document.getElementById("joystick");
+var thirdPersonStick=document.getElementById("stick");
+if(thirdPersonJoy){
+  var joyActive=false;
+  var joyId=null;
+  function thirdPersonJoyUpdate(e){
+    var r=thirdPersonJoy.getBoundingClientRect();
+    var cx=r.left+r.width/2;
+    var cy=r.top+r.height/2;
+    var dx=e.clientX-cx;
+    var dy=e.clientY-cy;
+    var len=Math.hypot(dx,dy)||1;
+    var radius=38;
+    if(len>radius){dx=dx/len*radius;dy=dy/len*radius;}
+    thirdPersonMobileX=dx/radius;
+    thirdPersonMobileY=dy/radius;
+    thirdPersonStick.style.transform="translate("+dx+"px,"+dy+"px)";
+  }
+  function thirdPersonJoyStop(){
+    joyActive=false;
+    joyId=null;
+    thirdPersonMobileX=0;
+    thirdPersonMobileY=0;
+    thirdPersonStick.style.transform="translate(0,0)";
+  }
+  thirdPersonJoy.addEventListener("pointerdown",function(e){
+    joyActive=true;joyId=e.pointerId;thirdPersonJoy.setPointerCapture(e.pointerId);thirdPersonJoyUpdate(e);
+  });
+  thirdPersonJoy.addEventListener("pointermove",function(e){
+    if(joyActive&&e.pointerId===joyId)thirdPersonJoyUpdate(e);
+  });
+  thirdPersonJoy.addEventListener("pointerup",thirdPersonJoyStop);
+  thirdPersonJoy.addEventListener("pointercancel",thirdPersonJoyStop);
+}
+document.getElementById("jumpBtn").addEventListener("pointerdown",function(e){
+  e.preventDefault();
+  thirdPersonJump();
+});
+
+function animateThirdPerson(){
+  var dt=Math.min(thirdPersonClock.getDelta(),.045);
+  updateEntrance(dt);
+  if(thirdPersonStarted){
+    var ix=(thirdPersonKeys.KeyD?1:0)-(thirdPersonKeys.KeyA?1:0)+thirdPersonMobileX;
+    var iz=(thirdPersonKeys.KeyW?1:0)-(thirdPersonKeys.KeyS?1:0)-thirdPersonMobileY;
+    var len=Math.hypot(ix,iz)||1;
+    if(len>1){ix/=len;iz/=len;}
+    var speed=(thirdPersonKeys.ShiftLeft||thirdPersonKeys.ShiftRight?5.8:3.1)*dt;
+    var nx=playerAvatar.position.x+ix*speed;
+    var nz=playerAvatar.position.z+iz*speed;
+    if(!thirdPersonBlocked(nx,playerAvatar.position.z))playerAvatar.position.x=nx;
+    if(!thirdPersonBlocked(playerAvatar.position.x,nz))playerAvatar.position.z=nz;
+    if(ix||iz)playerAvatar.rotation.y=thirdPersonYaw+Math.atan2(ix,iz);
+
+    var floor=thirdPersonFloor(playerAvatar.position.x,playerAvatar.position.z);
+    thirdPersonVy-=18*dt;
+    playerAvatar.position.y+=thirdPersonVy*dt;
+    if(playerAvatar.position.y<=floor){
+      playerAvatar.position.y=floor;
+      thirdPersonVy=0;
+      thirdPersonGrounded=true;
+    }else{
+      thirdPersonGrounded=false;
+    }
+    thirdPersonLevel=playerAvatar.position.y>2?1:0;
+  }
+
+  var target=new THREE.Vector3(playerAvatar.position.x,playerAvatar.position.y+1.25,playerAvatar.position.z);
+  var cameraDistance=8.3;
+  var horizontal=cameraDistance*Math.cos(thirdPersonPitch);
+  var vertical=cameraDistance*Math.sin(thirdPersonPitch);
+  var desired=new THREE.Vector3(
+    target.x+Math.sin(thirdPersonYaw)*horizontal,
+    target.y+vertical,
+    target.z+Math.cos(thirdPersonYaw)*horizontal
+  );
+  camera.position.lerp(desired,Math.min(1,dt*7));
+  camera.lookAt(target);
+
+  var near=thirdPersonNearest();
+  var prompt=document.getElementById("interaction");
+  if(thirdPersonStarted&&near){
+    prompt.textContent="E 互動｜"+near.t;
+    prompt.classList.add("visible");
+  }else{
+    prompt.classList.remove("visible");
+  }
+
+  var pulse=performance.now()*.001;
+  centralLight.intensity=46+8*Math.sin(pulse*1.4);
+  rings.forEach(function(r,i){r.material.opacity=.55+.3*Math.sin(pulse*2+i)});
+  renderer.render(scene,camera);
+}
+applyTimeMode("day");
+renderer.setAnimationLoop(animateThirdPerson);
+window.addEventListener("resize",function(){
+  camera.aspect=innerWidth/innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth,innerHeight);
+});
+ce(dt);if(!renderer.xr.isPresenting){const f=new THREE.Vector3(Math.sin(yaw),0,Math.cos(yaw)),r=new THREE.Vector3(Math.cos(yaw),0,-Math.sin(yaw));let ix=0,iy=0;if(keys.KeyA)ix--;if(keys.KeyD)ix++;if(keys.KeyW)iy++;if(keys.KeyS)iy--;ix+=mobile.x;iy-=mobile.y;const l=Math.hypot(ix,iy)||1;if(l>1){ix/=l;iy/=l}const sp=(keys.ShiftLeft||keys.ShiftRight?6.2:3.2)*dt;moveWithCollision((r.x*ix-f.x*iy)*sp,(r.z*ix-f.z*iy)*sp);const floorY=groundHeight(camera.position.x,camera.position.z)+1.68;if(started){vy-=18*dt;camera.position.y+=vy*dt;if(camera.position.y<=floorY){camera.position.y=floorY;vy=0;grounded=true}else grounded=false}else camera.position.y+=(floorY-camera.position.y)*Math.min(1,dt*10);camera.rotation.set(pitch,yaw,0,"YXZ")}const h=nearestSpot(),prompt=document.getElementById("interaction");if(started&&h){prompt.textContent="E 互動｜"+h.t;prompt.classList.add("visible")}else prompt.classList.remove("visible");const t=performance.now()*.001;centralLight.intensity=46+8*Math.sin(t*1.4);rings.forEach((r,i)=>r.material.opacity=.55+.35*Math.sin(t*2+i));renderer.render(scene,camera)}
 applyTimeMode("day");renderer.setAnimationLoop(animate);addEventListener("resize",()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
 </script>
 </body></html>
