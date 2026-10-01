@@ -303,6 +303,10 @@ for(let i=0;i<towerFinCount;i++){const x=towerFinStart+i*towerFinStep;im2.setMat
 im2.instanceMatrix.needsUpdate=true;scene.add(im2);
 
 // ---------- FRESH IMMERSIVE INTERIOR ----------
+// Structural first-floor foundation: the museum floor is physically supported.
+const firstFloorFoundationMat=new THREE.MeshStandardMaterial({color:0x77736b,roughness:.9});
+B(55.5,.42,44.4,0,.40,-12.8,firstFloorFoundationMat,false);
+
 const groundFloorTop=.72;
 const stairX=-7.6,stairStartZ=4.25,stairSteps=24,stairRun=.34,stairRise=.23875;
 const level2Y=groundFloorTop+stairSteps*stairRise;
@@ -313,8 +317,10 @@ const IG=new THREE.MeshStandardMaterial({color:0xa17a43,metalness:.55,roughness:
 const GL=new THREE.MeshPhysicalMaterial({color:0xc9e2e5,roughness:.08,transmission:.3,transparent:true,opacity:.44,side:THREE.DoubleSide});
 const LX=new THREE.MeshBasicMaterial({color:0xffd98c});
 
-B(54,.18,44,0,.63,-12.8,IF,false);
+B(54,.18,44,0,.72,-12.8,IF,false);
 B(19.5,.1,38,-17.1,6.08,-14,IW,false);
+for(const x of [-26.4,26.4])B(.42,1.9,42,x,1.62,-12.8,IW,false);
+for(const z of [-35,-29,-23,-17,-11,-5]){C(.24,1.9,-25.2,1.62,z,IG,20);C(.24,1.9,25.2,1.62,z,IG,20);}
 B(19.5,.1,38,17.1,6.08,-14,IW,false);
 
 function tx(t,s){
@@ -335,6 +341,7 @@ function gallery(x,z,t,s,side){
 gallery(-18,-5,"黃名宮廷文物","PALACE",-1);gallery(-18,-16,"帝國早期文獻","ARCHIVES",-1);gallery(-18,-27,"國家文化收藏","CULTURE",-1);
 gallery(18,-5,"黃名外交史料","DIPLOMACY",1);gallery(18,-16,"微國珍藏展","MICRONATION",1);gallery(18,-27,"帝國現代史","MODERN",1);
 
+B(13.6,.10,6.8,0,.13,15.8,mat.concreteLight,false);
 B(6.5,.035,13.5,0,.7,20.7,mat.black,false);
 for(let i=0;i<5;i++){const z=15.05-i*.86,y=groundFloorTop-(4-i)*.12;B(11.6-i*.32,.12,.86,0,y-.06,z,mat.concrete2);B(6.4,.035,.84,0,y+.035,z,LX,false)}
 for(const x of [-4,-2,0,2,4])C(.14,.44,x,5.7,8,IG,18);
@@ -374,7 +381,20 @@ function entryHeight(x,z){if(Math.abs(x)>6.2)return -1;for(let i=0;i<5;i++){cons
 let currentLevel=0;
 function groundHeight(x,z){const p=stairProgress(x,z);if(p>=0){if(p>.92)currentLevel=1;if(p<.08)currentLevel=0;return .56+p*(level2Y-.56)}if(currentLevel===1)return level2Y;const e=entryHeight(x,z);if(e>=0)return e;if(z>9.2||x<-28||x>28)return .07;return groundFloorTop}
 function upperWalk(x,z){if(x<-7.15||x>7.15)return x>-28.2&&x<28.2&&z>-33&&z<5;return(z>-4.3&&z<3.8)||(z>-34&&z<-26)}
-function blockedAt(x,z){if(currentLevel===1&&stairProgress(x,z)<0&&!upperWalk(x,z))return true;return Math.abs(x)>29||z<-37||z>12}
+const buildingColliders=[
+  {minX:-29.7,maxX:-28.5,minZ:-37.6,maxZ:11.25},
+  {minX:28.5,maxX:29.7,minZ:-37.6,maxZ:11.25},
+  {minX:-29.7,maxX:29.7,minZ:-37.8,maxZ:-36.45},
+  {minX:-29.7,maxX:-7.1,minZ:10.55,maxZ:11.25},
+  {minX:7.1,maxX:29.7,minZ:10.55,maxZ:11.25}
+];
+function blockedAt(x,z){
+  if(x<-45||x>45||z<-78||z>42)return true;
+  if(currentLevel===1&&stairProgress(x,z)<0&&!upperWalk(x,z))return true;
+  for(const r of buildingColliders)if(x>r.minX&&x<r.maxX&&z>r.minZ&&z<r.maxZ)return true;
+  if(currentLevel===0&&z<-35.7&&Math.abs(x)<28.5)return true;
+  return false;
+}
 function moveWithCollision(dx,dz){const nx=camera.position.x+dx,nz=camera.position.z+dz;const portal=(camera.position.z>7&&camera.position.z<24&&Math.abs(camera.position.x)<8.3)||(nz>7&&nz<24&&Math.abs(nx)<8.3);if(portal){camera.position.x=THREE.MathUtils.clamp(nx,-8.15,8.15);camera.position.z=nz;return}if(!blockedAt(nx,camera.position.z))camera.position.x=nx;if(!blockedAt(camera.position.x,nz))camera.position.z=nz}
 
 // Roof garden / upper exterior retained unchanged.
@@ -393,7 +413,7 @@ function nearestSpot(){const f=new THREE.Vector3(0,0,-1).applyQuaternion(camera.
 function interact(){const h=nearestSpot();if(!h)return;const info=document.getElementById("info");info.innerHTML="<strong>"+(h.secret?"EASTER EGG":"MUSEUM")+"</strong><h3>"+h.t+"</h3><p>"+h.d+"</p>";info.style.display="block";if(h.secret&&!h.found){h.found=true;const toast=document.getElementById("toast");toast.textContent="發現隱藏彩蛋";toast.classList.add("show");setTimeout(()=>toast.classList.remove("show"),1500)}}
 function jump(){if(started&&grounded){vy=6.4;grounded=false}}
 function look(dx,dy){yaw-=dx*.0026;pitch=Math.max(-1.18,Math.min(1.18,pitch-dy*.0022))}
-document.getElementById("startWorld").onclick=()=>{started=true;document.getElementById("startScreen").classList.add("hidden");document.getElementById("panel").classList.remove("hidden");document.getElementById("hint").classList.remove("hidden");if(matchMedia("(pointer:fine)").matches)canvas.requestPointerLock?.()};
+document.getElementById("startWorld").onclick=()=>{started=true;document.getElementById("startScreen").classList.add("hidden");document.getElementById("panel").classList.remove("hidden");document.getElementById("hint").classList.remove("hidden");canvas.tabIndex=0;canvas.focus();if(matchMedia("(pointer:fine)").matches)canvas.requestPointerLock?.()};
 document.addEventListener("mousemove",e=>{if(document.pointerLockElement===canvas)look(e.movementX,e.movementY)});canvas.addEventListener("click",()=>{if(started&&matchMedia("(pointer:fine)").matches)canvas.requestPointerLock?.()});
 canvas.addEventListener("pointerdown",e=>{if(!started||e.pointerType==="mouse")return;lookId=e.pointerId;lx=e.clientX;ly=e.clientY;canvas.setPointerCapture?.(e.pointerId)});canvas.addEventListener("pointermove",e=>{if(e.pointerId!==lookId)return;look(e.clientX-lx,e.clientY-ly);lx=e.clientX;ly=e.clientY});canvas.addEventListener("pointerup",()=>lookId=null);canvas.addEventListener("pointercancel",()=>lookId=null);
 addEventListener("keydown",e=>{keys[e.code]=true;if(["KeyW","KeyA","KeyS","KeyD","ShiftLeft","ShiftRight","Space","KeyE"].includes(e.code))e.preventDefault();if(e.code==="Space")jump();if(e.code==="KeyE")interact()});addEventListener("keyup",e=>keys[e.code]=false);
