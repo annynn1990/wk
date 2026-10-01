@@ -82,7 +82,37 @@ canvas{display:block;touch-action:none;cursor:crosshair}
   <div id="joystick"><div id="stick"></div></div>
   <button id="jumpBtn" type="button">↑</button>
 </div>
-<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"}}</script>
+<script>
+(function(){
+  var booted=false;
+  function showBootError(msg){
+    var box=document.getElementById("info");
+    if(!box)return;
+    box.innerHTML="<strong>博物館載入錯誤</strong><br>"+String(msg||"未知錯誤");
+    box.style.display="block";
+  }
+  window.addEventListener("error",function(e){
+    if(e&&e.message)showBootError(e.message);
+  });
+  window.addEventListener("unhandledrejection",function(e){
+    showBootError(e&&e.reason&&e.reason.message?e.reason.message:e.reason||"載入失敗");
+  });
+  document.addEventListener("DOMContentLoaded",function(){
+    var b=document.getElementById("startWorld");
+    if(!b)return;
+    b.addEventListener("click",function(){
+      if(booted)return;
+      booted=true;
+      var s=document.getElementById("startScreen");
+      if(s)s.classList.add("hidden");
+      var p=document.getElementById("panel");
+      if(p)p.classList.remove("hidden");
+      var h=document.getElementById("hint");
+      if(h)h.classList.remove("hidden");
+    },{capture:true});
+  });
+})();
+</script><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"}}</script>
 <script type="module">
 import * as THREE from "three";
 import {VRButton} from "three/addons/webxr/VRButton.js";
