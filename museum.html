@@ -19,20 +19,7 @@
 @media(max-width:760px){#brand{left:12px;top:12px}.brandZh{font-size:17px}.brandEn{display:none}#switcher{top:10px}#bubble{right:9px;bottom:103px;width:166px}#map{left:9px;bottom:10px;width:132px;height:95px}#controls{bottom:10px}#prompt{bottom:160px}.grid{grid-template-columns:1fr 1fr}#mobile{display:block}}
 </style>
 </head>
-<body><div id="threeLoading" style="position:fixed;z-index:9998;inset:0;display:flex;align-items:center;justify-content:center;background:#9bc7eb;color:#24435e;font:14px Arial,'Microsoft JhengHei',sans-serif">3D 世界載入中…</div>
-<div id="bootError" style="display:none;position:fixed;z-index:9999;inset:0;background:#f4f7fa;color:#22384d;padding:40px;font:14px/1.8 Arial,'Microsoft JhengHei',sans-serif"><div style="max-width:760px;margin:8vh auto;padding:28px;background:#fff;border:1px solid #d9e3ea;border-radius:18px;box-shadow:0 20px 70px #23445a22"><strong style="font-size:20px">3D 世界啟動失敗</strong><pre id="bootErrorText" style="white-space:pre-wrap;margin-top:15px;background:#f3f6f8;padding:15px;border-radius:10px;color:#9b3342"></pre></div></div>
-<script>
-(function(){
-  function show(e){
-    var box=document.getElementById("bootError"),txt=document.getElementById("bootErrorText");
-    if(!box||!txt)return;
-    txt.textContent=(e&&e.message?e.message:String(e&&e.reason||e||"未知錯誤"))+(e&&e.filename?("\n\n"+e.filename+":"+e.lineno+":"+e.colno):"");
-    box.style.display="block";
-  }
-  window.addEventListener("error",show);
-  window.addEventListener("unhandledrejection",show);
-})();
-</script>
+<body>
 <div id="switcher"><button id="streetBtn" class="active">Street</button><button id="viewBtn">View Exhibits</button></div>
 <div id="brand"><div class="brandZh">黃名帝國</div><div class="brandEn">WONGMING EMPIRE · 3D STREET</div></div>
 <div id="bubble"><div class="bubbleTitle">歡迎來到黃名帝國</div>沿著街區自由探索。走近地標後按 <b>E</b> 查看內容。</div>
@@ -44,19 +31,30 @@
 
 <script>
 (function(){
-  function fail(err){
-    var box=document.getElementById("bootError"),txt=document.getElementById("bootErrorText"),loading=document.getElementById("threeLoading");
-    if(loading)loading.style.display="none";
-    if(!box)return;
-    var msg=err&&err.message?err.message:String(err||"未知錯誤");
-    if(err&&err.stack)msg+="\n\n"+err.stack;
-    txt.textContent=msg;
-    box.style.display="block";
+  window.addEventListener("error",function(e){
+    var box=document.getElementById("bootError"),txt=document.getElementById("bootErrorText");
+    if(box&&txt){txt.textContent=(e.message||e)+(e.filename?"\n"+e.filename+":"+e.lineno+":"+e.colno:"");box.style.display="block";}
+  });
+  window.addEventListener("unhandledrejection",function(e){
+    var box=document.getElementById("bootError"),txt=document.getElementById("bootErrorText");
+    if(box&&txt){txt.textContent=(e.reason&&e.reason.stack)||String(e.reason||"Unknown module error");box.style.display="block";}
+  });
+})();
+</script>
+<div id="bootError" style="display:none;position:fixed;z-index:9999;inset:0;background:#eef4f8;color:#243b50;padding:40px;font:14px/1.8 Arial,'Microsoft JhengHei',sans-serif">
+ <div style="max-width:760px;margin:8vh auto;background:white;padding:28px;border-radius:18px;box-shadow:0 24px 80px #243b5030">
+  <strong style="font-size:20px">3D 世界啟動失敗</strong>
+  <pre id="bootErrorText" style="white-space:pre-wrap;margin-top:14px;background:#f3f6f8;padding:14px;border-radius:10px;color:#963746"></pre>
+ </div>
+</div><script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js"
   }
-  import("https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js")
-    .then(function(THREE){
-      var loading=document.getElementById("threeLoading");if(loading)loading.style.display="none";
-      try{
+}
+</script>
+<script type="module">
+import * as THREE from "three";
 const scene=new THREE.Scene();
 const daySky=new THREE.Color(0x9bc7eb),nightSky=new THREE.Color(0x162845);
 scene.background=daySky.clone();
@@ -407,30 +405,7 @@ function loop(){
 renderer.setAnimationLoop(loop);
 addEventListener("resize",()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
 
-      }catch(err){fail(err);}
-    })
-    .catch(fail);
-})();
-osition.z);
-  lm.marker.scale.setScalar(.82+.14*Math.sin(performance.now()*.003));
-  if(d<4.6&&d<nearestDist){nearest=lm;nearestDist=d}
- }
- const pr=document.getElementById("prompt");
- if(nearest){pr.textContent="E  查看 · "+nearest.name;pr.classList.add("promptOn")}else pr.classList.remove("promptOn");
- updateMap();
 
- const tNow=performance.now()*.001;
- for(let ni=0;ni<npcs.length;ni++){
-   const n=npcs[ni];
-   const w=Math.sin(tNow*1.8+n.phase)*.055;
-   n.obj.position.y=.02+Math.abs(Math.sin(tNow*1.15+n.phase))*.018;
-   n.obj.userData.lArm.rotation.z=.14+w;
-   n.obj.userData.rArm.rotation.z=-.14-w;
- }
- renderer.render(scene,camera);
-}
-renderer.setAnimationLoop(loop);
-addEventListener("resize",()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
 </script>
 </body>
 </html>
