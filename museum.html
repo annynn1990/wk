@@ -92,10 +92,10 @@ canvas{display:block;touch-action:none;cursor:crosshair}
     box.style.display="block";
   }
   window.addEventListener("error",function(e){
-    if(e&&e.message)showBootError(e.message);
+    if(e&&e.message)showBootError("JavaScript 啟動失敗： "+e.message);
   });
   window.addEventListener("unhandledrejection",function(e){
-    showBootError(e&&e.reason&&e.reason.message?e.reason.message:e.reason||"載入失敗");
+    showBootError("模組／資源啟動失敗： "+(e&&e.reason&&e.reason.message?e.reason.message:e.reason||"載入失敗"));
   });
   document.addEventListener("DOMContentLoaded",function(){
     var b=document.getElementById("startWorld");
@@ -112,12 +112,8 @@ canvas{display:block;touch-action:none;cursor:crosshair}
     },{capture:true});
   });
 })();
-</script><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"}}</script>
-<script type="module">
-import * as THREE from "three";
-import {VRButton} from "three/addons/webxr/VRButton.js";
-import {HDRLoader} from "three/addons/loaders/HDRLoader.js";
-import {GLTFLoader} from "three/addons/loaders/GLTFLoader.js";
+</script><script src="https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.min.js"></script>
+<script>
 
 const scene=new THREE.Scene();
 const nightSkyColor=new THREE.Color(0x02050d);
@@ -145,23 +141,8 @@ renderer.xr.enabled=true;
 document.body.appendChild(renderer.domElement);
 
 renderer.domElement.style.background="#080a0d";
-const pmrem=new THREE.PMREMGenerator(renderer);
-pmrem.compileEquirectangularShader();
-new HDRLoader()
-  .setPath("https://cdn.jsdelivr.net/gh/mrdoob/three.js@dev/examples/textures/equirectangular/")
-  .load("venice_sunset_1k.hdr",(hdr)=>{
-    hdr.mapping=THREE.EquirectangularReflectionMapping;
-    daySky=hdr;
-    scene.environment=hdr;
-    if(timeMode==="day"){
-      scene.background=daySky;
-      scene.backgroundIntensity=0.66;
-    }
-    scene.environmentIntensity=timeMode==="day" ? 0.9 : 0.2;
-  },undefined,(err)=>{
-    console.warn("HDR sky failed; using procedural fallback.",err);
-  });
-
+// Stable procedural sky fallback. No secondary module is required for initial render.
+scene.environment=null;
 // HDR sky/environment is loaded above; materials below are lit by both image-based light and a directional sun.
 // ---------- realistic museum lawn ----------
 // Outdoor ground uses the supplied Wongming forum grass image directly.
@@ -404,25 +385,7 @@ for(const x of [-5.8,0,5.8]){
   scene.add(pl);
 }
 
-const centralLampLoader=new GLTFLoader();
-centralLampLoader.load(
-  "https://cdn.jsdelivr.net/gh/annynn1990/wk@main/assets/750221_and_750223_favo_lightstar_ceiling_lamp.glb",
-  (gltf)=>{
-    const lamp=gltf.scene;
-    lamp.traverse((o)=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true;}});
-    const box=new THREE.Box3().setFromObject(lamp);
-    const size=box.getSize(new THREE.Vector3());
-    const maxDim=Math.max(size.x,size.y,size.z);
-    if(maxDim>0)lamp.scale.setScalar(4.4/maxDim);
-    const scaledBox=new THREE.Box3().setFromObject(lamp);
-    const center=scaledBox.getCenter(new THREE.Vector3());
-    lamp.position.sub(center);
-    centralLampGroup.add(lamp);
-  },
-  undefined,
-  (err)=>console.warn("Central ceiling lamp GLB failed to load.",err)
-);
-
+// The central lamp has an in-scene fallback model so museum startup does not depend on a secondary loader.
 const sensorIndicator=B(.20,.20,.08,0,7.12,10.56,mat.light,false);
 entranceLights.push(sensorIndicator);
 
@@ -806,9 +769,9 @@ function applyTimeMode(mode){
     nightLights.forEach(l=>{l.intensity=l.color.r>.8?28:8;});
     document.getElementById("timeBtn").textContent="切換至日景 · DAY";
   }else{
-    scene.background=daySky || dayFallbackColor;
+    scene.background=dayFallbackColor;
     scene.backgroundIntensity=.66;
-    scene.environmentIntensity=.90;
+    scene.environmentIntensity=.72;
     scene.fog.color.set(0x080a0d);
     key.intensity=2.25;
     fill.intensity=.42;
