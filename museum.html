@@ -52,8 +52,7 @@ canvas{display:block;touch-action:none;cursor:crosshair}
   #info{bottom:235px;max-width:86vw}
 }
 </style>
-</head>
-<body>
+</head><body>
 <div id="brand"><h1>黃名歷史博物館</h1><p>WONGMING MUSEUM OF HISTORY · 3D WORLD</p></div>
 <div id="panel">
   <div class="kicker">3D MUSEUM WORLD</div>
@@ -302,331 +301,71 @@ const im2=new THREE.InstancedMesh(towerFinGeo,mat.ceramic,towerFinCount);im2.cas
 for(let i=0;i<towerFinCount;i++){const x=towerFinStart+i*towerFinStep;im2.setMatrixAt(i,new THREE.Matrix4().makeTranslation(x,22,0.7))}
 im2.instanceMatrix.needsUpdate=true;scene.add(im2);
 
-// ---------- FRESH IMMERSIVE INTERIOR ----------
-// Structural first-floor foundation: the museum floor is physically supported.
-const firstFloorFoundationMat=new THREE.MeshStandardMaterial({color:0x77736b,roughness:.9});
-B(55.5,.42,44.4,0,.40,-12.8,firstFloorFoundationMat,false);
 
-const groundFloorTop=.72;
-const stairX=-7.6,stairStartZ=4.25,stairSteps=24,stairRun=.34,stairRise=.23875;
-const level2Y=groundFloorTop+stairSteps*stairRise;
-const level2FloorTop=level2Y,level2FloorSlabY=level2Y-.11;
-const IF=new THREE.MeshStandardMaterial({color:0xc8c5bc,roughness:.76});
-const IW=new THREE.MeshStandardMaterial({color:0xd9d3c8,roughness:.82});
-const IG=new THREE.MeshStandardMaterial({color:0xa17a43,metalness:.55,roughness:.34});
-const GL=new THREE.MeshPhysicalMaterial({color:0xc9e2e5,roughness:.08,transmission:.3,transparent:true,opacity:.44,side:THREE.DoubleSide});
-const LX=new THREE.MeshBasicMaterial({color:0xffd98c});
-
-B(54,.18,44,0,.72,-12.8,IF,false);
-B(19.5,.1,38,-17.1,6.08,-14,IW,false);
-for(const x of [-26.4,26.4])B(.42,1.9,42,x,1.62,-12.8,IW,false);
-for(const z of [-35,-29,-23,-17,-11,-5]){C(.24,1.9,-25.2,1.62,z,IG,20);C(.24,1.9,25.2,1.62,z,IG,20);}
-B(19.5,.1,38,17.1,6.08,-14,IW,false);
-
-function tx(t,s){
-  const c=document.createElement("canvas");c.width=900;c.height=220;const g=c.getContext("2d");
-  g.fillStyle="#11191f";g.fillRect(0,0,900,220);g.strokeStyle="#d7b66d";g.lineWidth=5;g.strokeRect(12,12,876,196);
-  g.fillStyle="#f0dca7";g.textAlign="center";g.font='700 38px "Microsoft JhengHei","Noto Serif TC",serif';g.fillText(t,450,98);
-  g.fillStyle="#bbc3c7";g.font="16px Arial";g.fillText(s,450,140);return new THREE.CanvasTexture(c)
-}
-function gallery(x,z,t,s,side){
-  const outer=x+side*5;B(.25,3.2,6.2,outer,2.35,z,IW);
-  for(const dz of [-1.75,0,1.75]){
-    B(1.7,.14,.95,x-side*1.15,.83,z+dz,IG,false);
-    B(1.42,.8,.74,x-side*1.15,1.28,z+dz,GL,false);
-    B(1.02,.05,.55,x-side*1.15,1.75,z+dz,LX,false)
-  }
-  add(new THREE.PlaneGeometry(4.5,1.05),new THREE.MeshBasicMaterial({map:tx(t,s),side:THREE.DoubleSide}),[x-side*.2,3.5,z],[0,side*Math.PI/2,0],false)
-}
-gallery(-18,-5,"黃名宮廷文物","PALACE",-1);gallery(-18,-16,"帝國早期文獻","ARCHIVES",-1);gallery(-18,-27,"國家文化收藏","CULTURE",-1);
-gallery(18,-5,"黃名外交史料","DIPLOMACY",1);gallery(18,-16,"微國珍藏展","MICRONATION",1);gallery(18,-27,"帝國現代史","MODERN",1);
-
-B(13.6,.10,6.8,0,.13,15.8,mat.concreteLight,false);
-B(6.5,.035,13.5,0,.7,20.7,mat.black,false);
-for(let i=0;i<5;i++){const z=15.05-i*.86,y=groundFloorTop-(4-i)*.12;B(11.6-i*.32,.12,.86,0,y-.06,z,mat.concrete2);B(6.4,.035,.84,0,y+.035,z,LX,false)}
-for(const x of [-4,-2,0,2,4])C(.14,.44,x,5.7,8,IG,18);
-B(10,.12,1,0,5.45,8,IG,false);
-const centralLight=new THREE.PointLight(0xffd58d,52,24,1.7);centralLight.position.set(0,5.1,8);scene.add(centralLight);
-const screen=add(new THREE.PlaneGeometry(8,2.6),new THREE.MeshBasicMaterial({map:tx("WONGMING STREET","EXPLORE · DISCOVER · REMEMBER"),side:THREE.DoubleSide}),[0,4.1,1.2],[0,0,0],false);screen.userData.screen=true;
-
-for(let i=0;i<stairSteps;i++){const z=stairStartZ-(i+1)*stairRun,y=groundFloorTop+(i+1)*stairRise;B(5.2,stairRise,stairRun,stairX,y-stairRise/2,z,mat.concreteLight)}
-B(5.2,.12,1.35,stairX,groundFloorTop+.06,4.72,mat.concreteLight,false);
-B(5.2,.18,2.1,stairX,level2FloorTop-.09,stairStartZ-stairSteps*stairRun-.78,mat.concreteLight,false);
-for(const side of [-1,1])for(let i=0;i<9;i++){const t=i/8;const x=stairX+side*2.42,z=stairStartZ-t*stairSteps*stairRun,y=groundFloorTop+1+t*stairSteps*stairRise;B(.07,1.05,.07,x,y-.5,z,IG,false)}
-
-B(19.8,.22,38,-17,level2FloorSlabY,-14,IF,false);B(19.8,.22,38,17,level2FloorSlabY,-14,IF,false);B(14.2,.22,8,0,level2FloorSlabY,-.15,IF,false);B(14.2,.22,8,0,level2FloorSlabY,-29.9,IF,false);
-const rail=new THREE.MeshStandardMaterial({color:0xd4b26b,metalness:.7,roughness:.26});for(const x of [-7.15,7.15])B(.07,1.1,26,x,level2FloorTop+.55,-15,rail,false);
-
-for(const q of [[-18,-2,"帝國紀念廳"],[-18,-9,"黃名歷史廳"],[-18,-16,"微國歷史廳"],[-18,-23,"黃名專題廳"],[-18,-30,"黃名文物廳"],[18,-2,"微國專題廳"],[18,-9,"微國文物廳"],[18,-16,"歷史回顧廳"],[18,-23,"文化景區中心"],[18,-30,"歷史文物局"]]){
-  const x=q[0],z=q[1],side=x<0?-1:1,outer=x+side*5.2;
-  B(.22,3,5.5,outer,level2FloorTop+1.5,z,IW);
-  add(new THREE.PlaneGeometry(4.5,.9),new THREE.MeshBasicMaterial({map:tx(q[2],"LEVEL 2 HISTORY GALLERY"),side:THREE.DoubleSide}),[x-side*4.9,level2FloorTop+2.1,z],[0,side*Math.PI/2,0],false)
-}
-
-const spots=[
-{x:10,y:1.3,z:3.55,t:"中央導覽台",d:"入口大廳與博物館探索起點。"},
-{x:0,y:1.2,z:-13.8,t:"中央中庭",d:"可從這裡看到二樓橋面與兩側展區。"},
-{x:-18,y:1.4,z:-5,t:"黃名宮廷文物",d:"宮廷與皇室文化展區。"},
-{x:18,y:1.4,z:-5,t:"黃名外交史料",d:"外交、條約與國際交流展區。"},
-{x:-18,y:level2FloorTop+1,z:-9,t:"黃名歷史廳",d:"黃名帝國歷史主展區。"},
-{x:18,y:level2FloorTop+1,z:-16,t:"歷史回顧廳",d:"回顧黃名與微國社群的歷史。"},
-{x:-24,y:1,z:-31,t:"彩蛋：1995",d:"找到黃名帝國 1995 年歷史彩蛋。",secret:true},
-{x:24,y:1,z:-31,t:"彩蛋：帝國印璽",d:"找到隱藏的帝國印璽。",secret:true},
-{x:0,y:1,z:0,t:"彩蛋：中央街區",d:"找到中央街區的隱藏彩蛋。",secret:true}
-];
-const rings=[];for(const h of spots){const ring=new THREE.Mesh(new THREE.RingGeometry(.6,.72,32),new THREE.MeshBasicMaterial({color:h.secret?0x7ee3e8:0xd2b56e,transparent:true,opacity:.9,side:THREE.DoubleSide}));ring.rotation.x=-Math.PI/2;ring.position.set(h.x,h.y<5?.74:level2FloorTop+.12,h.z);scene.add(ring);rings.push(ring)}
-
-function stairProgress(x,z){if(x>stairX-2.8&&x<stairX+2.8&&z<=stairStartZ&&z>=stairStartZ-stairSteps*stairRun)return Math.max(0,Math.min(1,(stairStartZ-z)/(stairSteps*stairRun)));return -1}
-function entryHeight(x,z){if(Math.abs(x)>6.2)return -1;for(let i=0;i<5;i++){const cz=15.05-i*.86;if(Math.abs(z-cz)<=.43&&Math.abs(x)<=((11.6-i*.32)/2))return(i+1)*.12+.035}if(Math.abs(x)<=6.5&&z>=5.3&&z<=11.9)return groundFloorTop;return -1}
-let currentLevel=0;
-function groundHeight(x,z){const p=stairProgress(x,z);if(p>=0){if(p>.92)currentLevel=1;if(p<.08)currentLevel=0;return .56+p*(level2Y-.56)}if(currentLevel===1)return level2Y;const e=entryHeight(x,z);if(e>=0)return e;if(z>9.2||x<-28||x>28)return .07;return groundFloorTop}
-function upperWalk(x,z){if(x<-7.15||x>7.15)return x>-28.2&&x<28.2&&z>-33&&z<5;return(z>-4.3&&z<3.8)||(z>-34&&z<-26)}
-const buildingColliders=[
-  {minX:-29.7,maxX:-28.5,minZ:-37.6,maxZ:11.25},
-  {minX:28.5,maxX:29.7,minZ:-37.6,maxZ:11.25},
-  {minX:-29.7,maxX:29.7,minZ:-37.8,maxZ:-36.45},
-  {minX:-29.7,maxX:-7.1,minZ:10.55,maxZ:11.25},
-  {minX:7.1,maxX:29.7,minZ:10.55,maxZ:11.25}
-];
-function blockedAt(x,z){
-  if(x<-45||x>45||z<-78||z>42)return true;
-  if(currentLevel===1&&stairProgress(x,z)<0&&!upperWalk(x,z))return true;
-  for(const r of buildingColliders)if(x>r.minX&&x<r.maxX&&z>r.minZ&&z<r.maxZ)return true;
-  if(currentLevel===0&&z<-35.7&&Math.abs(x)<28.5)return true;
-  return false;
-}
-function moveWithCollision(dx,dz){const nx=camera.position.x+dx,nz=camera.position.z+dz;const portal=(camera.position.z>7&&camera.position.z<24&&Math.abs(camera.position.x)<8.3)||(nz>7&&nz<24&&Math.abs(nx)<8.3);if(portal){camera.position.x=THREE.MathUtils.clamp(nx,-8.15,8.15);camera.position.z=nz;return}if(!blockedAt(nx,camera.position.z))camera.position.x=nx;if(!blockedAt(camera.position.x,nz))camera.position.z=nz}
+var museumFloorY=.72,stairX=-7.6,stairZ=4.25,stairCount=24,stairRun=.34,stairRise=.23875,secondFloorY=6.45;
+var museumFloorMat=new THREE.MeshStandardMaterial({color:0xc8c5bc,roughness:.8});
+var museumWallMat=new THREE.MeshStandardMaterial({color:0xd8d2c7,roughness:.84});
+var museumGoldMat=new THREE.MeshStandardMaterial({color:0xa67b43,metalness:.55,roughness:.34});
+var museumGlassMat=new THREE.MeshPhysicalMaterial({color:0xc9e2e5,roughness:.08,transmission:.28,transparent:true,opacity:.42,side:THREE.DoubleSide});
+var museumWoodMat=new THREE.MeshStandardMaterial({color:0x654a36,roughness:.66});
+B(55.5,.46,44.5,0,.40,-12.8,mat.concrete2,false);B(54,.20,44,0,.69,-12.8,museumFloorMat,false);
+for(var x of [-26.1,26.1])B(.46,1.9,42,x,1.62,-12.8,museumWallMat,false);
+for(var z of [-34,-28,-22,-16,-10,-4]){C(.24,1.9,-25.1,1.62,z,museumGoldMat,20);C(.24,1.9,25.1,1.62,z,museumGoldMat,20)}
+function museumSignTex(t,sub){var c=document.createElement("canvas");c.width=900;c.height=220;var g=c.getContext("2d");g.fillStyle="#11191f";g.fillRect(0,0,900,220);g.strokeStyle="#d7b76d";g.lineWidth=5;g.strokeRect(12,12,876,196);g.textAlign="center";g.fillStyle="#f0dda7";g.font='700 38px "Microsoft JhengHei"';g.fillText(t,450,100);g.fillStyle="#bac3c7";g.font="16px Arial";g.fillText(sub,450,143);return new THREE.CanvasTexture(c)}
+function museumSign(x,y,z,t,sub,r){return add(new THREE.PlaneGeometry(4.5,1.05),new THREE.MeshBasicMaterial({map:museumSignTex(t,sub),side:THREE.DoubleSide}),[x,y,z],[0,r||0,0],false)}
+museumSign(0,4,1.3,"WONGMING STREET","EXPLORE · DISCOVER · REMEMBER");museumSign(0,4,-33,"1995 → 2026","HISTORY DISTRICT");
+B(13.5,.09,7,0,.77,6.2,museumFloorMat,false);
+for(var i=0;i<stairCount;i++){var zz=stairZ-(i+1)*stairRun,yy=museumFloorY+(i+1)*stairRise;B(5.2,stairRise,stairRun,stairX,yy-stairRise/2,zz,mat.concreteLight,false)}
+B(19.8,.22,38,-17,secondFloorY-.11,-14,museumFloorMat,false);B(19.8,.22,38,17,secondFloorY-.11,-14,museumFloorMat,false);B(14.2,.22,8,0,secondFloorY-.11,-.15,museumFloorMat,false);B(14.2,.22,8,0,secondFloorY-.11,-29.9,museumFloorMat,false);
+function gallery(x,z,t,side){B(.23,3.15,5.8,x+side*5.2,secondFloorY+1.55,z,museumWallMat);museumSign(x-side*4.9,secondFloorY+2.1,z,t,"HISTORY GALLERY",side*Math.PI/2);for(var dz of [-1.5,0,1.5]){B(1.5,.14,.8,x+side*2.1,secondFloorY+.08,z+dz,museumGoldMat,false);B(1.25,.8,.65,x+side*2.1,secondFloorY+.5,z+dz,museumGlassMat,false)}}
+var gs=[[-18,-2,"帝國紀念廳"],[-18,-9,"黃名歷史廳"],[-18,-16,"微國歷史廳"],[-18,-23,"黃名專題廳"],[-18,-30,"黃名文物廳"],[18,-2,"微國專題廳"],[18,-9,"微國文物廳"],[18,-16,"歷史回顧廳"],[18,-23,"文化景區中心"],[18,-30,"歷史文物局"]];for(var gi=0;gi<gs.length;gi++)gallery(gs[gi][0],gs[gi][1],gs[gi][2],gs[gi][0]<0?-1:1);
+function bench(x,z){var g=new THREE.Group();g.position.set(x,.72,z);scene.add(g);var a=new THREE.Mesh(new THREE.BoxGeometry(1.7,.12,.45),museumWoodMat);a.position.y=.35;g.add(a);var q=new THREE.Mesh(new THREE.BoxGeometry(1.7,.55,.08),museumWoodMat);q.position.set(0,.62,.18);g.add(q)}bench(-9,-2);bench(9,-2);bench(-9,-20);bench(9,-20);
+var museumCentralLight=new THREE.PointLight(0xffd58d,52,24,1.7);museumCentralLight.position.set(0,5.1,8);scene.add(museumCentralLight);
+var museumSpots=[{x:10,z:3.5,t:"中央導覽台",d:"博物館探索起點。"},
+{x:0,z:-13.8,t:"中央中庭",d:"博物館核心空間。"},
+{x:-18,z:-5,t:"黃名宮廷文物",d:"宮廷與皇室文化展區。"},
+{x:18,z:-5,t:"黃名外交史料",d:"外交與國際交流展區。"},
+{x:-18,z:-9,t:"黃名歷史廳",d:"黃名帝國歷史主展區。"},
+{x:18,z:-16,t:"歷史回顧廳",d:"微國歷史回顧展區。"},
+{x:-24,z:-31,t:"彩蛋：1995",d:"你找到 1995 歷史彩蛋。",secret:true},
+{x:24,z:-31,t:"彩蛋：帝國印璽",d:"你找到隱藏的帝國印璽。",secret:true},
+{x:0,z:0,t:"彩蛋：中央街區",d:"你找到中央街區彩蛋。",secret:true}];
+var museumRings=[];for(var pi=0;pi<museumSpots.length;pi++){var h=museumSpots[pi],rr=new THREE.Mesh(new THREE.RingGeometry(.58,.72,32),new THREE.MeshBasicMaterial({color:h.secret?0x7ee4e8:0xd2b56c,transparent:true,opacity:.9,side:THREE.DoubleSide}));rr.rotation.x=-Math.PI/2;rr.position.set(h.x,.75,h.z);scene.add(rr);museumRings.push(rr)}
+var playerAvatar=new THREE.Group();scene.add(playerAvatar);
+var pSkin=new THREE.MeshStandardMaterial({color:0xf0c2a3}),pShirt=new THREE.MeshStandardMaterial({color:0xe7edf0}),pPants=new THREE.MeshStandardMaterial({color:0x345789}),pShoe=new THREE.MeshStandardMaterial({color:0xf3f0e8});
+function avatar(g,m,x,y,z){var o=new THREE.Mesh(g,m);o.position.set(x,y,z);o.castShadow=true;playerAvatar.add(o);return o}
+avatar(new THREE.CapsuleGeometry(.38,.72,6,12),pShirt,0,1.25,0);avatar(new THREE.SphereGeometry(.34,20,16),pSkin,0,1.98,0);avatar(new THREE.BoxGeometry(.72,.08,.34),new THREE.MeshStandardMaterial({color:0x202830}),0,2.2,0);
+var aL=avatar(new THREE.CapsuleGeometry(.1,.58,5,8),pShirt,-.47,1.25,0),aR=avatar(new THREE.CapsuleGeometry(.1,.58,5,8),pShirt,.47,1.25,0),lL=avatar(new THREE.CapsuleGeometry(.12,.58,5,8),pPants,-.18,.58,0),lR=avatar(new THREE.CapsuleGeometry(.12,.58,5,8),pPants,.18,.58,0);avatar(new THREE.BoxGeometry(.26,.12,.43),pShoe,-.18,.2,-.07);avatar(new THREE.BoxGeometry(.26,.12,.43),pShoe,.18,.2,-.07);playerAvatar.position.set(0,.72,31.5);
+// Roof garden / upper exterior retained unchanged.
+createGrassSurface(52,38,0,9.755,-13);
+for(let x=-20;x<=20;x+=8)for(let z=-26;z<=0;z+=8)C(.65,1.0,x,10.45,z,mat.ceramic,20);
+B(54,1.0,1,0,10.25,5.2,mat.black);
+B(54,1.0,1,0,10.25,-31.2,mat.black);
+B(1,1,38,-26.5,10.25,-13,mat.black);
+B(1,1,38,26.5,10.25,-13,mat.black);
 
 
-// ---------- THIRD PERSON CHARACTER ----------
-var playerAvatar=new THREE.Group();
-scene.add(playerAvatar);
-var pSkin=new THREE.MeshStandardMaterial({color:0xf0c2a3,roughness:.7});
-var pShirt=new THREE.MeshStandardMaterial({color:0xe7edf0,roughness:.75});
-var pPants=new THREE.MeshStandardMaterial({color:0x345789,roughne
-// ---------- STABLE THIRD PERSON CONTROLLER ----------
-var thirdPersonStarted=false;
-var thirdPersonVy=0;
-var thirdPersonGrounded=true;
-var thirdPersonLevel=0;
-var thirdPersonSecrets=0;
-var thirdPersonKeys={};
-var thirdPersonMobileX=0;
-var thirdPersonMobileY=0;
-var thirdPersonYaw=Math.PI;
-var thirdPersonPitch=.34;
-var thirdPersonDrag=false;
-var thirdPersonMouseX=0;
-var thirdPersonMouseY=0;
-var thirdPersonTouchId=null;
-var thirdPersonClock=new THREE.Clock();
-var thirdPersonCanvas=renderer.domElement;
-
-function thirdPersonStair(x,z){
-  if(x>stairX-2.8&&x<stairX+2.8&&z<=stairStartZ&&z>=stairStartZ-stairSteps*stairRun){
-    return Math.max(0,Math.min(1,(stairStartZ-z)/(stairSteps*stairRun)));
-  }
-  return -1;
-}
-function thirdPersonFloor(x,z){
-  var p=thirdPersonStair(x,z);
-  if(p>=0)return .56+p*(level2Y-.56);
-  if(z>9.2)return .07;
-  return groundFloorTop;
-}
-function thirdPersonUpper(x,z){
-  if(x<-7.15||x>7.15)return x>-28.2&&x<28.2&&z>-33&&z<5;
-  return (z>-4.3&&z<3.8)||(z>-34&&z<-26);
-}
-function thirdPersonBlocked(x,z){
-  if(x<-45||x>45||z<-78||z>42)return true;
-  if(thirdPersonLevel===1&&thirdPersonStair(x,z)<0&&!thirdPersonUpper(x,z))return true;
-  return false;
-}
-function thirdPersonNearest(){
-  var best=null,bestDistance=999;
-  for(var i=0;i<spots.length;i++){
-    var h=spots[i];
-    var d=Math.hypot(h.x-playerAvatar.position.x,h.z-playerAvatar.position.z);
-    if(d<4.3&&d<bestDistance){best=h;bestDistance=d;}
-  }
-  return best;
-}
-function thirdPersonInteract(){
-  var h=thirdPersonNearest();
-  if(!h)return;
-  var info=document.getElementById("info");
-  info.innerHTML="<strong>"+(h.secret?"EASTER EGG":"MUSEUM")+"</strong><h3>"+h.t+"</h3><p>"+h.d+"</p>";
-  info.style.display="block";
-  if(h.secret&&!h.found){
-    h.found=true;
-    thirdPersonSecrets++;
-    var toast=document.getElementById("toast");
-    toast.textContent="發現隱藏彩蛋 "+thirdPersonSecrets+" / 3";
-    toast.classList.add("show");
-    setTimeout(function(){toast.classList.remove("show")},1600);
-  }
-}
-function thirdPersonJump(){
-  if(thirdPersonStarted&&thirdPersonGrounded){
-    thirdPersonVy=6.4;
-    thirdPersonGrounded=false;
-  }
-}
-function thirdPersonRotate(dx,dy){
-  thirdPersonYaw-=dx*.007;
-  thirdPersonPitch=Math.max(.16,Math.min(.82,thirdPersonPitch-dy*.005));
-}
-
-document.getElementById("startWorld").onclick=function(){
-  thirdPersonStarted=true;
-  document.getElementById("startScreen").classList.add("hidden");
-  document.getElementById("panel").classList.remove("hidden");
-  document.getElementById("hint").classList.add("hidden");
-};
-document.getElementById("timeBtn").onclick=function(){
-  applyTimeMode(timeMode==="day"?"night":"day");
-};
-window.addEventListener("keydown",function(e){
-  thirdPersonKeys[e.code]=true;
-  if(e.code==="Space"){e.preventDefault();thirdPersonJump();}
-  if(e.code==="KeyE"){e.preventDefault();thirdPersonInteract();}
-});
-window.addEventListener("keyup",function(e){
-  thirdPersonKeys[e.code]=false;
-});
-
-thirdPersonCanvas.addEventListener("mousedown",function(e){
-  if(!thirdPersonStarted)return;
-  thirdPersonDrag=true;
-  thirdPersonMouseX=e.clientX;
-  thirdPersonMouseY=e.clientY;
-});
-window.addEventListener("mouseup",function(){thirdPersonDrag=false;});
-window.addEventListener("mousemove",function(e){
-  if(!thirdPersonDrag)return;
-  thirdPersonRotate(e.clientX-thirdPersonMouseX,e.clientY-thirdPersonMouseY);
-  thirdPersonMouseX=e.clientX;
-  thirdPersonMouseY=e.clientY;
-});
-
-thirdPersonCanvas.addEventListener("pointerdown",function(e){
-  if(!thirdPersonStarted||e.pointerType==="mouse")return;
-  thirdPersonTouchId=e.pointerId;
-  thirdPersonMouseX=e.clientX;
-  thirdPersonMouseY=e.clientY;
-  thirdPersonCanvas.setPointerCapture(e.pointerId);
-});
-thirdPersonCanvas.addEventListener("pointermove",function(e){
-  if(e.pointerId!==thirdPersonTouchId)return;
-  thirdPersonRotate(e.clientX-thirdPersonMouseX,e.clientY-thirdPersonMouseY);
-  thirdPersonMouseX=e.clientX;
-  thirdPersonMouseY=e.clientY;
-});
-thirdPersonCanvas.addEventListener("pointerup",function(){thirdPersonTouchId=null;});
-thirdPersonCanvas.addEventListener("pointercancel",function(){thirdPersonTouchId=null;});
-
-var thirdPersonJoy=document.getElementById("joystick");
-var thirdPersonStick=document.getElementById("stick");
-if(thirdPersonJoy){
-  var joyActive=false;
-  var joyId=null;
-  function thirdPersonJoyUpdate(e){
-    var r=thirdPersonJoy.getBoundingClientRect();
-    var cx=r.left+r.width/2;
-    var cy=r.top+r.height/2;
-    var dx=e.clientX-cx;
-    var dy=e.clientY-cy;
-    var len=Math.hypot(dx,dy)||1;
-    var radius=38;
-    if(len>radius){dx=dx/len*radius;dy=dy/len*radius;}
-    thirdPersonMobileX=dx/radius;
-    thirdPersonMobileY=dy/radius;
-    thirdPersonStick.style.transform="translate("+dx+"px,"+dy+"px)";
-  }
-  function thirdPersonJoyStop(){
-    joyActive=false;
-    joyId=null;
-    thirdPersonMobileX=0;
-    thirdPersonMobileY=0;
-    thirdPersonStick.style.transform="translate(0,0)";
-  }
-  thirdPersonJoy.addEventListener("pointerdown",function(e){
-    joyActive=true;joyId=e.pointerId;thirdPersonJoy.setPointerCapture(e.pointerId);thirdPersonJoyUpdate(e);
-  });
-  thirdPersonJoy.addEventListener("pointermove",function(e){
-    if(joyActive&&e.pointerId===joyId)thirdPersonJoyUpdate(e);
-  });
-  thirdPersonJoy.addEventListener("pointerup",thirdPersonJoyStop);
-  thirdPersonJoy.addEventListener("pointercancel",thirdPersonJoyStop);
-}
-document.getElementById("jumpBtn").addEventListener("pointerdown",function(e){
-  e.preventDefault();
-  thirdPersonJump();
-});
-
-function animateThirdPerson(){
-  var dt=Math.min(thirdPersonClock.getDelta(),.045);
-  updateEntrance(dt);
-  if(thirdPersonStarted){
-    var ix=(thirdPersonKeys.KeyD?1:0)-(thirdPersonKeys.KeyA?1:0)+thirdPersonMobileX;
-    var iz=(thirdPersonKeys.KeyW?1:0)-(thirdPersonKeys.KeyS?1:0)-thirdPersonMobileY;
-    var len=Math.hypot(ix,iz)||1;
-    if(len>1){ix/=len;iz/=len;}
-    var speed=(thirdPersonKeys.ShiftLeft||thirdPersonKeys.ShiftRight?5.8:3.1)*dt;
-    var nx=playerAvatar.position.x+ix*speed;
-    var nz=playerAvatar.position.z+iz*speed;
-    if(!thirdPersonBlocked(nx,playerAvatar.position.z))playerAvatar.position.x=nx;
-    if(!thirdPersonBlocked(playerAvatar.position.x,nz))playerAvatar.position.z=nz;
-    if(ix||iz)playerAvatar.rotation.y=thirdPersonYaw+Math.atan2(ix,iz);
-
-    var floor=thirdPersonFloor(playerAvatar.position.x,playerAvatar.position.z);
-    thirdPersonVy-=18*dt;
-    playerAvatar.position.y+=thirdPersonVy*dt;
-    if(playerAvatar.position.y<=floor){
-      playerAvatar.position.y=floor;
-      thirdPersonVy=0;
-      thirdPersonGrounded=true;
-    }else{
-      thirdPersonGrounded=false;
-    }
-    thirdPersonLevel=playerAvatar.position.y>2?1:0;
-  }
-
-  var target=new THREE.Vector3(playerAvatar.position.x,playerAvatar.position.y+1.25,playerAvatar.position.z);
-  var cameraDistance=8.3;
-  var horizontal=cameraDistance*Math.cos(thirdPersonPitch);
-  var vertical=cameraDistance*Math.sin(thirdPersonPitch);
-  var desired=new THREE.Vector3(
-    target.x+Math.sin(thirdPersonYaw)*horizontal,
-    target.y+vertical,
-    target.z+Math.cos(thirdPersonYaw)*horizontal
-  );
-  camera.position.lerp(desired,Math.min(1,dt*7));
-  camera.lookAt(target);
-
-  var near=thirdPersonNearest();
-  var prompt=document.getElementById("interaction");
-  if(thirdPersonStarted&&near){
-    prompt.textContent="E 互動｜"+near.t;
-    prompt.classList.add("visible");
-  }else{
-    prompt.classList.remove("visible");
-  }
-
-  var pulse=performance.now()*.001;
-  centralLight.intensity=46+8*Math.sin(pulse*1.4);
-  rings.forEach(function(r,i){r.material.opacity=.55+.3*Math.sin(pulse*2+i)});
-  renderer.render(scene,camera);
-}
-applyTimeMode("day");
-renderer.setAnimationLoop(animateThirdPerson);
-window.addEventListener("resize",function(){
-  camera.aspect=innerWidth/innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(innerWidth,innerHeight);
-});
-ce(dt);if(!renderer.xr.isPresenting){const f=new THREE.Vector3(Math.sin(yaw),0,Math.cos(yaw)),r=new THREE.Vector3(Math.cos(yaw),0,-Math.sin(yaw));let ix=0,iy=0;if(keys.KeyA)ix--;if(keys.KeyD)ix++;if(keys.KeyW)iy++;if(keys.KeyS)iy--;ix+=mobile.x;iy-=mobile.y;const l=Math.hypot(ix,iy)||1;if(l>1){ix/=l;iy/=l}const sp=(keys.ShiftLeft||keys.ShiftRight?6.2:3.2)*dt;moveWithCollision((r.x*ix-f.x*iy)*sp,(r.z*ix-f.z*iy)*sp);const floorY=groundHeight(camera.position.x,camera.position.z)+1.68;if(started){vy-=18*dt;camera.position.y+=vy*dt;if(camera.position.y<=floorY){camera.position.y=floorY;vy=0;grounded=true}else grounded=false}else camera.position.y+=(floorY-camera.position.y)*Math.min(1,dt*10);camera.rotation.set(pitch,yaw,0,"YXZ")}const h=nearestSpot(),prompt=document.getElementById("interaction");if(started&&h){prompt.textContent="E 互動｜"+h.t;prompt.classList.add("visible")}else prompt.classList.remove("visible");const t=performance.now()*.001;centralLight.intensity=46+8*Math.sin(t*1.4);rings.forEach((r,i)=>r.material.opacity=.55+.35*Math.sin(t*2+i));renderer.render(scene,camera)}
-applyTimeMode("day");renderer.setAnimationLoop(animate);addEventListener("resize",()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
-</script>
-</body></html>
+var gameStarted=false,playerVy=0,grounded=true,levelNow=0,keys={},joyX=0,joyY=0,yaw=Math.PI,pitch=.35,drag=false,lx=0,ly=0,touchId=null,clockGame=new THREE.Clock();
+function stairP(x,z){if(x>stairX-2.8&&x<stairX+2.8&&z<=stairZ&&z>=stairZ-stairCount*stairRun)return Math.max(0,Math.min(1,(stairZ-z)/(stairCount*stairRun)));return -1}
+function floorP(x,z){var p=stairP(x,z);if(p>=0)return .56+p*(secondFloorY-.56);if(z>9.2)return .07;return museumFloorY}
+function upperP(x,z){if(x<-7.15||x>7.15)return x>-28.2&&x<28.2&&z>-33&&z<5;return(z>-4.3&&z<3.8)||(z>-34&&z<-26)}
+function blockedP(x,z){if(x<-45||x>45||z<-78||z>42)return true;if(levelNow===1&&stairP(x,z)<0&&!upperP(x,z))return true;return false}
+function nearP(){var b=null,d0=99;for(var i=0;i<museumSpots.length;i++){var h=museumSpots[i],d=Math.hypot(h.x-playerAvatar.position.x,h.z-playerAvatar.position.z);if(d<4.3&&d<d0){d0=d;b=h}}return b}
+function jumpP(){if(gameStarted&&grounded){playerVy=6.4;grounded=false}}
+function lookP(dx,dy){yaw-=dx*.007;pitch=Math.max(.16,Math.min(.82,pitch-dy*.005))}
+function interactP(){var h=nearP();if(!h)return;var box=document.getElementById("info");box.innerHTML="<strong>"+(h.secret?"EASTER EGG":"MUSEUM")+"</strong><h3>"+h.t+"</h3><p>"+h.d+"</p>";box.style.display="block"}
+document.getElementById("startWorld").onclick=function(){gameStarted=true;document.getElementById("startScreen").classList.add("hidden");document.getElementById("panel").classList.remove("hidden");document.getElementById("hint").classList.remove("hidden")};
+document.getElementById("timeBtn").onclick=function(){applyTimeMode(timeMode==="day"?"night":"day")};
+addEventListener("keydown",function(e){keys[e.code]=true;if(e.code==="Space"){e.preventDefault();jumpP()}if(e.code==="KeyE"){e.preventDefault();interactP()}});
+addEventListener("keyup",function(e){keys[e.code]=false});
+renderer.domElement.addEventListener("mousedown",function(e){if(gameStarted){drag=true;lx=e.clientX;ly=e.clientY}});
+addEventListener("mouseup",function(){drag=false});addEventListener("mousemove",function(e){if(drag){lookP(e.clientX-lx,e.clientY-ly);lx=e.clientX;ly=e.clientY}});
+var joy=document.getElementById("joystick"),stick=document.getElementById("stick"),joyOn=false,joyId=null;
+function joyMove(e){var r=joy.getBoundingClientRect(),dx=e.clientX-(r.left+r.width/2),dy=e.clientY-(r.top+r.height/2),len=Math.hypot(dx,dy)||1,rad=38;if(len>rad){dx=dx/len*rad;dy=dy/len*rad}joyX=dx/rad;joyY=dy/rad;stick.style.transform="translate("+dx+"px,"+dy+"px)"}
+function joyStop(){joyOn=false;joyId=null;joyX=0;joyY=0;stick.style.transform="translate(0,0)"}
+joy.addEventListener("pointerdown",function(e){joyOn=true;joyId=e.pointerId;joy.setPointerCapture&&joy.setPointerCapture(e.pointerId);joyMove(e)});joy.addEventListener("pointermove",function(e){if(joyOn&&e.pointerId===joyId)joyMove(e)});joy.addEventListener("pointerup",joyStop);joy.addEventListener("pointercancel",joyStop);document.getElementById("jumpBtn").addEventListener("pointerdown",function(e){e.preventDefault();jumpP()});
+function animateMuseum(){var dt=Math.min(clockGame.getDelta(),.045);if(gameStarted){var ix=(keys.KeyD?1:0)-(keys.KeyA?1:0)+joyX,iz=(keys.KeyW?1:0)-(keys.KeyS?1:0)-joyY,len=Math.hypot(ix,iz)||1;if(len>1){ix/=len;iz/=len}var sp=(keys.ShiftLeft||keys.ShiftRight?5.8:3.1)*dt,nx=playerAvatar.position.x+ix*sp,nz=playerAvatar.position.z+iz*sp;if(!blockedP(nx,playerAvatar.position.z))playerAvatar.position.x=nx;if(!blockedP(playerAvatar.position.x,nz))playerAvatar.position.z=nz;if(ix||iz)playerAvatar.rotation.y=yaw+Math.atan2(ix,iz);var fy=floorP(playerAvatar.position.x,playerAvatar.position.z);playerVy-=18*dt;playerAvatar.position.y+=playerVy*dt;if(playerAvatar.position.y<=fy){playerAvatar.position.y=fy;playerVy=0;grounded=true}else grounded=false;levelNow=playerAvatar.position.y>2?1:0}
+var target=new THREE.Vector3(playerAvatar.position.x,playerAvatar.position.y+1.25,playerAvatar.position.z),dist=8.5,flat=dist*Math.cos(pitch),up=dist*Math.sin(pitch),desired=new THREE.Vector3(target.x+Math.sin(yaw)*flat,target.y+up,target.z+Math.cos(yaw)*flat);camera.position.lerp(desired,Math.min(1,dt*7));camera.lookAt(target);
+var near=nearP(),pr=document.getElementById("interaction");if(gameStarted&&near){pr.textContent="E 互動｜"+near.t;pr.classList.add("visible")}else pr.classList.remove("visible");var t=performance.now()*.001;museumCentralLight.intensity=48+7*Math.sin(t*1.5);for(var i=0;i<museumRings.length;i++)museumRings[i].material.opacity=.55+.28*Math.sin(t*2+i);renderer.render(scene,camera)}
+applyTimeMode("day");renderer.setAnimationLoop(animateMuseum);addEventListener("resize",function(){camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
+</script></body></html>
