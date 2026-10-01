@@ -91,7 +91,7 @@ canvas{display:block;touch-action:none;cursor:crosshair}
     box.style.display="block";
   }
   window.addEventListener("error",function(e){
-    if(e&&e.message)showBootError("JavaScript 啟動失敗： "+e.message);
+    if(e&&e.message)showBootError("JavaScript 啟動失敗： "+e.message+(e.filename?"\n"+e.filename+":"+e.lineno+":"+e.colno:""));
   });
   window.addEventListener("unhandledrejection",function(e){
     showBootError("模組／資源啟動失敗： "+(e&&e.reason&&e.reason.message?e.reason.message:e.reason||"載入失敗"));
@@ -354,6 +354,18 @@ function nearP(){var b=null,d0=99;for(var i=0;i<museumSpots.length;i++){var h=mu
 function jumpP(){if(gameStarted&&grounded){playerVy=6.4;grounded=false}}
 function lookP(dx,dy){yaw-=dx*.007;pitch=Math.max(.16,Math.min(.82,pitch-dy*.005))}
 function interactP(){var h=nearP();if(!h)return;var box=document.getElementById("info");box.innerHTML="<strong>"+(h.secret?"EASTER EGG":"MUSEUM")+"</strong><h3>"+h.t+"</h3><p>"+h.d+"</p>";box.style.display="block"}
+function applyTimeMode(mode){
+  timeMode=mode;
+  var night=mode==="night";
+  scene.background=night?nightSkyColor:dayFallbackColor;
+  key.intensity=night?.24:2.25;
+  fill.intensity=night?.08:.42;
+  rim.intensity=night?.14:.30;
+  stars.material.opacity=night?.95:0;
+  for(var i=0;i<nightLights.length;i++)nightLights[i].intensity=night?(nightLights[i].color.r>.8?24:7):0;
+  var btn=document.getElementById("timeBtn");
+  if(btn)btn.textContent=night?"切換至日景 · DAY":"切換至夜景 · NIGHT";
+}
 document.getElementById("startWorld").onclick=function(){gameStarted=true;document.getElementById("startScreen").classList.add("hidden");document.getElementById("panel").classList.remove("hidden");document.getElementById("hint").classList.remove("hidden")};
 document.getElementById("timeBtn").onclick=function(){applyTimeMode(timeMode==="day"?"night":"day")};
 addEventListener("keydown",function(e){keys[e.code]=true;if(e.code==="Space"){e.preventDefault();jumpP()}if(e.code==="KeyE"){e.preventDefault();interactP()}});
