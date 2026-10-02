@@ -75,6 +75,8 @@ const hemi=new THREE.HemisphereLight(0xeaf7ff,0x536273,2.15);scene.add(hemi);
 const sun=new THREE.DirectionalLight(0xffefd4,3.15);sun.position.set(-45,58,28);sun.castShadow=true;
 sun.shadow.mapSize.set(2048,2048);sun.shadow.camera.left=-95;sun.shadow.camera.right=95;sun.shadow.camera.top=95;sun.shadow.camera.bottom=-95;scene.add(sun);
 const fill=new THREE.DirectionalLight(0xb5d8ff,.5);fill.position.set(40,24,-46);scene.add(fill);
+const clock=new THREE.Clock();
+let dragging=false,lx=0,ly=0,touchLook=null;
 
 const M={
  road:new THREE.MeshStandardMaterial({color:0x5e5a72,roughness:.9,flatShading:true}),
