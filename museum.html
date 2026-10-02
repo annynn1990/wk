@@ -178,12 +178,70 @@ arch(0,-76,19,8,MAT.blue,"黃名歷史博物館");
 
 function museum(){
  const g=new THREE.Group();g.position.set(0,0,-88);scene.add(g);
- box(32,12,15,0,6,0,MAT.white,0,g);
- box(27,4.1,4,0,12,-5.7,MAT.blue,0,g);
- for(let x=-12;x<=12;x+=4)box(2.5,3.6,.24,x,2.9,-7.58,MAT.glass,0,g);
- planeSign("黃名歷史博物館","WONGMING HISTORY MUSEUM",0,8.6,-7.65,Math.PI,"#fff","#4c86c3",9.4,1.4);
- for(let x=-12;x<=12;x+=4)cyl(.12,3.2,x,1.6,-8.3,MAT.gold,10,g);
- collider(-17,17,-96,-80)
+ // Exterior shell / front entrance
+ box(31.4,.48,15.2,0,13,0,MAT.roof,0,g);
+ box(.82,12.5,15.2,-15.6,6.25,0,MAT.white,0,g); box(.82,12.5,15.2,15.6,6.25,0,MAT.white,0,g);
+ box(31.4,12.5,.82,0,6.25,-7.25,MAT.white,0,g);
+ box(10.2,5.9,.82,-10.6,2.95,7.25,MAT.white,0,g); box(10.2,5.9,.82,10.6,2.95,7.25,MAT.white,0,g);
+ box(31.4,6.6,.82,0,9.7,7.25,MAT.white,0,g); box(9.2,1,.9,0,6.25,7.25,MAT.blue,0,g);
+ box(4,5.1,.14,-2.08,2.55,6.82,MAT.glass,0,g); box(4,5.1,.14,2.08,2.55,6.82,MAT.glass,0,g); box(.16,5.1,.2,0,2.55,6.7,MAT.dark,0,g);
+ box(8.8,.18,.6,0,5.18,6.82,MAT.gold,0,g);
+ planeSign("黃名歷史博物館","WONGMING HISTORY MUSEUM",0,10.1,6.78,Math.PI,"#fff","#4c86c3",10.2,1.45);
+ box(12.5,.25,2.6,0,6.05,8.65,MAT.roof,0,g);
+ for(let x=-5.4;x<=5.4;x+=1.8)cyl(.09,2.2,x,4.95,8,MAT.gold,10,g);
+ for(let x=-12;x<=12;x+=3)box(2.25,2.55,.1,x,8.9,6.79,MAT.glass,0,g);
+
+ // Interior floors and open atrium
+ box(30.2,.28,14,0,.02,0,MAT.white,0,g);
+ box(8.4,.3,13.4,-11,5.32,0,MAT.white,0,g); box(8.4,.3,13.4,11,5.32,0,MAT.white,0,g); box(13.4,.3,4,0,5.32,-5.25,MAT.white,0,g);
+ box(8.2,.11,.12,-11,5.72,6.1,MAT.gold,0,g); box(8.2,.11,.12,11,5.72,6.1,MAT.gold,0,g); box(13,.11,.12,0,5.72,-3.35,MAT.gold,0,g);
+ for(const x of [-13.5,-11.8,-10.1,-8.4,-6.7,6.7,8.4,10.1,11.8,13.5])box(.08,.72,.08,x,5.65,6,MAT.dark,0,g);
+ for(const x of [-6,-4.5,-3,-1.5,0,1.5,3,4.5,6])box(.08,.72,.08,x,5.65,-3.35,MAT.dark,0,g);
+
+ // Staircase
+ for(let i=0;i<10;i++){const y=.28+i*.5,z=2.65-i*.52;box(4.5,y,.62,-11,y/2,z,MAT.side,0,g)}
+ box(4.8,.18,6,-11,.12,-.15,MAT.side,0,g);
+
+ // Skylight, mosaics and central sculpture
+ box(10.2,.2,9.8,0,10.95,0,MAT.glass,0,g);
+ box(10.8,.18,.16,0,11.08,-4.9,MAT.gold,0,g); box(.16,.18,9.9,-5.3,11.08,0,MAT.gold,0,g); box(.16,.18,9.9,5.3,11.08,0,MAT.gold,0,g);
+ for(const x of [-4.4,-2.2,0,2.2,4.4])box(1.7,.022,.16,x,.17,2,MAT.gold,0,g);
+ for(const z of [1,-.2,-1.4,-2.6])box(.16,.024,1,0,.17,z,MAT.gold,0,g);
+
+ function caseBox(x,z,w=2.1,d=1.2){box(w,.14,d,x,.48,z,MAT.dark,0,g);const gl=new THREE.Mesh(new THREE.BoxGeometry(w-.12,1,d-.12),new THREE.MeshStandardMaterial({color:0xb9ddea,transparent:true,opacity:.25,roughness:.12}));gl.position.set(x,.95,z);g.add(gl);box(w,.1,d,x,1.47,z,MAT.gold,0,g)}
+ function pedestal(x,z,mat=MAT.gold){box(.86,.14,.86,x,.1,z,MAT.dark,0,g);box(.64,1.1,.64,x,.68,z,mat,0,g);box(.86,.12,.86,x,1.24,z,MAT.white,0,g)}
+ function wallArtwork(x,y,z,rot,title,accent){const m=new THREE.Mesh(new THREE.PlaneGeometry(3.2,1.8),new THREE.MeshBasicMaterial({map:signTexture(title,"WONGMING HISTORY","#f8f6ee","#243b4d",accent)}));m.position.set(x,y,z);m.rotation.y=rot;g.add(m)}
+ function banner(x,z,title){const m=new THREE.Mesh(new THREE.PlaneGeometry(1.8,2.4),new THREE.MeshBasicMaterial({map:signTexture(title,"EXHIBITION","#fff","#273d50","#d2a03f"),transparent:true}));m.position.set(x,6.9,z);m.rotation.y=Math.PI;g.add(m)}
+
+ // Ground floor galleries
+ caseBox(-8.4,-4,2.6,1.45); caseBox(-8.4,3.3,2.6,1.45); caseBox(8.4,-4,2.6,1.45); caseBox(8.4,3.3,2.6,1.45);
+ pedestal(-8.2,-.3,MAT.gold); pedestal(-3.1,-.8,MAT.blue); pedestal(8.1,-.2,MAT.coral); pedestal(3,-.8,MAT.green);
+ wallArtwork(-15,3.4,-2.4,Math.PI/2,"建國文書","#4a83bf"); wallArtwork(15,3.4,-2.4,-Math.PI/2,"皇室典藏","#d5a13e"); wallArtwork(-15,3.4,3.8,Math.PI/2,"慶寧時期","#6cb0a0"); wallArtwork(15,3.4,3.8,-Math.PI/2,"外交史料","#df8fa2");
+ banner(-11,.1,"建國"); banner(11,.1,"宮廷");
+
+ const sc=new THREE.Group();sc.position.set(0,.3,0);g.add(sc);cyl(.72,.22,0,.1,0,MAT.gold,28,sc);cyl(.38,1.9,0,1.05,0,MAT.blue,12,sc);sphere(.66,0,2.15,0,MAT.white,sc);
+ for(let i=0;i<4;i++){const a=i*Math.PI/2;box(.9,.1,.12,Math.cos(a)*.58,2,Math.sin(a)*.58,MAT.gold,-a,sc)}
+
+ // Second floor
+ wallArtwork(-15,8.8,-4.8,Math.PI/2,"制度沿革","#4c87c3"); wallArtwork(-15,8.8,1,Math.PI/2,"帝國外交","#d6a23f");
+ wallArtwork(15,8.8,-4.8,-Math.PI/2,"文化藝術","#64aa99"); wallArtwork(15,8.8,1,-Math.PI/2,"出版與教育","#db8fa0");
+ for(const q of [[-11,-2], [11,-2],[-11,2.2],[11,2.2]])caseBox(q[0],q[1],1.8,1);
+ banner(-11,-5.3,"制度"); banner(11,-5.3,"文化");
+ box(8.5,.14,2.4,0,5.52,-5.2,MAT.blue,0,g);
+ for(const x of [-2.8,0,2.8]){box(1.8,.18,.7,x,6,-5.5,MAT.white,0,g);box(.11,.5,.11,x-.6,5.72,-5.5,MAT.gold,0,g);box(.11,.5,.11,x+.6,5.72,-5.5,MAT.gold,0,g)}
+
+ // Lighting / chandelier
+ for(const q of [[-10,4,4],[0,7,3.2],[10,4,4],[0,10,-5]]){const L=new THREE.PointLight(0xffe3a8,1.1,12);L.position.set(q[0],q[1],q[2]);g.add(L)}
+ const cg=new THREE.PointLight(0xbddfff,.9,16);cg.position.set(0,6,0);g.add(cg);
+ const ch=new THREE.Group();ch.position.set(0,8.8,0);g.add(ch);cyl(.08,3,0,-1.5,0,MAT.gold,10,ch);
+ for(let i=0;i<8;i++){const a=i*Math.PI/4;cyl(.06,1.3,Math.cos(a),-2.6,Math.sin(a),MAT.gold,8,ch);sphere(.15,Math.cos(a),-3.25,Math.sin(a),MAT.white,ch)}
+
+ for(let i=0;i<4;i++)box(10-i*.6,.2,.9,0,-.08-i*.16,7.8+i*.58,MAT.side,0,g);
+
+ // Wall colliders; entry and circulation stay open
+ collider(-16.3,-14.7,-95.5,-80.3); collider(14.7,16.3,-95.5,-80.3); collider(-16.3,16.3,-96.1,-95);
+ collider(-16,-5,-80.3,-79.7); collider(5,16,-80.3,-79.7);
+ return g
 }
 museum();
 
@@ -228,7 +286,12 @@ const points=[
 {name:"黃名生活館",x:-1,z:-10,text:"城市生活與文化收藏。"},
 {name:"史蹟工坊",x:1,z:-28,text:"從地方記憶認識黃名歷史。"},
 {name:"黃名歷史街區",x:0,z:-44,text:"穿過拱門，進入歷史展區。"},
-{name:"黃名歷史博物館",x:0,z:-82,text:"街區盡頭的主要博物館。"}
+{name:"黃名歷史博物館",x:0,z:-79,text:"穿過博物館入口，正式進入館內。"},
+{name:"建國文物廳",x:-8.4,z:-92,text:"保存黃名帝國建國文書與早期史料。",inside:true},
+{name:"宮廷典藏廳",x:8.4,z:-92,text:"展示皇室禮制、典藏與慶寧時期文物。",inside:true},
+{name:"制度沿革廳",x:-11,z:-84.5,text:"介紹帝國制度與公共機關沿革。",inside:true},
+{name:"文化藝術廳",x:11,z:-84.5,text:"展示文化、出版、藝術與公共記憶。",inside:true},
+{name:"中央中庭",x:0,z:-88,text:"博物館中央挑高中庭與主雕塑。",inside:true}
 ];
 for(const p of points){const m=new THREE.Mesh(new THREE.TorusGeometry(.62,.075,10,28),new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:.9}));m.rotation.x=-Math.PI/2;m.position.set(p.x,.13,p.z);scene.add(m);p.marker=m}
 
@@ -249,7 +312,7 @@ function openPanel(title="黃名街區",text="在街道中探索黃名帝國的�
  document.getElementById("panel").classList.add("panelOn")
 }
 function closePanel(){document.getElementById("panel").classList.remove("panelOn")}
-function teleport(p){closePanel();const fade=document.getElementById("fade");fade.style.opacity="1";setTimeout(()=>{avatar.position.set(p.x,p.name==="黃名歷史博物館"?0.03:.03,p.z+5);setTimeout(()=>fade.style.opacity="0",180)},170)}
+function teleport(p){if(p.inside){openPanel(p.name,p.text);return}closePanel();const fade=document.getElementById("fade");fade.style.opacity="1";setTimeout(()=>{avatar.position.set(p.x,.03,p.z+5);setTimeout(()=>fade.style.opacity="0",180)},170)}
 
 document.getElementById("exhibitBtn").onclick=()=>openPanel();
 document.getElementById("streetBtn").onclick=closePanel;
@@ -278,6 +341,7 @@ function joyStop(){joyOn=false;joyId=null;joyX=0;joyY=0;stick.style.transform="t
 joy.addEventListener("pointerdown",e=>{joyOn=true;joyId=e.pointerId;joy.setPointerCapture?.(e.pointerId);joyMove(e)});joy.addEventListener("pointermove",e=>{if(joyOn&&e.pointerId===joyId)joyMove(e)});joy.addEventListener("pointerup",joyStop);joy.addEventListener("pointercancel",joyStop);
 document.getElementById("jump").addEventListener("pointerdown",e=>{e.preventDefault();keys.Space=true;setTimeout(()=>keys.Space=false,140)});
 
+function getFloorY(x,z){const lz=z+88;if(x>-13.7&&x<-8.1&&lz>-3.2&&lz<3.2)return .03+((3.2-lz)/6.4)*5.25;if((x<-6.5||x>6.5)&&lz>-6.3&&lz<6.3)return 5.45;return .03}
 function animate(){
  const dt=Math.min(clock.getDelta(),.035);
  let forward=(keys.KeyW?1:0)-(keys.KeyS?1:0)-joyY,strafe=(keys.KeyD?1:0)-(keys.KeyA?1:0)+joyX;
@@ -290,8 +354,9 @@ function animate(){
  if(!blocked(nx,avatar.position.z))avatar.position.x=nx;
  if(!blocked(avatar.position.x,nz))avatar.position.z=nz;
  if(moving){avatar.rotation.y=Math.atan2(dx,dz);const w=Math.sin(performance.now()*.012)*.24;avatar.userData.la.rotation.z=.15+w;avatar.userData.ra.rotation.z=-.15-w;avatar.userData.ll.rotation.x=w*.72;avatar.userData.rl.rotation.x=-w*.72}else{avatar.userData.la.rotation.z=.15;avatar.userData.ra.rotation.z=-.15;avatar.userData.ll.rotation.x=0;avatar.userData.rl.rotation.x=0}
- if(keys.Space&&avatar.position.y<=.035)avatar.userData.vy=6.2;
- avatar.userData.vy=(avatar.userData.vy||0)-17.5*dt;avatar.position.y+=avatar.userData.vy*dt;if(avatar.position.y<.03){avatar.position.y=.03;avatar.userData.vy=0}
+ const floorY=getFloorY(avatar.position.x,avatar.position.z);
+ if(keys.Space&&avatar.position.y<=floorY+.05)avatar.userData.vy=6.2;
+ avatar.userData.vy=(avatar.userData.vy||0)-17.5*dt;avatar.position.y+=avatar.userData.vy*dt;if(avatar.position.y<floorY){avatar.position.y=floorY;avatar.userData.vy=0}
  const target=new THREE.Vector3(avatar.position.x,avatar.position.y+1.08,avatar.position.z);
  const horiz=camDistance*Math.cos(camPitch),up=camDistance*Math.sin(camPitch);
  const desired=new THREE.Vector3(target.x+Math.sin(camYaw)*horiz,target.y+up,target.z+Math.cos(camYaw)*horiz);
