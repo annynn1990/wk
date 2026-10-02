@@ -1,1 +1,151 @@
-<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>黃名帝國百科</title><meta name="description" content="黃名帝國百科：歷史、政治、皇室、人物、地理、外交、文化與制度。"><link rel="stylesheet" href="assets/wiki.css"></head><body><header class="top"><div class="top-inner"><a class="brand" href="./"><span class="brand-mark">黃</span><span>黃名帝國百科<small>WONG MING EMPIRE ENCYCLOPEDIA</small></span></a><button class="menu-toggle" id="menuToggle">☰</button><nav id="mainNav"><a href="articles.html">條目</a><a href="categories.html">分類</a><a href="timeline.html">大事記</a><a href="about.html">關於</a><button id="editEntry">編輯</button></nav></div></header><main><section class="hero"><div class="wrap hero-grid"><div><p class="eyebrow">WONG MING EMPIRE · KNOWLEDGE BASE</p><h1>黃名帝國</h1><p class="hero-lead">以百科條目方式整理黃名帝國歷史、政治、皇室、人物、地理、外交與文化的開放式知識庫。</p><div class="search search-large"><input id="q" placeholder="搜尋條目、人物、制度、歷史……"><button onclick="searchWiki()">搜尋</button></div></div><aside class="hero-facts"><b>百科導覽</b><a href="categories.html">瀏覽全部分類 →</a><a href="timeline.html">查看歷史年表 →</a><a href="articles.html">所有條目 →</a></aside></div></section><div class="wrap"><section class="section-head"><div><p class="eyebrow">FEATURED</p><h2>精選條目</h2></div><a href="articles.html">查看全部 →</a></section><section id="featured" class="article-grid"></section><section class="section-head"><div><p class="eyebrow">CATEGORIES</p><h2>百科分類</h2></div><a href="categories.html">完整分類 →</a></section><section id="cats" class="category-grid"></section><section class="notice"><b>編輯原則</b><span>重要敘述盡量區分官方資料、原始史料與後來整理；涉及歷史細節時應回到原始來源核對。</span></section></div><div class="edit-modal" id="editModal" hidden><div class="edit-modal-box"><button class="modal-close" id="closeModal">×</button><h2>編輯百科</h2><p>請輸入編輯密碼。</p><form id="editLogin"><input id="editPassword" type="password" placeholder="密碼" required><button class="primary">進入編輯器</button><p id="editError"></p></form></div></div></main><footer><div class="wrap">黃名帝國百科 · Wongming Empire Encyclopedia</div></footer><script src="assets/wiki.js"></script><script>renderHome();initSite();</script></body></html>
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>黃名帝國百科</title>
+<meta name="description" content="黃名帝國百科：歷史、政治、皇室、人物、地理、外交、文化與制度。">
+<link rel="stylesheet" href="assets/wiki.css">
+</head>
+<body>
+<div class="wiki-shell">
+<aside class="wiki-side" id="wikiSide">
+  <a class="side-logo" href="./">
+    <span class="side-logo-mark">黃</span>
+    <b>黃名帝國百科</b>
+  </a>
+  <div class="side-group">導覽</div>
+  <nav>
+    <a href="./">首頁</a>
+    <a href="articles.html">所有條目</a>
+    <a href="categories.html">分類</a>
+    <a href="timeline.html">大事記</a>
+    <a href="about.html">關於本百科</a>
+  </nav>
+  <div class="side-group">探索</div>
+  <nav>
+    <a href="articles.html">歷史</a>
+    <a href="categories.html">政治與制度</a>
+    <a href="categories.html">皇室與人物</a>
+    <a href="categories.html">外交</a>
+    <a href="categories.html">文化</a>
+  </nav>
+  <div class="side-group">工具</div>
+  <nav>
+    <button id="randomEntry">隨機條目</button>
+    <a href="edit.html">百科編輯器</a>
+  </nav>
+  <div class="side-meta">
+    <b>Wong Ming Empire</b><br>
+    開放式百科知識庫<br>
+    歷史 · 政治 · 皇室 · 人物 · 地理 · 外交 · 文化
+  </div>
+</aside>
+
+<div class="wiki-main">
+<header class="wiki-topbar">
+  <div class="wiki-tabs">
+    <button class="wiki-mobile-menu" id="wikiMenu">☰</button>
+    <a class="active" href="./">條目</a>
+    <a href="articles.html">閱讀</a>
+    <a href="categories.html">分類</a>
+  </div>
+  <div>
+    <input class="wiki-search" id="q" placeholder="搜尋黃名帝國百科" aria-label="搜尋百科">
+  </div>
+</header>
+
+<main class="wiki-content">
+  <h1 class="wiki-page-title">黃名帝國百科</h1>
+  <div class="wiki-sub">Wong Ming Empire Encyclopedia · 開放式知識庫</div>
+
+  <section class="classic-note">
+    <b>歡迎來到黃名帝國百科。</b>
+    本百科以條目、分類與歷史年表整理黃名帝國的歷史、政治、皇室、人物、地理、外交與文化。
+  </section>
+
+  <div class="classic-grid">
+    <div>
+      <section class="classic-panel">
+        <h2>精選條目</h2>
+        <div class="inner">
+          <div id="featured"></div>
+        </div>
+      </section>
+
+      <section class="classic-panel" style="margin-top:16px">
+        <h2>最新內容</h2>
+        <div class="inner">
+          <div id="latest"></div>
+        </div>
+      </section>
+
+      <section class="classic-panel" style="margin-top:16px">
+        <h2>近期大事記</h2>
+        <div class="inner">
+          <ul class="classic-list" id="events"></ul>
+        </div>
+      </section>
+    </div>
+
+    <aside>
+      <section class="classic-panel">
+        <h2>百科分類</h2>
+        <div class="inner">
+          <div id="cats"></div>
+        </div>
+      </section>
+
+      <section class="classic-panel" style="margin-top:16px">
+        <h2>百科導覽</h2>
+        <div class="inner">
+          <ul class="classic-list">
+            <li><a href="articles.html">瀏覽所有條目</a></li>
+            <li><a href="categories.html">依分類探索</a></li>
+            <li><a href="timeline.html">查看歷史大事記</a></li>
+            <li><a href="about.html">了解資料原則</a></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="classic-note" style="margin-top:16px">
+        <b>資料原則</b><br>
+        重要敘述盡量區分官方資料、原始史料與後來整理；涉及歷史細節時應回到原始來源核對。
+      </section>
+    </aside>
+  </div>
+</main>
+
+<footer class="wiki-footer">
+  黃名帝國百科 · Wong Ming Empire Encyclopedia
+</footer>
+</div>
+</div>
+
+<script src="assets/wiki.js"></script>
+<script>
+(async()=>{
+  const d=await loadWiki();
+  const esc=s=>String(s??"").replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
+  const link=a=>'<li><a href="article.html?id='+encodeURIComponent(a.id)+'"><b>'+esc(a.title)+'</b></a><br><span>'+esc(a.summary||"百科條目")+'</span></li>';
+  document.querySelector("#featured").innerHTML='<ul class="classic-list">'+d.slice(0,6).map(link).join("")+'</ul>';
+  document.querySelector("#latest").innerHTML='<ul class="classic-list">'+d.slice(-6).reverse().map(link).join("")+'</ul>';
+
+  const map={};
+  d.forEach(a=>(a.categories||[]).forEach(c=>(map[c]??=[]).push(a)));
+  document.querySelector("#cats").innerHTML='<ul class="classic-list">'+Object.entries(map).sort((a,b)=>b[1].length-a[1].length).map(([c,l])=>'<li><a href="category.html?name='+encodeURIComponent(c)+'">'+esc(c)+'</a>（'+l.length+'）</li>').join("")+'</ul>';
+
+  const events=d.flatMap(a=>(a.events||[]).map(e=>({...e,a}))).sort((a,b)=>a.date.localeCompare(b.date)).slice(-8).reverse();
+  document.querySelector("#events").innerHTML=events.map(e=>'<li><b>'+esc(e.date)+'</b>　'+esc(e.text)+'　<a href="article.html?id='+encodeURIComponent(e.a.id)+'">〔條目〕</a></li>').join("");
+
+  document.querySelector("#q").addEventListener("keydown",e=>{
+    if(e.key==="Enter"&&e.target.value.trim())location.href="search.html?q="+encodeURIComponent(e.target.value.trim());
+  });
+  document.querySelector("#randomEntry").onclick=()=>{
+    if(d.length)location.href="article.html?id="+encodeURIComponent(d[Math.floor(Math.random()*d.length)].id);
+  };
+  document.querySelector("#wikiMenu").onclick=()=>document.body.classList.toggle("wiki-nav-open");
+})();
+</script>
+</body>
+</html>
