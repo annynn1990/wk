@@ -211,10 +211,6 @@ for(const x of [-8,8]){addBox(2,.16,.45,x,.76,10,M.trunk);addBox(.12,.6,.12,x-.7
 
 // Cartoon car in right foreground.
 const car=new THREE.Group();scene.add(car);car.position.set(8,.55,17);
-avatar.renderOrder=20;
-avatar.traverse(function(o){o.frustumCulled=false});
-for(const n of npcs){n.obj.renderOrder=18;n.obj.traverse(function(o){o.frustumCulled=false})}
-
 const cb=new THREE.Mesh(new THREE.BoxGeometry(4.1,.8,1.7),new THREE.MeshStandardMaterial({color:0x4e89c8,roughness:.32,metalness:.15,flatShading:true}));cb.castShadow=true;car.add(cb);
 const roof=new THREE.Mesh(new THREE.BoxGeometry(2.2,.62,1.35),M.window);roof.position.y=.65;roof.castShadow=true;car.add(roof);
 for(const sx of [-1.5,1.5])for(const sy of [-.78,.78]){const w=new THREE.Mesh(new THREE.CylinderGeometry(.4,.4,.24,16),M.dark);w.rotation.z=Math.PI/2;w.position.set(sx,-.47,sy);w.castShadow=true;car.add(w)}
@@ -250,7 +246,6 @@ const npcs=[
   {obj:makeCharacter(new THREE.MeshStandardMaterial({color:0xf0dfb0,roughness:.82,flatShading:true}),new THREE.MeshStandardMaterial({color:0x496788,roughness:.84,flatShading:true}),.90),x:-7,z:-18,turn:.15,phase:3.1},
   {obj:makeCharacter(new THREE.MeshStandardMaterial({color:0xd6e2f4,roughness:.82,flatShading:true}),new THREE.MeshStandardMaterial({color:0x6d4e4a,roughness:.84,flatShading:true}),.98),x:8,z:-29,turn:-.1,phase:4.6}
 ];
-for(const n of npcs){n.obj.position.set(n.x,.02,n.z);n.obj.rotation.y=n.turn;scene.add(n.obj)}
 // ---------- Colliders ----------
 const colliders=[
  [-31,-15,-4,14],[-49,-33,-8,6],[-67,-51,-10,2],
