@@ -409,6 +409,75 @@ function joyStop(){joyOn=false;joyId=null;joyX=0;joyY=0;stick.style.transform="t
 joy.addEventListener("pointerdown",e=>{joyOn=true;joyId=e.pointerId;joy.setPointerCapture?.(e.pointerId);joyMove(e)});joy.addEventListener("pointermove",e=>{if(joyOn&&e.pointerId===joyId)joyMove(e)});joy.addEventListener("pointerup",joyStop);joy.addEventListener("pointercancel",joyStop);
 document.getElementById("jump").addEventListener("pointerdown",e=>{e.preventDefault();keys.Space=true;setTimeout(()=>keys.Space=false,140)});
 
+function animate(){
+ const dt=Math.min(clock.getDelta(),.035);
+ let forward=(keys.KeyW?1:0)-(keys.KeyS?1:0)-joyY;
+ let strafe=(keys.KeyD?1:0)-(keys.KeyA?1:0)+joyX;
+ const mag=Math.hypot(forward,strafe)||1;
+ if(mag>1){forward/=mag;strafe/=mag}
+ const speed=(keys.ShiftLeft||keys.ShiftRight?6.7:3.7)*dt;
+ const fx=-Math.sin(camYaw),fz=-Math.cos(camYaw),rx=Math.cos(camYaw),rz=-Math.sin(camYaw);
+ const dx=(fx*forward+rx*strafe)*speed,dz=(fz*forward+rz*strafe)*speed;
+ const moving=!!(dx||dz);
+ const nx=avatar.position.x+dx,nz=avatar.position.z+dz;
+ if(!blocked(nx,avatar.position.z))avatar.position.x=nx;
+ if(!blocked(avatar.position.x,nz))avatar.position.z=nz;
+ if(moving){
+   avatar.rotation.y=Math.atan2(dx,dz);
+   const w=Math.sin(performance.now()*.012)*.24;
+   avatar.userData.la.rotation.z=.15+w;
+   avatar.userData.ra.rotation.z=-.15-w;
+   avatar.userData.ll.rotation.x=w*.72;
+   avatar.userData.rl.rotation.x=-w*.72;
+ }else{
+   avatar.userData.la.rotation.z=.15;avatar.userData.ra.rotation.z=-.15;
+   avatar.userData.ll.rotation.x=0;avatar.userData.rl.rotation.x=0;
+ }
+ const floorY=getFloorY(avatar.position.x,avatar.position.z);
+ if(keys.Space&&avatar.position.y<=floorY+.05)avatar.userData.vy=6.2;
+ avatar.userData.vy=(avatar.userData.vy||0)-17.5*dt;
+ avatar.position.y+=avatar.userData.vy*dt;
+ if(avatar.position.y<floorY){avatar.position.y=floorY;avatar.userData.vy=0}
+
+ const target=new THREE.Vector3(avatar.position.x,avatar.position.y+1.08,avatar.position.z);
+ const horiz=camDistance*Math.cos(camPitch),up=camDistance*Math.sin(camPitch);
+ const desired=new THREE.Vector3(target.x+Math.sin(camYaw)*horiz,target.y+up,target.z+Math.cos(camYaw)*horiz);
+ camera.position.lerp(desired,Math.min(1,dt*9));
+ camera.lookAt(target);
+
+ const now=performance.now()*.001;
+ mascot.position.y=1+Math.sin(now*1.8)*.08;
+ mascot.rotation.y+=dt*.45;
+
+ for(const m of movers){
+   if(m.npc){
+     m.obj.position.y=.03+Math.abs(Math.sin(now*1.4+m.phase))*.018;
+     const w=Math.sin(now*1.8+m.phase)*.05;
+     m.obj.userData.la.rotation.z=.15+w;
+     m.obj.userData.ra.rotation.z=-.15-w;
+   }else{
+     m.obj.position.x=m.baseX+Math.sin(now*m.speed+m.phase)*2.4;
+     m.obj.position.z=m.baseZ+Math.cos(now*m.speed*.65+m.phase)*1.2;
+     m.obj.rotation.y=Math.atan2(Math.cos(now*m.speed+m.phase),-Math.sin(now*m.speed*.65+m.phase));
+   }
+ }
+
+ nearest=null;let nd=999;
+ for(const p of points){
+   const d=Math.hypot(p.x-avatar.position.x,p.z-avatar.position.z);
+   p.marker.scale.setScalar(.86+.12*Math.sin(now*3));
+   if(d<4.6&&d<nd){nearest=p;nd=d}
+ }
+ const pr=document.getElementById("prompt");
+ if(nearest){pr.textContent="E  進入 · "+nearest.name;pr.classList.add("promptOn")}
+ else pr.classList.remove("promptOn");
+ const speech=document.getElementById("speech");
+ const nearMascot=Math.hypot(mascot.position.x-avatar.position.x,mascot.position.z-avatar.position.z);
+ speech.classList.toggle("hide",nearMascot>13);
+ mapUpdate();
+ renderer.render(scene,camera);
+}
+
 function getFloorY(x,z){
  const lz=z+88;
  // stair landing: rise from ground to second floor
