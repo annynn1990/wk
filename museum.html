@@ -109,7 +109,7 @@ function addBox(w,h,d,x,y,z,mat,ry=0){
 function addCylinder(r,h,x,y,z,mat,seg=14){
  const m=new THREE.Mesh(new THREE.CylinderGeometry(r,r,h,seg),mat);m.position.set(x,y,z);m.castShadow=true;scene.add(m);return m;
 }
-function ground(w,d,x,z,mat){const m=new THREE.Mesh(new THREE.PlaneGeometry(w,d),mat);m.rotation.x=-Math.PI/2;m.position.set(x,0,z);m.receiveShadow=true;scene.add(m);return m}
+function ground(w,d,x,z,mat){const m=new THREE.Mesh(new THREE.PlaneGeometry(w,d),mat);m.rotation.x=-Math.PI/2;m.position.set(x,mat===M.grass?-0.08:0,z);m.receiveShadow=true;scene.add(m);return m}
 function canvasSign(title,sub,bg="#ffffff",fg="#22384d",accent="#4b83be"){
  const c=document.createElement("canvas");c.width=900;c.height=250;const g=c.getContext("2d");
  g.fillStyle=bg;g.fillRect(0,0,900,250);g.fillStyle=accent;g.fillRect(0,0,900,18);
