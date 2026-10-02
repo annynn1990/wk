@@ -56,3 +56,22 @@
   .wiki-content .classic-infobox{float:none;width:100%;margin:0 0 16px}
   .wiki-content .wiki-page-title{font-size:24px}
 }
+
+/* ===== Talossa-inspired portal/category grid ===== */
+.portal-section{margin:24px 0 30px}
+.portal-heading{display:flex;align-items:baseline;gap:12px;margin:0 0 9px;padding-bottom:5px;border-bottom:2px solid #a2a9b1;font:700 18px/1.35 Georgia,"Noto Serif TC",serif}
+.portal-heading small{font:11px system-ui,sans-serif;font-weight:400;letter-spacing:.08em;color:#72777d}
+.portal-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.portal-grid-core{grid-template-columns:repeat(4,minmax(0,1fr))}
+.portal-card{display:block;min-width:0;padding:10px 12px;background:#f8f9fa;border:1px solid #a2a9b1;color:#202122;text-decoration:none;transition:background .12s,border-color .12s,box-shadow .12s}
+.portal-card:hover{background:#fff;border-color:#72777d;text-decoration:none;box-shadow:0 1px 3px #0002}
+.portal-card-head{display:flex;justify-content:space-between;align-items:center;gap:8px;padding-bottom:5px;border-bottom:1px solid #c8ccd1}
+.portal-card-head b{font:700 16px/1.35 Georgia,"Noto Serif TC",serif;color:#0645ad}
+.portal-card-head span{min-width:25px;padding:1px 6px;text-align:center;background:#eaecf0;border:1px solid #c8ccd1;color:#54595d;font-size:11px}
+.portal-card p{margin:6px 0;color:#54595d;font-size:12px;line-height:1.55}
+.portal-card ul{margin:5px 0 7px;padding-left:19px;font-size:12px;line-height:1.6}
+.portal-card li{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.portal-card .portal-more{padding-top:5px;border-top:1px dotted #c8ccd1;color:#0645ad;font-size:11px}
+@media(max-width:1050px){.portal-grid-core{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:760px){.portal-grid,.portal-grid-core{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:500px){.portal-grid,.portal-grid-core{grid-template-columns:1fr}}
