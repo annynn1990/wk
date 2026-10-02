@@ -14,64 +14,65 @@
   <nav><a href="./">首頁</a><a href="articles.html">所有條目</a><a href="categories.html">分類</a><a href="timeline.html">大事記</a><a href="about.html">關於本百科</a></nav>
   <div class="side-group">探索</div>
   <nav><a href="category.html?name=歷史">歷史</a><a href="category.html?name=政治">政治與制度</a><a href="category.html?name=皇室">皇室與人物</a><a href="category.html?name=外交">外交</a><a href="category.html?name=文化">文化</a></nav>
-  <div class="side-meta"><b>分類索引</b><br>每一格都是一個百科主題入口。</div>
+  <div class="side-meta"><b>分類索引</b><br>以圓形分類標誌快速瀏覽百科主題。</div>
 </aside>
-
 <div class="wiki-main">
 <header class="wiki-topbar">
   <div class="wiki-tabs"><button class="wiki-mobile-menu" id="wikiMenu">☰</button><a href="./">條目</a><a href="articles.html">閱讀</a><a class="active" href="categories.html">分類</a></div>
   <input class="wiki-search" id="q" placeholder="搜尋黃名帝國百科" aria-label="搜尋百科">
 </header>
-
 <main class="wiki-content">
   <div class="page-title">
     <p class="eyebrow">CATEGORY INDEX</p>
     <h1 class="wiki-page-title">百科分類</h1>
-    <div class="wiki-sub">把黃名帝國的知識分成一格一格的主題入口，從大類一路進入細部條目。</div>
+    <div class="wiki-sub">以圓形分類標誌排列主題，像傳統百科入口一樣逐格進入。</div>
   </div>
-
-  <div class="classic-note"><b>分類導覽：</b> 點選任一分類格即可查看該主題下的全部條目。</div>
-
+  <div class="classic-note"><b>分類導覽：</b> 每個圓形標誌代表一個百科主題；點選即可查看該分類下的條目。</div>
   <section class="portal-section">
     <div class="portal-heading"><span>核心主題</span><small>CORE SUBJECTS</small></div>
-    <div id="coreCats" class="portal-grid portal-grid-core"></div>
+    <div id="coreCats" class="round-category-grid"></div>
   </section>
-
   <section class="portal-section">
     <div class="portal-heading"><span>完整分類</span><small>ALL CATEGORIES</small></div>
-    <div id="cats" class="portal-grid"></div>
+    <div id="cats" class="round-category-grid"></div>
   </section>
 </main>
-
 <footer class="wiki-footer">黃名帝國百科 · Wong Ming Empire Encyclopedia</footer>
 </div>
 </div>
-
 <script src="assets/wiki.js"></script>
 <script>
 (async()=>{
   const d=await loadWiki();
   const esc=s=>String(s??"").replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
   const desc=categoryDescriptions||{};
+  const icons={
+    "國家":"◆","歷史":"⌛","政治":"⚖","政府":"▣","法律與憲政":"§","皇室":"♛","人物":"●",
+    "地理":"⌂","地方":"◈","外交":"✦","組織":"◉","經濟":"¤","貨幣":"＄","文化":"♬",
+    "語言":"文","國家象徵":"★","軍事與安全":"盾","宗教":"☼","媒體":"報","科技與網路":"⌘",
+    "社會":"♟","活動":"旗","獎章榮典":"♕","選舉":"票","公民":"人","微國家":"M"
+  };
   const map={};
   d.forEach(a=>(a.categories||[]).forEach(c=>(map[c]??=[]).push(a)));
-
   const make=(c)=>{
     const list=map[c]||[];
-    const featured=list.slice(0,4).map(a=>'<li><a href="article.html?id='+encodeURIComponent(a.id)+'">'+esc(a.title)+'</a></li>').join("");
-    return '<a class="portal-card" href="category.html?name='+encodeURIComponent(c)+'"><div class="portal-card-head"><b>'+esc(c)+'</b><span>'+list.length+'</span></div><p>'+esc(desc[c]||"相關百科條目與資料")+'</p><ul>'+featured+'</ul><div class="portal-more">瀏覽此分類 →</div></a>';
+    const featured=list.slice(0,3).map(a=>'<li><a href="article.html?id='+encodeURIComponent(a.id)+'">'+esc(a.title)+'</a></li>').join("");
+    return '<a class="round-category" href="category.html?name='+encodeURIComponent(c)+'">'+
+      '<span class="round-category-icon">'+esc(icons[c]||"•")+'</span>'+
+      '<span class="round-category-body">'+
+        '<b>'+esc(c)+'</b>'+
+        '<small>'+esc(desc[c]||"相關百科條目與資料")+'</small>'+
+        '<em>'+list.length+' 個條目</em>'+
+        (featured?'<ul>'+featured+'</ul>':"")+
+      '</span>'+
+    '</a>';
   };
-
-  const core=["歷史","政治","政府","法律與憲政","皇室","人物","外交","地理","文化","國家象徵","科技與網路","社會"].filter(c=>map[c]);
+  const core=["國家","歷史","政治","政府","法律與憲政","皇室","人物","外交","地理","文化","國家象徵","科技與網路"].filter(c=>map[c]);
   const all=Object.keys(map).sort((a,b)=>a.localeCompare(b,"zh-Hant"));
-
   document.getElementById("coreCats").innerHTML=core.map(make).join("");
   document.getElementById("cats").innerHTML=all.map(make).join("");
-
   const q=document.getElementById("q");
-  q.addEventListener("keydown",e=>{
-    if(e.key==="Enter"&&q.value.trim()) location.href="search.html?q="+encodeURIComponent(q.value.trim());
-  });
+  q.addEventListener("keydown",e=>{if(e.key==="Enter"&&q.value.trim()) location.href="search.html?q="+encodeURIComponent(q.value.trim())});
   document.getElementById("wikiMenu").onclick=()=>document.body.classList.toggle("wiki-nav-open");
 })();
 </script>
