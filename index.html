@@ -13,11 +13,9 @@
   <a class="side-logo" href="./"><span class="side-logo-mark">黃</span><b>黃名帝國百科</b></a>
   <div class="side-group">導覽</div>
   <nav><a href="./">首頁</a><a href="articles.html">所有條目</a><a href="categories.html">分類</a><a href="timeline.html">大事記</a><a href="about.html">關於本百科</a></nav>
-  <div class="side-group">熱門入口</div>
-  <nav><a href="article.html?id=wongming-empire">黃名帝國</a><a href="article.html?id=history">黃名帝國歷史</a><a href="article.html?id=government">黃名帝國政府</a><a href="article.html?id=parliament">黃名帝國國會</a><a href="article.html?id=constitution">黃名帝國憲政</a></nav>
   <div class="side-group">工具</div>
   <nav><a href="edit.html">百科編輯器</a><button id="randomEntry">隨機條目</button></nav>
-  <div class="side-meta"><b>WONG MING EMPIRE</b><br>知識庫 · 歷史 · 制度 · 皇室 · 人物 · 外交 · 文化</div>
+  <div class="side-meta"><b>WONG MING EMPIRE</b><br>黃名帝國知識庫<br>歷史 · 政府 · 皇室 · 人物 · 外交 · 文化</div>
 </aside>
 
 <div class="wiki-main">
@@ -26,70 +24,164 @@
   <input class="wiki-search" id="q" placeholder="搜尋百科" aria-label="搜尋百科">
 </header>
 
-<main class="wiki-content portal-home">
-<section class="portal-welcome">
-  <div>
-    <div class="portal-eyebrow">WONG MING EMPIRE · ENCYCLOPEDIA</div>
+<main class="wiki-content">
+  <div class="portal-intro">
+    <div class="portal-eyebrow">WONG MING EMPIRE ENCYCLOPEDIA</div>
     <h1>黃名帝國百科</h1>
-    <p>以百科方式整理黃名帝國的歷史、政府、皇室、人物、地理、外交、文化與制度。</p>
-    <div class="portal-search"><input id="homeSearch" placeholder="搜尋人物、事件、制度、地區……"><button id="homeSearchBtn">搜尋</button></div>
+    <p>以條目、制度、人物、歷史與文化資料，建立黃名帝國的百科入口。</p>
   </div>
-  <div class="portal-counts"><div><b id="articleCount">—</b><small>條目</small></div><div><b id="categoryCount">—</b><small>分類</small></div><div><b id="eventCount">—</b><small>年表</small></div></div>
-</section>
 
-<section class="portal-grid-home">
-<section class="portal-box portal-wide">
-  <div class="portal-box-head"><div><b>國家與歷史</b><small>THE REALM · HISTORY</small></div><a href="category.html?name=歷史">全部 →</a></div>
-  <div class="circle-link-grid" id="realmLinks"></div>
-</section>
-<section class="portal-box">
-  <div class="portal-box-head"><div><b>政府與政治</b><small>GOVERNMENT · POLITICS</small></div><a href="category.html?name=政治">全部 →</a></div>
-  <div class="circle-link-grid" id="govLinks"></div>
-</section>
-<section class="portal-box">
-  <div class="portal-box-head"><div><b>皇室與人物</b><small>ROYALTY · PEOPLE</small></div><a href="category.html?name=皇室">全部 →</a></div>
-  <div class="circle-link-grid" id="royalLinks"></div>
-</section>
-<section class="portal-box">
-  <div class="portal-box-head"><div><b>法律與制度</b><small>LAW · INSTITUTIONS</small></div><a href="category.html?name=法律與憲政">全部 →</a></div>
-  <div class="circle-link-grid" id="lawLinks"></div>
-</section>
-<section class="portal-box">
-  <div class="portal-box-head"><div><b>外交與世界</b><small>DIPLOMACY · WORLD</small></div><a href="category.html?name=外交">全部 →</a></div>
-  <div class="circle-link-grid" id="dipLinks"></div>
-</section>
-<section class="portal-box portal-wide">
-  <div class="portal-box-head"><div><b>文化、社會與網路</b><small>CULTURE · SOCIETY · DIGITAL</small></div><a href="categories.html">完整分類 →</a></div>
-  <div class="circle-link-grid" id="cultureLinks"></div>
-</section>
-<section class="portal-box portal-feature">
-  <div class="portal-box-head"><div><b>精選條目</b><small>FEATURED ARTICLES</small></div><a href="articles.html">更多 →</a></div>
-  <div id="featuredArticles"></div>
-</section>
-<section class="portal-box portal-feature">
-  <div class="portal-box-head"><div><b>近期大事記</b><small>RECENT EVENTS</small></div><a href="timeline.html">完整年表 →</a></div>
-  <ul class="portal-event-list" id="events"></ul>
-</section>
-</section>
-<section class="portal-note"><b>資料原則</b><span>重要敘述盡量區分官方資料、原始史料與後來整理；涉及歷史細節時，應回到原始來源核對。</span></section>
+  <div class="portal-map">
+    <!-- FIRST CONTENT TABLE -->
+    <section class="portal-table">
+
+      <div class="portal-box">
+        <div class="portal-box-head"><b>國家與皇室</b><small>THE STATE</small></div>
+        <div class="portal-box-body">
+          <p class="portal-role">黃名帝國</p>
+          <div class="portal-items">
+            <a class="portal-item" href="article.html?id=wongming-empire"><span class="portal-icon">黃</span><b>黃名帝國</b><small>國家總覽</small></a>
+            <a class="portal-item" href="article.html?id=history"><span class="portal-icon">史</span><b>歷史</b><small>歷史沿革</small></a>
+            <a class="portal-item" href="article.html?id=qingning-emperor"><span class="portal-icon">帝</span><b>慶寧皇帝</b><small>現代皇室</small></a>
+            <a class="portal-item" href="article.html?id=national-symbols"><span class="portal-icon">徽</span><b>國家象徵</b><small>旗幟與徽章</small></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="portal-box">
+        <div class="portal-box-head"><b>政府</b><small>THE GOVERNMENT</small></div>
+        <div class="portal-box-body">
+          <p class="portal-role">內閣與行政機關</p>
+          <div class="portal-items">
+            <a class="portal-item" href="article.html?id=government"><span class="portal-icon">政</span><b>政府</b><small>行政體系</small></a>
+            <a class="portal-item" href="article.html?id=parliament"><span class="portal-icon">國</span><b>國會</b><small>立法機關</small></a>
+            <a class="portal-item" href="article.html?id=constitution"><span class="portal-icon">憲</span><b>憲政</b><small>制度沿革</small></a>
+            <a class="portal-item" href="category.html?name=選舉"><span class="portal-icon">票</span><b>選舉</b><small>政治參與</small></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="portal-box">
+        <div class="portal-box-head"><b>國會與公共政治</b><small>THE LEGISLATURE</small></div>
+        <div class="portal-box-body">
+          <p class="portal-role">公共制度與公民</p>
+          <div class="portal-items three">
+            <a class="portal-item" href="article.html?id=parliament"><span class="portal-icon">議</span><b>國會</b><small>立法</small></a>
+            <a class="portal-item" href="category.html?name=公民"><span class="portal-icon">民</span><b>公民</b><small>公民制度</small></a>
+            <a class="portal-item" href="category.html?name=政治"><span class="portal-icon">政</span><b>政治</b><small>公共政治</small></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROW 2 -->
+      <div class="portal-box">
+        <div class="portal-box-head"><b>政治</b><small>POLITICS</small></div>
+        <div class="portal-box-body">
+          <div class="portal-items three">
+            <a class="portal-item" href="category.html?name=政治"><span class="portal-icon">政</span><b>政治制度</b><small>制度與運作</small></a>
+            <a class="portal-item" href="category.html?name=選舉"><span class="portal-icon">票</span><b>選舉</b><small>政治參與</small></a>
+            <a class="portal-item" href="category.html?name=公民"><span class="portal-icon">人</span><b>公民</b><small>公共生活</small></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="portal-box portal-wide2">
+        <div class="portal-box-head"><b>司法與法律</b><small>JUDICIARY & LAW</small></div>
+        <div class="portal-box-body">
+          <div class="portal-items five">
+            <a class="portal-item" href="category.html?name=法律與憲政"><span class="portal-icon">§</span><b>法律與憲政</b><small>法律制度</small></a>
+            <a class="portal-item" href="article.html?id=constitution"><span class="portal-icon">憲</span><b>憲政</b><small>憲制文件</small></a>
+            <a class="portal-item" href="category.html?name=政府"><span class="portal-icon">法</span><b>政府機關</b><small>行政與法律</small></a>
+            <a class="portal-item" href="category.html?name=制度"><span class="portal-icon">制</span><b>制度</b><small>制度整理</small></a>
+            <a class="portal-item" href="categories.html"><span class="portal-icon">＋</span><b>其他</b><small>更多分類</small></a>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- SECOND CONTENT TABLE -->
+    <section class="portal-table">
+
+      <div class="portal-box">
+        <div class="portal-box-head"><b>皇室、榮典與宮廷</b><small>THE COURT</small></div>
+        <div class="portal-box-body">
+          <div class="portal-items three">
+            <a class="portal-item" href="article.html?id=qingning-emperor"><span class="portal-icon">帝</span><b>皇室</b><small>君主與宮廷</small></a>
+            <a class="portal-item" href="article.html?id=mahendra"><span class="portal-icon">王</span><b>馬亨達王</b><small>皇室人物</small></a>
+            <a class="portal-item" href="category.html?name=獎章榮典"><span class="portal-icon">勳</span><b>榮典</b><small>爵位與勳章</small></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="portal-box">
+        <div class="portal-box-head"><b>國土與地方</b><small>THE REALM</small></div>
+        <div class="portal-box-body">
+          <div class="portal-items three">
+            <a class="portal-item" href="article.html?id=provinces"><span class="portal-icon">地</span><b>地方行政</b><small>省與特區</small></a>
+            <a class="portal-item" href="category.html?name=地理"><span class="portal-icon">圖</span><b>地理</b><small>地區資料</small></a>
+            <a class="portal-item" href="category.html?name=地方"><span class="portal-icon">域</span><b>地方</b><small>行政區域</small></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="portal-box">
+        <div class="portal-box-head"><b>文化與社會</b><small>WONGMING CULTURE</small></div>
+        <div class="portal-box-body">
+          <div class="portal-items five">
+            <a class="portal-item" href="category.html?name=語言"><span class="portal-icon">文</span><b>語言</b><small>語言文化</small></a>
+            <a class="portal-item" href="category.html?name=文化"><span class="portal-icon">藝</span><b>文化</b><small>文化藝術</small></a>
+            <a class="portal-item" href="category.html?name=媒體"><span class="portal-icon">報</span><b>媒體</b><small>出版新聞</small></a>
+            <a class="portal-item" href="category.html?name=科技與網路"><span class="portal-icon">網</span><b>網路</b><small>數位社群</small></a>
+            <a class="portal-item" href="category.html?name=社會"><span class="portal-icon">社</span><b>社會</b><small>社會生活</small></a>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <section class="portal-bottom">
+      <div class="portal-box">
+        <div class="portal-box-head"><b>近期大事記</b><small>RECENT EVENTS</small></div>
+        <div class="portal-box-body"><ul class="portal-events" id="events"></ul><div class="portal-cta"><a href="timeline.html">查看完整大事記 →</a></div></div>
+      </div>
+      <div class="portal-box">
+        <div class="portal-box-head"><b>精選條目</b><small>FEATURED ARTICLES</small></div>
+        <div class="portal-box-body"><ul class="portal-links" id="featured"></ul><div class="portal-cta"><a href="articles.html">瀏覽全部條目 →</a></div></div>
+      </div>
+      <div class="portal-box">
+        <div class="portal-box-head"><b>百科工具</b><small>EXPLORE</small></div>
+        <div class="portal-box-body">
+          <ul class="portal-links">
+            <li><a href="articles.html">所有條目</a></li>
+            <li><a href="categories.html">全部分類</a></li>
+            <li><a href="timeline.html">歷史大事記</a></li>
+            <li><a href="about.html">關於本百科</a></li>
+            <li><a href="edit.html">視覺化編輯器</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="portal-cta"><b>歡迎加入黃名帝國百科。</b> 歡迎補充條目、歷史資料、人物、制度與文化內容。</div>
+  </div>
 </main>
+
 <footer class="wiki-footer">黃名帝國百科 · Wong Ming Empire Encyclopedia</footer>
 </div>
 </div>
+
 <script src="assets/wiki.js"></script>
 <script>
 (async()=>{
-const d=await loadWiki(),esc=s=>String(s??"").replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
-const catMap={}; d.forEach(a=>(a.categories||[]).forEach(c=>(catMap[c]??=[]).push(a)));
-const events=d.flatMap(a=>(a.events||[]).map(e=>({...e,a}))).sort((a,b)=>a.date.localeCompare(b.date));
-document.getElementById("articleCount").textContent=d.length;document.getElementById("categoryCount").textContent=Object.keys(catMap).length;document.getElementById("eventCount").textContent=events.length;
-const icons={"國家":"◆","歷史":"⌛","政治":"⚖","政府":"▣","法律與憲政":"§","皇室":"♛","人物":"●","外交":"✦","地理":"⌂","地方":"◈","文化":"♬","社會":"♟","科技與網路":"⌘","媒體":"報","國家象徵":"★","經濟":"¤","貨幣":"＄"};
-function linksFor(cats,target,limit=8){const list=cats.flatMap(c=>catMap[c]||[]).slice(0,limit);document.getElementById(target).innerHTML=list.length?list.map(a=>{const cat=(a.categories||[]).find(c=>cats.includes(c))||"•";return '<a class="circle-link" href="article.html?id='+encodeURIComponent(a.id)+'"><span class="circle-link-icon">'+esc(icons[cat]||"•")+'</span><span><b>'+esc(a.title)+'</b><small>'+esc(a.summary||"")+'</small></span></a>'}).join(""):'<div class="portal-empty">此主題目前尚無條目。</div>'}
-linksFor(["國家","歷史","地理","地方"],"realmLinks",8);linksFor(["政治","政府","選舉","公民"],"govLinks,6);linksFor(["皇室","人物","獎章榮典"],"royalLinks",6);linksFor(["法律與憲政","政府","制度"],"lawLinks",6);linksFor(["外交","微國家","組織"],"dipLinks",6);linksFor(["文化","社會","科技與網路","媒體","國家象徵","語言","活動"],"cultureLinks",10);
-document.getElementById("featuredArticles").innerHTML=d.slice(0,5).map(a=>'<a class="feature-row" href="article.html?id='+encodeURIComponent(a.id)+'"><b>'+esc(a.title)+'</b><span>'+esc(a.summary||"")+'</span></a>').join("");
-document.getElementById("events").innerHTML=events.slice(-7).reverse().map(e=>'<li><b>'+esc(e.date)+'</b><span>'+esc(e.text)+'</span><a href="article.html?id='+encodeURIComponent(e.a.id)+'">〔條目〕</a></li>').join("");
-function goSearch(v){v=v.trim();if(v)location.href="search.html?q="+encodeURIComponent(v)}
-document.getElementById("q").addEventListener("keydown",e=>{if(e.key==="Enter")goSearch(e.target.value)});document.getElementById("homeSearchBtn").onclick=()=>goSearch(document.getElementById("homeSearch").value);document.getElementById("homeSearch").addEventListener("keydown",e=>{if(e.key==="Enter")goSearch(e.target.value)});document.getElementById("randomEntry").onclick=()=>location.href="article.html?id="+encodeURIComponent(d[Math.floor(Math.random()*d.length)].id);document.getElementById("wikiMenu").onclick=()=>document.body.classList.toggle("wiki-nav-open");
+  const d=await loadWiki(),esc=s=>String(s??"").replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
+  const events=d.flatMap(a=>(a.events||[]).map(e=>({...e,a}))).sort((a,b)=>a.date.localeCompare(b.date));
+  document.getElementById("events").innerHTML=events.slice(-6).reverse().map(e=>'<li><b>'+esc(e.date)+'</b>'+esc(e.text)+' <a href="article.html?id='+encodeURIComponent(e.a.id)+'">〔條目〕</a></li>').join("");
+  document.getElementById("featured").innerHTML=d.slice(0,7).map(a=>'<li><a href="article.html?id='+encodeURIComponent(a.id)+'">'+esc(a.title)+'</a></li>').join("");
+  const go=v=>{v=v.trim();if(v)location.href="search.html?q="+encodeURIComponent(v)};
+  document.getElementById("q").addEventListener("keydown",e=>{if(e.key==="Enter")go(e.target.value)});
+  document.getElementById("randomEntry").onclick=()=>location.href="article.html?id="+encodeURIComponent(d[Math.floor(Math.random()*d.length)].id);
+  document.getElementById("wikiMenu").onclick=()=>document.body.classList.toggle("wiki-nav-open");
 })();
 </script>
 </body>
