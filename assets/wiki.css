@@ -149,3 +149,46 @@
  .portal-note{display:block}
  .portal-note span{display:block;margin-top:4px}
 }
+/* ===== Encyclopedia portal: structured box homepage ===== */
+.portal-map{margin-top:8px}
+.portal-intro{padding:12px 14px;margin-bottom:10px;background:#f8f9fa;border:1px solid #a2a9b1;text-align:center}
+.portal-intro .portal-eyebrow{margin:0 0 3px;color:#54595d;font-size:10px;letter-spacing:.16em}
+.portal-intro h1{margin:0;font:700 28px/1.25 Georgia,"Noto Serif TC",serif;color:#202122}
+.portal-intro p{margin:6px 0 0;color:#54595d;font-size:12px}
+.portal-table{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-bottom:6px}
+.portal-box{min-width:0;border:1px solid #a2a9b1;background:#fff;box-shadow:none;border-radius:1px;overflow:hidden}
+.portal-box-head{padding:5px 8px;background:#cedff2;border-bottom:1px solid #a2a9b1;text-align:center}
+.portal-box-head b{display:block;color:#202122;font:700 17px/1.3 Georgia,"Noto Serif TC",serif}
+.portal-box-head small{display:block;color:#54595d;font-size:9px;letter-spacing:.08em}
+.portal-box-body{padding:8px 9px}
+.portal-center{text-align:center}
+.portal-lead{font-size:12px;color:#54595d;text-align:center;margin:0 0 7px}
+.portal-role{font-weight:700;color:#202122;text-align:center;font-size:12px;margin:3px 0 6px}
+.portal-items{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;border-top:1px solid #eaecf0;padding-top:7px}
+.portal-items.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.portal-items.five{grid-template-columns:repeat(5,minmax(0,1fr))}
+.portal-item{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0;text-align:center;color:#202122;text-decoration:none;padding:3px;border-radius:2px}
+.portal-item:hover{background:#f8f9fa;text-decoration:none}
+.portal-icon{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:#f8f9fa;border:1px solid #a2a9b1;color:#54595d;font:700 17px Georgia,"Noto Serif TC",serif}
+.portal-item b{font-size:11px;line-height:1.25;color:#0645ad}
+.portal-item small{font-size:8px;line-height:1.3;color:#72777d}
+.portal-divider{height:1px;background:#c8ccd1;margin:7px 0}
+.portal-wide2{grid-column:span 2}
+.portal-full{grid-column:1 / -1}
+.portal-bottom{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
+.portal-events{margin:0;padding:0;list-style:none}
+.portal-events li{padding:5px 2px;border-bottom:1px solid #eaecf0;font-size:11px;line-height:1.45}
+.portal-events li:last-child{border-bottom:0}
+.portal-events b{color:#54595d;font-size:10px;margin-right:5px}
+.portal-links{margin:0;padding:0 0 0 20px;font-size:12px;line-height:1.8}
+.portal-links a{color:#0645ad}
+.portal-cta{padding:10px 12px;margin-top:6px;background:#f8f9fa;border:1px solid #a2a9b1;text-align:center;font-size:12px}
+@media(max-width:900px){
+ .portal-table,.portal-bottom{grid-template-columns:1fr 1fr}
+ .portal-wide2{grid-column:span 2}.portal-full{grid-column:1 / -1}
+}
+@media(max-width:620px){
+ .portal-table,.portal-bottom{grid-template-columns:1fr}
+ .portal-wide2,.portal-full{grid-column:auto}
+ .portal-items,.portal-items.three,.portal-items.five{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
