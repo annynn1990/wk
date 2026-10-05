@@ -17,7 +17,6 @@ if [ ! -f "$CONF_FILE" ]; then
     --server="$SERVER" \
     --scriptpath="" \
     --lang=zh-tw \
-    --skins=all \
     --pass="$MW_ADMIN_PASS" \
     "黃名帝國百科" \
     "${MW_ADMIN_USER:-admin}"
