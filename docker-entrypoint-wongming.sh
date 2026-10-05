@@ -13,7 +13,7 @@ if [ ! -f "$CONF_FILE" ]; then
     --dbtype=sqlite \
     --dbpath="$DATA_DIR" \
     --dbname=wikidb \
-    --confpath="$CONF_FILE" \
+    --confpath="$DATA_DIR" \
     --server="$SERVER" \
     --scriptpath="" \
     --lang=zh-tw \
