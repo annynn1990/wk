@@ -50,7 +50,11 @@ try {
 }
 '; then
   # Persistent PostgreSQL already contains the MediaWiki schema.
-  DB_HOST="$DB_HOST" DB_PORT="$DB_PORT" DB_USER="$DB_USER" DB_PASS="$DB_PASS" DB_NAME="$DB_NAME"   MW_SERVER="$SERVER" MW_SECRET_KEY="${MW_SECRET_KEY:-wongming-empire-mediawiki-secret-2026}"   MW_UPGRADE_KEY="${MW_UPGRADE_KEY:-wongming-upgrade-2026}"   php <<'PHP'
+  export DB_HOST DB_PORT DB_USER DB_PASS DB_NAME
+  export MW_SERVER="$SERVER"
+  export MW_SECRET_KEY="${MW_SECRET_KEY:-wongming-empire-mediawiki-secret-2026}"
+  export MW_UPGRADE_KEY="${MW_UPGRADE_KEY:-wongming-upgrade-2026}"
+  php <<'PHP'
 <?php
 function ps($v) {
     return "'" . str_replace(["\\", "'"], ["\\\\", "\\'"], (string)$v) . "'";
