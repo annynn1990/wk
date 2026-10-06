@@ -9,12 +9,25 @@ chown -R www-data:www-data /var/www/html/images
 
 : "${DATABASE_URL:?DATABASE_URL is required}"
 
-# Render Postgres values are injected separately to avoid connection-string parsing issues.
-: "${DB_HOST:?DB_HOST is required}"
-: "${DB_PORT:?DB_PORT is required}"
-: "${DB_USER:?DB_USER is required}"
-: "${DB_PASS:?DB_PASS is required}"
-: "${DB_NAME:?DB_NAME is required}"
+# Render's connectionString is a libpq key=value string.
+: "${DATABASE_URL:?DATABASE_URL is required}"
+
+readarray -t DB_PARTS < <(DATABASE_URL="$DATABASE_URL" php -r '
+$s = getenv("DATABASE_URL");
+$p = [];
+preg_match_all('/(?:^| )([A-Za-z_]+)=((?:\\\\.|[^ ])*)/', $s, $m, PREG_SET_ORDER);
+foreach ($m as $x) { $p[$x[1]] = str_replace("\\\\ ", " ", $x[2]); }
+foreach (["host","port","user","password","dbname"] as $k) {
+    if (!isset($p[$k]) || $p[$k] === "") { fwrite(STDERR, "Missing PostgreSQL field: $k\n"); exit(1); }
+    echo $p[$k], PHP_EOL;
+}
+')
+
+DB_HOST="${DB_PARTS[0]}"
+DB_PORT="${DB_PARTS[1]}"
+DB_USER="${DB_PARTS[2]}"
+DB_PASS="${DB_PARTS[3]}"
+DB_NAME="${DB_PARTS[4]}"
 
 if php -r '
 $dsn = "pgsql:host=" . getenv("DB_HOST") . ";port=" . getenv("DB_PORT") . ";dbname=" . getenv("DB_NAME");
