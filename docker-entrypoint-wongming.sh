@@ -9,36 +9,17 @@ chown -R www-data:www-data /var/www/html/images
 
 : "${DATABASE_URL:?DATABASE_URL is required}"
 
-# Parse Render's PostgreSQL connection URL.
-readarray -t DB_PARTS < <(php -r '
-$u = parse_url(getenv("DATABASE_URL"));
-if (!$u || empty($u["host"]) || empty($u["user"]) || empty($u["path"])) {
-    fwrite(STDERR, "Invalid DATABASE_URL\n");
-    exit(1);
-}
-echo $u["host"], PHP_EOL;
-echo ($u["port"] ?? 5432), PHP_EOL;
-echo rawurldecode($u["user"]), PHP_EOL;
-echo rawurldecode($u["pass"] ?? ""), PHP_EOL;
-echo ltrim(rawurldecode($u["path"]), "/"), PHP_EOL;
-')
-
-DB_HOST="${DB_PARTS[0]}"
-DB_PORT="${DB_PARTS[1]}"
-DB_USER="${DB_PARTS[2]}"
-DB_PASS="${DB_PARTS[3]}"
-DB_NAME="${DB_PARTS[4]}"
-
-# Escape a value as a PHP single-quoted string.
-php_escape() {
-  printf "%s" "$1" | sed "s/\\\\/\\\\\\\\/g; s/'/\\\\'/g"
-}
+# Render Postgres values are injected separately to avoid connection-string parsing issues.
+: "${DB_HOST:?DB_HOST is required}"
+: "${DB_PORT:?DB_PORT is required}"
+: "${DB_USER:?DB_USER is required}"
+: "${DB_PASS:?DB_PASS is required}"
+: "${DB_NAME:?DB_NAME is required}"
 
 if php -r '
-$u = parse_url(getenv("DATABASE_URL"));
-$dsn = "pgsql:host=" . $u["host"] . ";port=" . ($u["port"] ?? 5432) . ";dbname=" . ltrim($u["path"], "/");
+$dsn = "pgsql:host=" . getenv("DB_HOST") . ";port=" . getenv("DB_PORT") . ";dbname=" . getenv("DB_NAME");
 try {
-    $pdo = new PDO($dsn, rawurldecode($u["user"]), rawurldecode($u["pass"] ?? ""), [
+    $pdo = new PDO($dsn, getenv("DB_USER"), getenv("DB_PASS"), [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_TIMEOUT => 5,
     ]);
