@@ -15,7 +15,7 @@ chown -R www-data:www-data /var/www/html/images
 readarray -t DB_PARTS < <(DATABASE_URL="$DATABASE_URL" php -r '
 $s = getenv("DATABASE_URL");
 $p = [];
-preg_match_all('/(?:^| )([A-Za-z_]+)=((?:\\\\.|[^ ])*)/', $s, $m, PREG_SET_ORDER);
+preg_match_all("/(?:^| )([A-Za-z_]+)=((?:\\\\.|[^ ])*)/", $s, $m, PREG_SET_ORDER);
 foreach ($m as $x) { $p[$x[1]] = str_replace("\\\\ ", " ", $x[2]); }
 foreach (["host","port","user","password","dbname"] as $k) {
     if (!isset($p[$k]) || $p[$k] === "") { fwrite(STDERR, "Missing PostgreSQL field: $k\n"); exit(1); }
