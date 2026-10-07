@@ -1,0 +1,102 @@
+<div class="wiki-post-container" style="font-family: sans-serif; line-height: 1.6; color: #202122; background-color: #ffffff; border: 1px solid #a2a9b1; padding: 1.5em; max-width: 950px; margin: 10px auto; overflow: hidden; box-sizing: border-box;">
+
+    <h1 style="font-family: serif; font-size: 1.8em; border-bottom: 1px solid #a2a9b1; margin-bottom: 0.25em; font-weight: normal; padding-bottom: 5px;">外交部</h1>
+    <div style="font-size: 0.8em; color: #54595d; margin-bottom: 1.5em;">黃名百科，國立的百科全書</div>
+
+    <aside style="float: right; width: 280px; background-color: #f8f9fa; border: 1px solid #a2a9b1; padding: 0.2em; margin: 0 0 1em 1.5em; font-size: 88%; box-sizing: border-box;">
+        <table style="border-collapse: collapse; width: 100%; border-spacing: 3px;">
+            <thead>
+                <tr>
+                    <th colspan="2" style="background-color: #b0c4de; text-align: center; padding: 0.5em; font-size: 110%;">外交部<br>(Ministry of Foreign Affairs)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="2" style="text-align: center; background-color: #fff; padding: 10px; border: 1px solid #ddd;">
+                        <img src="https://i.meee.com.tw/PIUhlVb.png" alt="外交部部門徽章" style="max-width: 180px; height: auto;">
+                        <div style="font-size: 0.9em; margin-top: 5px; color: #555;">部門徽章</div>
+                    </td>
+                </tr>
+                <tr><td style="font-weight: bold; background-color: #f2f2f2; width: 35%; padding: 5px;">成立日期</td><td style="padding: 5px;">2011年7月15日</td></tr>
+                <tr><td style="font-weight: bold; background-color: #f2f2f2; padding: 5px;">行政層級</td><td style="padding: 5px;">二級行政機關</td></tr>
+                <tr><td style="font-weight: bold; background-color: #f2f2f2; padding: 5px;">現任大臣</td><td style="padding: 5px;">麥塊</td></tr>
+                <tr><td style="font-weight: bold; background-color: #f2f2f2; padding: 5px;">核心業務</td><td style="padding: 5px;">外交事宜</td></tr>
+            </tbody>
+        </table>
+    </aside>
+
+    <p style="margin: 0.5em 0;"><b>外交部</b>（英語：Ministry of Foreign Affairs，簡稱：<b>MoFA</b>）是黃名帝國的內閣最高行政部門六部之一，為負責帝國邦交業務事宜、接待外使與派駐大使等對外工作的重要單位。</p>
+
+    <h2 style="border-bottom: 1px solid #a2a9b1; margin-top: 1.5em; font-weight: normal; font-size: 1.5em;">歷史沿革</h2>
+    <p style="margin-top: 0.5em; margin-bottom: 0.5em;">外交部成立於 2011年7月15日。由於早期中文微國家生態尚未萌芽發展，外交事務極為稀少，該部門之成立較君主立憲制度實行之時間晚約六年。成立之初命名為「<b>外務署</b>」，首任外務大臣由<b>關二哥</b>出任；因早期外交需求極低，該部門曾被戲稱為「長蚊子的部門」。</p>
+    <p style="margin-top: 0.5em; margin-bottom: 0.5em;">2013年2月24日，第五屆國會第二次會議中通過《外務部條例》，將「<b>外務署</b>」更名為「<b>外務部</b>」。2014年6月18日，第九屆首相<b>仲尼</b>將「<b>外務部</b>」更名為「<b>外交部</b>」，首長職銜定為「<b>外交大臣</b>」。</p>
+    <p style="margin-top: 0.5em; margin-bottom: 0.5em;">此後，第二十屆內閣總理大臣<b>紀文思</b>在任期間，曾有因微國家聯盟需求而新設微盟事務大臣獨立存在，但時任微盟事務大臣與外交大臣都由<b>關二哥</b>兼任，於 2020年3月23日合併職權，職銜短暫更名為「<b>外交及微盟事務大臣</b>」；直至 2021年2月17日，由第二十三屆內閣總理大臣<b>關二哥</b>決議恢復原名「<b>外交大臣</b>」並持續沿用至今。</p>
+
+    <h2 style="border-bottom: 1px solid #a2a9b1; margin-top: 1.5em; font-weight: normal; font-size: 1.5em;">名稱變遷一覽</h2>
+    <ul style="padding-left: 20px; margin: 0.5em 0; font-size: 0.95em;">
+        <li><b>外務署</b>（2011年－2013年）</li>
+        <li><b>外務部</b>（2013年－2014年）</li>
+        <li><b>外交部</b>（2014年－至今）</li>
+    </ul>
+
+    <h2 style="border-bottom: 1px solid #a2a9b1; margin-top: 1.5em; font-weight: normal; font-size: 1.5em;">歷任首長名冊</h2>
+    <div style="overflow-x: auto;">
+        <table style="background-color: #f8f9fa; color: #202122; margin: 1em 0; border: 1px solid #a2a9b1; border-collapse: collapse; width: 100%; font-size: 12px; text-align: center;">
+            <thead>
+                <tr style="background-color: #eaecf0;">
+                    <th style="border: 1px solid #a2a9b1; padding: 6px; width: 10%;">屆次</th>
+                    <th style="border: 1px solid #a2a9b1; padding: 6px; width: 18%;">首長職銜</th>
+                    <th style="border: 1px solid #a2a9b1; padding: 6px; width: 15%;">姓名</th>
+                    <th style="border: 1px solid #a2a9b1; padding: 6px; width: 20%;">就任日期</th>
+                    <th style="border: 1px solid #a2a9b1; padding: 6px; width: 20%;">卸任日期</th>
+                    <th style="border: 1px solid #a2a9b1; padding: 6px; width: 17%;">所屬部門</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td rowspan="2" style="border: 1px solid #a2a9b1;">第五屆</td><td rowspan="2" style="border: 1px solid #a2a9b1;">外務大臣</td><td style="border: 1px solid #a2a9b1; font-weight:bold;">關二哥</td><td style="border: 1px solid #a2a9b1;">2011/08/15</td><td style="border: 1px solid #a2a9b1;">2011/09/26</td><td rowspan="2" style="border: 1px solid #a2a9b1;">外務署</td></tr>
+                <tr><td style="border: 1px solid #a2a9b1; font-weight:bold;">hichun</td><td style="border: 1px solid #a2a9b1;">2011/09/26</td><td style="border: 1px solid #a2a9b1;">2013/02/24</td></tr>
+                <tr><td rowspan="2" style="border: 1px solid #a2a9b1;">第五屆</td><td rowspan="5" style="border: 1px solid #a2a9b1;">外務大臣</td><td style="border: 1px solid #a2a9b1; font-weight:bold;">hichun</td><td style="border: 1px solid #a2a9b1;">2013/02/24</td><td style="border: 1px solid #a2a9b1;">2013/01/23</td><td rowspan="5" style="border: 1px solid #a2a9b1;">外務部</td></tr>
+                <tr><td style="border: 1px solid #a2a9b1; font-weight:bold;">比利仔</td><td style="border: 1px solid #a2a9b1;">2012/01/23</td><td style="border: 1px solid #a2a9b1;">2012/06/09</td></tr>
+                <tr><td style="border: 1px solid #a2a9b1;">第六屆</td><td style="border: 1px solid #a2a9b1; font-weight:bold;">仲尼</td><td style="border: 1px solid #a2a9b1;">2012/06/09</td><td style="border: 1px solid #a2a9b1;">2013/06/09</td></tr>
+                <tr><td style="border: 1px solid #a2a9b1;">第七屆</td><td rowspan="2" style="border: 1px solid #a2a9b1; font-weight:bold;">關二哥</td><td style="border: 1px solid #a2a9b1;">2013/06/13</td><td style="border: 1px solid #a2a9b1;">2013/09/02</td></tr>
+                <tr><td style="border: 1px solid #a2a9b1;">第八屆</td><td style="border: 1px solid #a2a9b1;">2013/09/06</td><td style="border: 1px solid #a2a9b1;">2014/06/12</td></tr>
+                <tr><td style="border: 1px solid #a2a9b1;">第九屆</td><td rowspan="100" style="border: 1px solid #a2a9b1;">外交大臣</td><td style="border: 1px solid #a2a9b1; font-weight:bold;">方從哲</td><td style="border: 1px solid #a2a9b1;">2014/06/12</td><td style="border: 1px solid #a2a9b1;">2014/12/29</td><td rowspan="100" style="border: 1px solid #a2a9b1;">外交部</td></tr>
+                <tr><td style="border: 1px solid #a2a9b1;">第十屆</td><td rowspan="2" style="border: 1px solid #a2a9b1; font-weight:bold;">夏侯昜</td><td style="border: 1px solid #a2a9b1;">2014/12/29</td><td style="border: 1px solid #a2a9b1;">2015/07/03</td></tr>
+                <tr><td style="border: 1px solid #a2a9b1;">第十一屆</td><td style="border: 1px solid #a2a9b1;">2015/07/03</td><td style="border: 1px solid #a2a9b1;">2016/01/02</td></tr>
+                <tr><td rowspan="2" style="border: 1px solid #a2a9b1;">第十二屆</td><td style="border: 1px solid #a2a9b1; font-weight:bold;">李君羨</td><td style="border: 1px solid #a2a9b1;">2016/01/02</td><td style="border: 1px solid #a2a9b1;">2016/01/15</td></tr>
+                <tr><td rowspan="3" style="border: 1px solid #a2a9b1; font-weight:bold;">神秘組織</td><td style="border: 1px solid #a2a9b1;">2016/01/15</td><td style="border: 1px solid #a2a9b1;">2016/07/06</td></tr>
+                <tr><td style="border: 1px solid #a2a9b1;">第十三屆</td><td style="border: 1px solid #a2a9b1;">2016/07/06</td><td style="border: 1px solid #a2a9b1;">2017/01/02</td></tr>
+                <tr><td style="border: 1px solid #a2a9b1;">第十四屆</td><td style="border: 1px solid #a2a9b1;">2017/01/02</td><td style="border: 1px solid #a2a9b1;">2017/07/07</td></tr>
+                <tr><td style="border: 1px solid #a2a9b1;">第十五屆</td><td rowspan="2" style="border: 1px solid #a2a9b1; font-weight:bold;">小琪琪</td><td style="border: 1px solid #a2a9b1;">2017/07/07</td><td style="border: 1px solid #a2a9b1;">2018/01/03</td></tr>
+                <tr><td style="border: 1px solid #a2a9b1;">第十六屆</td><td style="border: 1px solid #a2a9b1;">2018/01/03</td><td style="border: 1px solid #a2a9b1;">2018/07/09</td></tr>
+                <tr><td style="border: 1px solid #a2a9b1;">第十七屆</td><td style="border: 1px solid #a2a9b1; font-weight:bold;">唐吉坷德</td><td style="border: 1px solid #a2a9b1;">2018/07/09</td><td style="border: 1px solid #a2a9b1;">2019/01/09</td></tr>
+                <tr><td rowspan="2" style="border: 1px solid #a2a9b1;">第十八屆</td><td style="border: 1px solid #a2a9b1; font-weight:bold;">仲尼</td><td style="border: 1px solid #a2a9b1;">2019/01/09</td><td style="border: 1px solid #a2a9b1;">2019/03/25</td></tr>
+                <tr><td style="border: 1px solid #a2a9b1; font-weight:bold;">黃庭浩</td><td style="border: 1px solid #a2a9b1;">2019/03/25</td><td style="border: 1px solid #a2a9b1;">2019/07/08</td></tr>
+                <tr><td style="border: 1px solid #a2a9b1;">第十九屆</td><td rowspan="3" style="border: 1px solid #a2a9b1; font-weight:bold;">關二哥</td><td style="border: 1px solid #a2a9b1;">2019/07/08</td><td style="border: 1px solid #a2a9b1;">2020/01/10</td></tr>
+                <tr><td rowspan="2" style="border: 1px solid #a2a9b1;">第二十屆</td><td style="border: 1px solid #a2a9b1;">2020/01/10</td><td style="border: 1px solid #a2a9b1;">2020/03/23</td></tr>
+                <tr><td style="border: 1px solid #a2a9b1;">2020/03/23</td><td style="border: 1px solid #a2a9b1;">2020/05/01</td></tr>
+                <tr><td rowspan="2" style="border: 1px solid #a2a9b1;">第二十一屆</td><td style="border: 1px solid #a2a9b1; font-weight:bold;">仲尼</td><td style="border: 1px solid #a2a9b1;">2020/05/01</td><td style="border: 1px solid #a2a9b1;">2020/05/24</td></tr>
+                <tr><td rowspan="2" style="border: 1px solid #a2a9b1; font-weight:bold;">黃庭浩</td><td style="border: 1px solid #a2a9b1;">2020/05/25</td><td style="border: 1px solid #a2a9b1;">2020/07/25</td></tr>
+                <tr><td style="border: 1px solid #a2a9b1;">第二十二屆</td><td style="border: 1px solid #a2a9b1;">2020/07/25</td><td style="border: 1px solid #a2a9b1;">2021/02/16</td></tr>
+                <tr><td style="border: 1px solid #a2a9b1;">第二十三屆</td><td style="border: 1px solid #a2a9b1; font-weight:bold;">小琪琪</td><td style="border: 1px solid #a2a9b1;">2021/02/17</td><td style="border: 1px solid #a2a9b1;">2021/07/26</td></tr>
+                <tr><td style="border: 1px solid #a2a9b1;">第二十四屆</td><td style="border: 1px solid #a2a9b1; font-weight:bold;">何正</td><td style="border: 1px solid #a2a9b1;">2021/07/26</td><td style="border: 1px solid #a2a9b1;">2021/08/16</td></tr>
+                <tr><td rowspan="3" style="border: 1px solid #a2a9b1;">第二十五屆</td><td style="border: 1px solid #a2a9b1; font-weight:bold;">Walden</td><td style="border: 1px solid #a2a9b1;">2022/03/02</td><td style="border: 1px solid #a2a9b1;">2022/05/21</td></tr>
+                <tr><td style="border: 1px solid #a2a9b1; font-weight:bold;">金恆贊</td><td style="border: 1px solid #a2a9b1;">2022/05/22</td><td style="border: 1px solid #a2a9b1;">2022/06/22</td></tr>
+                <tr><td style="border: 1px solid #a2a9b1; font-weight:bold;">雲鵬天</td><td style="border: 1px solid #a2a9b1;">2022/06/22</td><td style="border: 1px solid #a2a9b1;">2022/08/10</td></tr>
+                <tr><td style="border: 1px solid #a2a9b1;">第二十六屆</td><td style="border: 1px solid #a2a9b1; font-weight:bold;">仲尼</td><td style="border: 1px solid #a2a9b1;">2022/08/10</td><td style="border: 1px solid #a2a9b1;">2023/02/01</td></tr>
+                <tr><td rowspan="2" style="border: 1px solid #a2a9b1;">第二十七屆</td><td style="border: 1px solid #a2a9b1; font-weight:bold;">將臣嵐</td><td style="border: 1px solid #a2a9b1;">2023/02/01</td><td style="border: 1px solid #a2a9b1;">2023/03/25</td></tr>
+                <tr><td style="border: 1px solid #a2a9b1; font-weight:bold;">金恆贊</td><td style="border: 1px solid #a2a9b1;">2023/04/05</td><td style="border: 1px solid #a2a9b1;">2023/08/01</td></tr>
+                <tr><td style="border: 1px solid #a2a9b1;">第二十八屆</td><td style="border: 1px solid #a2a9b1; font-weight:bold;">雲鵬天</td><td style="border: 1px solid #a2a9b1;">2023/08/01</td><td style="border: 1px solid #a2a9b1;">2024/02/01</td></tr>
+                <tr><td style="border: 1px solid #a2a9b1;">第二十九屆</td><td style="border: 1px solid #a2a9b1; font-weight:bold;">仲屋喜丈</td><td style="border: 1px solid #a2a9b1;">2024/02/01</td><td style="border: 1px solid #a2a9b1;">2024/07/31</td></tr>
+                <tr><td style="border: 1px solid #a2a9b1;">第三十屆</td><td style="border: 1px solid #a2a9b1; font-weight:bold;">李君羨</td><td style="border: 1px solid #a2a9b1;">2024/08/01</td><td style="border: 1px solid #a2a9b1;">2025/01/31</td></tr>
+                <tr><td rowspan="2" style="border: 1px solid #a2a9b1;">第三十一屆</td><td style="border: 1px solid #a2a9b1; font-weight:bold;">李君羨</td><td style="border: 1px solid #a2a9b1;">2025/02/04</td><td style="border: 1px solid #a2a9b1;">2025/06/02</td></tr>
+                <tr><td style="border: 1px solid #a2a9b1; font-weight:bold;">麥塊</td><td style="border: 1px solid #a2a9b1;">2025/06/02</td><td style="border: 1px solid #a2a9b1;">2025/07/31</td></tr>
+                <tr><td style="border: 1px solid #a2a9b1;">第三十二屆</td><td style="border: 1px solid #a2a9b1; font-weight:bold;">麥塊</td><td style="border: 1px solid #a2a9b1;">2025/08/06</td><td style="border: 1px solid #a2a9b1; font-weight:bold; color:#0645ad;">至今</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div style="margin-top: 2em; font-size: 0.8em; border-top: 1px solid #a2a9b1; padding-top: 5px; color: #54595d;">
+        最後修訂日期：2026年01月18日
+    </div>
+</div>
