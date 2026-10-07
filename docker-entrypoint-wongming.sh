@@ -28,7 +28,12 @@ fi
 
 # Ensure the requested logo is present exactly once and remains valid PHP.
 sed -i '/^[[:space:]]*\$wgLogo[[:space:]]*=/d' "$CONF_FILE"
-printf '%s\n' '$wgLogo = "https://www.wongmingempire.com/bbswm/data/attachment/forum/202102/20/012657b8fiibi8irgzkl2g.png";' >> "$CONF_FILE"
+cat >> "$CONF_FILE" <<'PHPLOGO'
+$wgLogos = [
+    '1x' => 'https://www.wongmingempire.com/bbswm/data/attachment/forum/202102/20/012657b8fiibi8irgzkl2g.png',
+    'icon' => 'https://www.wongmingempire.com/bbswm/data/attachment/forum/202102/20/012657b8fiibi8irgzkl2g.png',
+];
+PHPLOGO
 
 php -l "$CONF_FILE"
 chown www-data:www-data "$CONF_FILE"
