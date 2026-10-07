@@ -37,6 +37,11 @@ PHPLOGO
 
 php -l "$CONF_FILE"
 
+if [ -f /var/www/html/homepage.wiki ]; then
+  php maintenance/edit.php -u "$ADMIN_USER" -s "建立黃名帝國百科首頁" -b "首頁" < /var/www/html/homepage.wiki
+fi
+
+
 chown www-data:www-data "$CONF_FILE"
 chown -R www-data:www-data "$DATA_DIR" /var/www/html/images
 exec apache2-foreground
