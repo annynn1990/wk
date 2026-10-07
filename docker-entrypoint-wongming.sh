@@ -9,4 +9,7 @@ else
  php maintenance/run.php update --quick
 fi
 chown www-data:www-data /var/www/html/LocalSettings.php
+if ! grep -q '\$wgLogo =' /var/www/html/LocalSettings.php; then
+ echo '\$wgLogo = "https://www.wongmingempire.com/bbswm/data/attachment/forum/202102/20/012657b8fiibi8irgzkl2g.png";' >> /var/www/html/LocalSettings.php
+fi
 exec apache2-foreground
