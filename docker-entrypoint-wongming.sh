@@ -36,6 +36,12 @@ $wgLogos = [
 PHPLOGO
 
 php -l "$CONF_FILE"
+
+if [ ! -f "$DATA_DIR/.homepage-seeded" ]; then
+  php /tmp/seed-homepage.php
+  touch "$DATA_DIR/.homepage-seeded"
+fi
+
 chown www-data:www-data "$CONF_FILE"
 chown -R www-data:www-data "$DATA_DIR" /var/www/html/images
 exec apache2-foreground
