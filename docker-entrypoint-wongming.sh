@@ -1,14 +1,36 @@
 #!/bin/bash
 set -e
-mkdir -p /var/www/data /var/www/html/images
-chown -R www-data:www-data /var/www/data /var/www/html/images
-if [ ! -f /var/www/html/LocalSettings.php ] || [ ! -f /var/www/data/wikidb.sqlite ]; then
- rm -f /var/www/html/LocalSettings.php /var/www/data/wikidb.sqlite
- php maintenance/run.php install --dbtype=sqlite --dbpath=/var/www/data --confpath=/var/www/html --server="${MW_SERVER:-https://wongming-encyclopedia.onrender.com}" --scriptpath="" --lang=zh-tw --pass="${MW_ADMIN_PASS}" "黃名帝國百科" "${MW_ADMIN_USER:-admin}"
-else
- php maintenance/run.php update --quick
+
+CONF_FILE="/var/www/html/LocalSettings.php"
+DATA_DIR="/var/www/data"
+SERVER="${MW_SERVER:-https://wongming-encyclopedia.onrender.com}"
+ADMIN_USER="${MW_ADMIN_USER:-admin}"
+ADMIN_PASS="${MW_ADMIN_PASS:-Wongming-Admin-2026}"
+
+mkdir -p "$DATA_DIR" /var/www/html/images
+chown -R www-data:www-data "$DATA_DIR" /var/www/html/images
+
+# Rebuild LocalSettings.php from the real SQLite database when the existing
+# config is missing or has invalid PHP syntax.
+if [ -f "$CONF_FILE" ]; then
+  if ! php -l "$CONF_FILE" >/dev/null 2>&1; then
+    rm -f "$CONF_FILE"
+  fi
 fi
-chown www-data:www-data /var/www/html/LocalSettings.php
-sed -i '/wgLogo/d' /var/www/html/LocalSettings.php
-echo '$wgLogo = "https://www.wongmingempire.com/bbswm/data/attachment/forum/202102/20/012657b8fiibi8irgzkl2g.png";' >> /var/www/html/LocalSettings.php
+
+if [ ! -f "$CONF_FILE" ]; then
+  if [ ! -f "$DATA_DIR/wikidb.sqlite" ]; then
+    php maintenance/run.php install       --dbtype=sqlite       --dbpath="$DATA_DIR"       --confpath="/var/www/html"       --server="$SERVER"       --scriptpath=""       --lang=zh-tw       --pass="$ADMIN_PASS"       "黃名帝國百科"       "$ADMIN_USER"
+  else
+    php maintenance/run.php install       --dbtype=sqlite       --dbpath="$DATA_DIR"       --confpath="/var/www/html"       --server="$SERVER"       --scriptpath=""       --lang=zh-tw       --pass="$ADMIN_PASS"       "黃名帝國百科"       "$ADMIN_USER"
+  fi
+fi
+
+# Ensure the requested logo is present exactly once and remains valid PHP.
+sed -i '/^[[:space:]]*\$wgLogo[[:space:]]*=/d' "$CONF_FILE"
+printf '%s\n' '$wgLogo = "https://www.wongmingempire.com/bbswm/data/attachment/forum/202102/20/012657b8fiibi8irgzkl2g.png";' >> "$CONF_FILE"
+
+php -l "$CONF_FILE"
+chown www-data:www-data "$CONF_FILE"
+chown -R www-data:www-data "$DATA_DIR" /var/www/html/images
 exec apache2-foreground
