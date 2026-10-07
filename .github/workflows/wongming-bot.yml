@@ -1,0 +1,65 @@
+name: WongmingBot Wiki Editor
+
+on:
+  push:
+    branches:
+      - bot-queue
+    paths:
+      - "bot-edits/inbox/*.json"
+
+concurrency:
+  group: wongming-bot
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  edit-wiki:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Process wiki edits
+        env:
+          MEDIAWIKI_API_URL: https://wongming-encyclopedia.onrender.com/api.php
+          MEDIAWIKI_BOT_LOGIN: ${{ secrets.MEDIAWIKI_BOT_LOGIN }}
+          MEDIAWIKI_BOT_PASSWORD: ${{ secrets.MEDIAWIKI_BOT_PASSWORD }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          files="$(git diff-tree --no-commit-id --name-only -r "$GITHUB_SHA" | grep '^bot-edits/inbox/.*\.json$' || true)"
+          if [ -z "$files" ]; then
+            echo "沒有需要處理的編輯。"
+            exit 0
+          fi
+
+          mkdir -p bot-edits/processed
+
+          while IFS= read -r file; do
+            [ -z "$file" ] && continue
+            echo "處理：$file"
+            python scripts/mediawiki_bot.py "$file"
+            base="$(basename "$file" .json)"
+            mv "$file" "bot-edits/processed/$base-$GITHUB_SHA.json"
+          done <<< "$files"
+
+      - name: Commit processed queue
+        run: |
+          set -euo pipefail
+          git config user.name "WongmingBot"
+          git config user.email "wongming-bot@users.noreply.github.com"
+          git add bot-edits/inbox bot-edits/processed
+          if git diff --cached --quiet; then
+            echo "沒有需要提交的佇列異動。"
+            exit 0
+          fi
+          git commit -m "WongmingBot: process wiki edit queue"
+          git push origin bot-queue
