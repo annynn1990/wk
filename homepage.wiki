@@ -1,117 +1,108 @@
 __NOTITLE__
-
-<div style="border:1px solid #c8c8c8;background:#f8f8f8;padding:14px;margin-bottom:10px;text-align:center;">
-<span style="font-size:190%;font-weight:bold;">黃名帝國百科</span><br>
-<span style="font-size:105%;">歡迎來到'''黃名帝國百科'''——黃名帝國的官方百科資源。</span><br>
-這裡收錄帝國的歷史、政治、法律、外交、人物、文化與各項制度。
+<div style="border:1px solid #c8c8c8;background:#f7f7f7;padding:16px;margin-bottom:8px;text-align:center;">
+[[Image:Wongming-logo.png|36px]]&nbsp;&nbsp;<big><big><big>'''黃名帝國百科'''</big></big></big>&nbsp;&nbsp;[[Image:Wongming-logo.png|36px]]<br>
+<span style="font-size:115%;">'''歡迎來到黃名帝國百科'''</span><br>
+黃名帝國的百科全書，收錄帝國歷史、制度、法律、政治、外交、人物與文化。
 </div>
 
-{| style="width:100%;border-spacing:6px;"
+{| style="width:100%;border-spacing:5px;"
+|- valign="top"
+| style="width:34%;padding:4px;" |
+{| style="width:100%;border:1px solid #bbb;background:#fff;"
 |-
-| style="width:34%;vertical-align:top;" |
-{| style="width:100%;border:1px solid #c8c8c8;background:#fff;padding:4px;"
+! colspan="4" style="background:#e9e9e9;padding:9px;font-size:125%;" | [[國家|國家]]
 |-
-! colspan="4" style="background:#e9e9e9;font-size:125%;padding:8px;" | [[國家|國家]]
+| colspan="4" style="text-align:center;padding:9px;" |
+'''黃名帝國'''<br>'''皇帝'''：[[胡仔]]　'''廟號'''：仁宗　'''年號'''：慶寧
 |-
-| colspan="4" style="text-align:center;padding:8px;" |
-'''黃名帝國'''<br>
-'''皇帝：''' [[胡仔]]<br>
-'''廟號：''' 仁宗　　'''年號：''' 慶寧
+! colspan="4" style="border-top:1px solid #ddd;padding:7px;" | 帝國
 |-
-! colspan="4" style="border-top:1px solid #ddd;padding:6px;" | 帝國基本資料
-|-
-| style="width:25%;text-align:center;" | [[歷史|歷史]]
-| style="width:25%;text-align:center;" | [[憲制|憲制]]
-| style="width:25%;text-align:center;" | [[國家象徵|國家象徵]]
-| style="width:25%;text-align:center;" | [[首都|首都]]
+| style="text-align:center;" | [[歷史|歷史]]
+| style="text-align:center;" | [[憲制|憲制]]
+| style="text-align:center;" | [[國家象徵|國家象徵]]
+| style="text-align:center;" | [[首都|首都]]
 |-
 | style="text-align:center;" | [[皇室|皇室]]
 | style="text-align:center;" | [[國籍|國籍]]
 | style="text-align:center;" | [[領土|領土]]
 | style="text-align:center;" | [[外交|外交]]
 |}
-|
-| style="width:33%;vertical-align:top;" |
-{| style="width:100%;border:1px solid #c8c8c8;background:#fff;padding:4px;"
+| style="width:33%;padding:4px;" |
+{| style="width:100%;border:1px solid #bbb;background:#fff;"
 |-
-! colspan="4" style="background:#e9e9e9;font-size:125%;padding:8px;" | [[政府|政府]]
+! colspan="4" style="background:#e9e9e9;padding:9px;font-size:125%;" | [[政府|帝國政府]]
 |-
-| colspan="4" style="text-align:center;padding:8px;" |
-'''帝國政府與內閣'''
+| colspan="4" style="text-align:center;padding:9px;" | '''行政、政務與國家機關'''
 |-
-! colspan="4" style="border-top:1px solid #ddd;padding:6px;" | 行政機關
+| colspan="2" style="text-align:center;" | '''[[首相|首相府]]'''
+| colspan="2" style="text-align:center;" | '''[[內閣|內閣]]'''
 |-
-| colspan="2" style="text-align:center;" | '''[[首相]]'''
-| colspan="2" style="text-align:center;" | '''[[內閣]]'''
+| style="text-align:center;" | [[行政機關]]
+| style="text-align:center;" | [[部會]]
+| style="text-align:center;" | [[國家機關]]
+| style="text-align:center;" | [[政務官]]
 |-
-| style="text-align:center;" | [[行政機關|行政機關]]
-| style="text-align:center;" | [[部會|各部會]]
-| style="text-align:center;" | [[政務官|政務官]]
-| style="text-align:center;" | [[國家機關|其他機關]]
-|-
-! colspan="4" style="border-top:1px solid #ddd;padding:6px;" | 政治
+! colspan="4" style="border-top:1px solid #ddd;padding:7px;" | 政治
 |-
 | style="text-align:center;" | [[政黨]]
 | style="text-align:center;" | [[選舉]]
 | style="text-align:center;" | [[國會]]
 | style="text-align:center;" | [[政治史]]
 |}
-|
-| style="width:33%;vertical-align:top;" |
-{| style="width:100%;border:1px solid #c8c8c8;background:#fff;padding:4px;"
+| style="width:33%;padding:4px;" |
+{| style="width:100%;border:1px solid #bbb;background:#fff;"
 |-
-! colspan="3" style="background:#e9e9e9;font-size:125%;padding:8px;" | [[法律|立法、司法與法律]]
+! colspan="3" style="background:#e9e9e9;padding:9px;font-size:125%;" | [[法律|法律與司法]]
 |-
-| style="width:33%;text-align:center;padding:9px;" | '''[[法律]]'''
-| style="width:33%;text-align:center;padding:9px;" | '''[[司法機關]]'''
-| style="width:33%;text-align:center;padding:9px;" | '''[[司憲院]]'''
+| style="width:33%;text-align:center;padding:10px;" | '''[[法例]]'''
+| style="width:33%;text-align:center;padding:10px;" | '''[[司法機關]]'''
+| style="width:33%;text-align:center;padding:10px;" | '''[[司憲院]]'''
 |-
-| colspan="3" style="text-align:center;border-top:1px solid #ddd;padding:7px;" |
-[[法例|黃名帝國法例]]　·　[[憲法|憲制文件]]　·　[[法院|法院制度]]
+| colspan="3" style="text-align:center;border-top:1px solid #ddd;padding:8px;" |
+[[憲法]]　·　[[刑法]]　·　[[行政法]]　·　[[論壇法規]]
 |-
-| style="text-align:center;" | [[刑法]]
-| style="text-align:center;" | [[行政法]]
-| style="text-align:center;" | [[論壇法規]]
+| style="text-align:center;" | [[法院]]
+| style="text-align:center;" | [[訴訟]]
+| style="text-align:center;" | [[判例]]
 |}
+
+|- valign="top"
+| style="padding:4px;" |
+{| style="width:100%;border:1px solid #bbb;background:#fff;"
 |-
-| style="width:34%;vertical-align:top;" |
-{| style="width:100%;border:1px solid #c8c8c8;background:#fff;padding:4px;"
+! colspan="4" style="background:#e9e9e9;padding:9px;font-size:125%;" | [[外交|外交與國際關係]]
 |-
-! colspan="4" style="background:#e9e9e9;font-size:125%;padding:8px;" | [[外交|外交與對外關係]]
+| colspan="4" style="text-align:center;padding:9px;" | 帝國外交、微型國家關係與國際事務
 |-
-| colspan="4" style="text-align:center;padding:8px;" | 帝國外交、微型國家關係與國際事務
+| style="text-align:center;" | [[外交部]]
+| style="text-align:center;" | [[外交使節]]
+| style="text-align:center;" | [[邦交]]
+| style="text-align:center;" | [[國際組織]]
 |-
-| style="width:25%;text-align:center;" | [[外交部]]
-| style="width:25%;text-align:center;" | [[外交使節]]
-| style="width:25%;text-align:center;" | [[邦交]]
-| style="width:25%;text-align:center;" | [[國際組織]]
-|-
-| colspan="4" style="text-align:center;border-top:1px solid #ddd;padding:7px;" | [[外交名錄]]　·　[[條約]]　·　[[國際事件]]
+| colspan="4" style="text-align:center;border-top:1px solid #ddd;padding:8px;" | [[外交名錄]]　·　[[條約]]　·　[[國際事件]]
 |}
-|
-| style="width:33%;vertical-align:top;" |
-{| style="width:100%;border:1px solid #c8c8c8;background:#fff;padding:4px;"
+| style="padding:4px;" |
+{| style="width:100%;border:1px solid #bbb;background:#fff;"
 |-
-! colspan="4" style="background:#e9e9e9;font-size:125%;padding:8px;" | [[領土|帝國領土]]
+! colspan="4" style="background:#e9e9e9;padding:9px;font-size:125%;" | [[領土|帝國領土]]
 |-
-| style="width:25%;text-align:center;" | [[首都]]
-| style="width:25%;text-align:center;" | [[行政區劃]]
-| style="width:25%;text-align:center;" | [[城市]]
-| style="width:25%;text-align:center;" | [[地理]]
+| style="text-align:center;" | [[首都]]
+| style="text-align:center;" | [[行政區劃]]
+| style="text-align:center;" | [[城市]]
+| style="text-align:center;" | [[地理]]
 |-
-| colspan="4" style="text-align:center;border-top:1px solid #ddd;padding:7px;" | [[首都延興廣場]]　·　[[聖賢殿]]　·　[[永享堂]]
+| colspan="4" style="text-align:center;border-top:1px solid #ddd;padding:8px;" | [[首都延興廣場]]　·　[[聖賢殿]]　·　[[永享堂]]
 |}
-|
-| style="width:33%;vertical-align:top;" |
-{| style="width:100%;border:1px solid #c8c8c8;background:#fff;padding:4px;"
+| style="padding:4px;" |
+{| style="width:100%;border:1px solid #bbb;background:#fff;"
 |-
-! colspan="5" style="background:#e9e9e9;font-size:125%;padding:8px;" | [[文化|黃名文化]]
+! colspan="5" style="background:#e9e9e9;padding:9px;font-size:125%;" | [[文化|黃名文化]]
 |-
-| style="width:20%;text-align:center;" | [[語言]]
-| style="width:20%;text-align:center;" | [[歷史]]
-| style="width:20%;text-align:center;" | [[文學]]
-| style="width:20%;text-align:center;" | [[音樂]]
-| style="width:20%;text-align:center;" | [[藝術]]
+| style="text-align:center;" | [[語言]]
+| style="text-align:center;" | [[歷史]]
+| style="text-align:center;" | [[文學]]
+| style="text-align:center;" | [[音樂]]
+| style="text-align:center;" | [[藝術]]
 |-
 | style="text-align:center;" | [[節慶]]
 | style="text-align:center;" | [[宗教]]
@@ -121,11 +112,10 @@ __NOTITLE__
 |}
 |}
 
-<div style="border:1px solid #c8c8c8;background:#f8f8f8;padding:10px;margin-top:6px;text-align:center;">
+<div style="border:1px solid #bbb;background:#f7f7f7;padding:11px;margin-top:6px;text-align:center;">
 '''快速入口'''　[[最新消息]]　·　[[分類:人物]]　·　[[分類:法律]]　·　[[分類:政府]]　·　[[分類:外交]]　·　[[分類:歷史]]　·　[[分類:文化]]　·　[[特殊:所有頁面|所有頁面]]　·　[[特殊:最近更改|最近更改]]
 </div>
 
-<div style="border:1px solid #c8c8c8;background:#fff;padding:10px;margin-top:6px;text-align:center;">
-'''正在建設中的百科'''<br>
-黃名帝國百科持續整理帝國制度、法例、人物與歷史資料。任何註冊使用者均可參與編輯與補充。
+<div style="border:1px solid #bbb;padding:11px;margin-top:6px;text-align:center;">
+'''黃名帝國百科'''　|　[[幫助:編輯]]　|　[[特殊:最近更改|最近更改]]　|　[[特殊:隨機頁面|隨機頁面]]
 </div>
